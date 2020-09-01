@@ -1,21 +1,40 @@
 package com.smartliving.webapp;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Entity;
+import com.sun.istack.NotNull;
+import lombok.Data;
+
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
+@Data
 @Entity
 public class Food {
 
-    private @Id @GeneratedValue Long id;
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY)  Long id;
+    @NotNull
     private String name;
+    @NotNull
     private int calories;
+    @NotNull
     private int carbohydrates;
+    @NotNull
     private int fat;
+    @NotNull
     private int protein;
 
-    public Food(){}
+//    TO BE IMPLEMENTED
+//    @NotNull
+//    private String group;
+//    @NotNull
+//    private boolean approved;
+
+    @ManyToMany(mappedBy = "foods", fetch = FetchType.LAZY)
+    private List<Meal> meals;
+
+    public void setMeals(List<Meal> meals){
+        this.meals = meals;
+    }
 
     public Food(String name, int calories, int carbohydrates, int fat, int protein){
         if(name == null || name.equals("")){
@@ -28,47 +47,10 @@ public class Food {
         this.protein = protein;
     }
 
-    public Long getId(){
-        return this.id;
+    public Food(){}
+
+    public String toString() {
+        return "Food(id=" + this.getId() + ", name=" + this.getName() + ", calories=" + this.getCalories() + ", carbohydrates=" + this.getCarbohydrates() + ", fat=" + this.getFat() + ", protein=" + this.getProtein() + ")";
     }
 
-    public String getName(){
-        return this.name;
-    }
-
-    public int getCalories(){
-        return this.calories;
-    }
-
-    public int getCarbohydrates(){
-        return this.carbohydrates;
-    }
-
-    public int getFat(){
-        return this.fat;
-    }
-
-    public int getProtein(){
-        return this.protein;
-    }
-
-    public void editNutrientFacts(String nutrient, int value){
-        if(nutrient.equals("calories")){
-            this.calories = value;
-        }
-    }
-
-    @Override
-    public String toString(){
-        return "Name: " + name + "\n" +
-                "Calories: " + calories + "\n" +
-                "Carbohydrates: " + carbohydrates + "\n" +
-                "Fat: " + fat + "\n" +
-                "Protein: " + protein + "\n";
-    }
-
-    @Override
-    public int hashCode(){
-        return Objects.hash(this.id, this.name, this.calories, this.carbohydrates, this.fat, this.protein);
-    }
 }

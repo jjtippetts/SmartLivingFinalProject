@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="us"
+  xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Smart Living | Foods</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+            integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+            crossorigin="anonymous"
+    />
+
+    <!-- File css -->
+    <link rel="stylesheet" href="css/style.css"/>
+
+    <!-- Dashboard-->
+    <link rel="stylesheet" href="css/dashboard.css">
+  </head>
+  <body>
+    <header class="fixed-top"  th:insert="header :: header"></header>
+    <main>
+      <div id="dashboard">
+        <div class="bg-secondary position-fixed p-2" id="dash-navigation">
+          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">CREATE</a>
+            <a class="nav-link text-light" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">View Diets</a>
+            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">View foods</a>
+            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+          </div>
+        </div>
+        <div id="dash-data">
+          <div class="container pt-4">
+            <div class="tab-content" id="v-pills-tabContent">
+              <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                <!-- Find food by name-->
+                <section>
+                  <form id="findFoodByName">
+                    <legend>
+                      <h3 class="font-bold">Search for a food</h3>
+                    </legend>
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
+                        <label for="foodName">Name</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="foodID"
+                                placeholder="Strawberries"
+                                name="foodName"
+                                required
+                        />
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </section>
+
+                <!-- Create Diet Plan -->
+                <section class="mt-3">
+                  <h3>Create a diet plan</h3>
+                  <div>
+                    <table class="table table-striped">
+                      <thead>
+                      <tr>
+                        <th colspan="6" class="table-primary">Breakfast</th>
+                      </tr>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Calories</th>
+                        <th scope="col">Carbohydrates</th>
+                        <th scope="col">Fat</th>
+                        <th scope="col">Protein</th>
+                      </tr>
+                      </thead>
+                      <tbody id="sortable">
+                      <tr class="sortDisabled">
+                        <form id="addFoodToDiet">
+                          <div class="form-group">
+                            <td>
+                              <button class="btn btn-primary btn-sm" type="submit">+</button>
+                            </td>
+                            <td>
+                              <label for="foodName"></label>
+                              <input
+                                      type="text"
+                                      class="form-control"
+                                      id="foodName"
+                                      placeholder="Strawberries"
+                                      name="foodName"
+                                      required
+                              />
+                            </td>
+                            <td>
+                              <label for="calories"></label>
+                              <input
+                                      type="number"
+                                      min="0"
+                                      class="form-control"
+                                      id="calories"
+                                      placeholder="40"
+                                      name="calories"
+                                      required
+                              />
+                            </td>
+                            <td>
+                              <label for="carbohydrates"></label>
+                              <input
+                                      type="number"
+                                      min="0"
+                                      class="form-control"
+                                      id="carbohydrates"
+                                      placeholder="9"
+                                      name="carbohydrates"
+                                      required
+                              />
+                            </td>
+                            <td>
+                              <label for="fat"></label>
+                              <input
+                                      type="number"
+                                      min="0"
+                                      class="form-control"
+                                      id="fat"
+                                      placeholder="0"
+                                      name="fat"
+                                      required
+                              />
+                            </td>
+                            <td>
+                              <label for="protein"></label>
+                              <input
+                                      type="number"
+                                      min="0"
+                                      class="form-control"
+                                      id="protein"
+                                      placeholder="1"
+                                      name="protein"
+                                      required
+                              />
+                            </td>
+                          </div>
+                        </form>
+                      </tr>
+                      <tr id="sum" class="table-info sortDisabled">
+                        <td>Total</td>
+                        <td></td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+
+                <!--View all foods-->
+                <section class="mt-3 mb-3">
+                  <div class="">
+                    <button id="viewAllFoods" type="submit" class="btn btn-primary">
+                      View All Foods
+                    </button>
+                  </div>
+                </section>
+
+                <div class="col-4 light-gray mt-2 mb-2 rounded">
+                  <section class="p-2">
+                    <form id="BMRCalculator">
+                      <legend><h3>BMR Calculator</h3></legend>
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                          <label for="feet">Feet</label>
+                          <input class="form-control" id="feet" type="number" min="0" name="feet" required>
+                        </div>
+                        <div class="form-group col-6">
+                          <label for="inches">Inches</label>
+                          <input class="form-control" id="inches" type="number" min="0" name="inches" required>
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                          <label for="weight">Weight</label>
+                          <input class="form-control" id="weight" type="number" min="0" name="weight" required>
+                        </div>
+                        <div class="form-group col-6">
+                          <label for="age">Age</label>
+                          <input class="form-control" id="age" type="number" min="0" name="age" required>
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                          <p class="mb-0">Gender</p>
+                          <div class="form-check">
+                            <input class="form-check-input" id="male" type="radio" value="male" name="gender">
+                            <label class="form-check-label" for="male">Male</label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" id="female" type="radio" value="female" name="gender">
+                            <label class="form-check-label" for="female">Female</label>
+                          </div>
+                        </div>
+                        <div class="form-group col-6">
+                          <label for="activityLevel" >Activity Level</label>
+                          <select id="activityLevel" class="form-control custom-select">
+                            <option value="1" selected="selected">Sedentary</option>
+                            <option value="1.11">Low Active</option>
+                            <option value="1.25">Active</option>
+                            <option value="1.48">Very Active</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-6">
+                          <button class="btn btn-primary" type="submit">Calculate</button>
+                        </div>
+                        <div class="col-6">
+                          <p class="font-weight-bold">BMR: <span id="kcalResult"></span></p>
+                        </div>
+                      </div>
+                    </form>
+                  </section>
+                </div>
+
+                <div id="foodTable"></div>
+              </div>
+              <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
+              <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+              <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bootstrap CSS -->
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"
+    ></script>
+    <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"
+    ></script>
+    <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"
+    ></script>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    <script>
+      $("#findFoodByID").submit(function () {
+        var id = $("#foodID").val();
+        $.get("/food/" + id, function (result) {
+        }).fail(function () {
+          alert("ERROR");
+        });
+        return false;
+      });
+    </script>
+
+    <script>
+      $("#viewAllFoods").click(function () {
+        $.getJSON("/food", function (results) {
+          var table = $("<table>").addClass("table");
+          var head = $("<thead>");
+          head.append('<th scope="col">Name</th>');
+          head.append('<th scope="col">Calories</th>');
+          head.append('<th scope="col">Carbohydrates</th>');
+          head.append('<th scope="col">Fat</th>');
+          head.append('<th scope="col">Protein</th>');
+          table.append(head);
+          var body = $("<tbody>");
+          $.each(results, function (index) {
+            console.log(results[index]);
+            var row = $("<tr>").addClass("aFood");
+            row.append("<td>" + results[index].name + "</td>");
+            row.append("<td>" + results[index].calories + "</td>");
+            row.append("<td>" + results[index].carbohydrates + "</td>");
+            row.append("<td>" + results[index].fat + "</td>");
+            row.append("<td>" + results[index].protein + "</td>");
+            body.append(row);
+          });
+          table.append(body);
+          $("#foodTable").append(table);
+        });
+      });
+    </script>
+
+    <script>
+      function calculateSum() {
+        //NEED TO CHANGE TO GET BY CLASS
+        var columns = document.getElementsByTagName("th")
+        var rows = $('tbody').children()
+        for (var i = 2; i < columns.length -1; ++i) {
+          var sum = 0
+          for (var o = 0; o < rows.length - 2; ++o) {
+            var rowItems = rows[o].children
+            console.log(parseInt(rowItems[i].textContent))
+            sum += parseInt(rowItems[i].textContent)
+          }
+          console.log(sum)
+          document.getElementById("sum").children[i].textContent = sum
+          // $('#sum').children()[i].textContent(sum)
+        }
+      }
+
+    </script>
+
+    <script>
+      $("#addFoodToDiet").submit(function () {
+        var name = $("#foodName").val();
+        var calories = $("#calories").val();
+        var carbohydrates = $("#carbohydrates").val();
+        var fat = $("#fat").val();
+        var protein = $("#protein").val();
+
+        $.ajax({
+          type: "POST",
+          url: "/food",
+          data: JSON.stringify({
+            name: name,
+            calories: calories,
+            carbohydrates: carbohydrates,
+            fat: fat,
+            protein: protein,
+          }),
+          headers: {
+            // Important that content type is used to accept json. jquery .post does not work because content type
+            // can't be specified
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          success: function (results) {
+            var row = $("<tr>").addClass("aFood");
+            row.append("<td><button class='btn btn-danger rm-food btn-sm'>-</button></td>")
+            row.append("<td>" + results.name + "</td>");
+            row.append("<td>" + results.calories + "</td>");
+            row.append("<td>" + results.carbohydrates + "</td>");
+            row.append("<td>" + results.fat + "</td>");
+            row.append("<td>" + results.protein + "</td>");
+            $("#addFoodToDiet").parent().before(row)
+            calculateSum()
+            $("#foodName").val('');
+            $("#calories").val('');
+            $("#carbohydrates").val('');
+            $("#fat").val('');
+            $("#protein").val('');
+          },
+          error: function (data) {
+            alert("Error adding food");
+          },
+        });
+        return false;
+      });
+    </script>
+
+    <script>
+      $("#findFoodByName").submit(function () {
+        var food = $("#foodName").val()
+        $.get("/food/" + food, function (result) {
+        }).fail(function () {
+          alert("ERROR");
+        });
+        return false
+      });
+    </script>
+
+    <script>
+      $(document).on('click', '.rm-food', function (event) {
+        var foodToDelete = $(this).parent().parent().remove()
+        calculateSum()
+      })
+    </script>
+
+    <script>
+
+      $(document).on('submit', '#BMRCalculator', function(event){
+        event.preventDefault(event)
+        var age = parseInt($('#age').val())
+
+        var feet = parseInt($('#feet').val())
+        var inches = feet * 12
+        inches += parseInt($('#inches').val())
+        var meters = inches/39.37
+        var kg = parseInt($('#weight').val()) / 2.2
+
+        var gender = $('input[name="gender"]:checked').val()
+        var kcal = 0
+
+        var activtyLevel = parseFloat($('#activityLevel').val())
+        console.log(activtyLevel)
+
+        if(gender === "male"){
+          kcal = 662 - (9.53 * age) + activtyLevel*(15.91 * kg) + (539.6 * meters)
+        }else{
+          kcal = 354 - (6.91 * age) + activtyLevel*(9.36 * kg) + (726 * meters)
+        }
+        $("#kcalResult").text(Math.round(kcal) + " Calories")
+        return false
+      })
+    </script>
+
+    <!--Sortable Library-->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script>
+      Sortable.create(sortable, {
+        group: "shared",
+        filter: ".sortDisabled", //prevents moving
+        preventOnFilter: false, //Allows input to be clickable
+        onMove: function (evt) { //Prevents moving object around
+          return evt.related.className.indexOf('sortDisabled') === -1;
+        }
+      });
+
+      Sortable.create(list2, {
+        group: "shared",
+      });
+    </script>
+  </body>
+</html>

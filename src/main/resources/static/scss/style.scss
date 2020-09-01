@@ -1,5 +1,7 @@
-.jumbotron {
-  background-color: #90E0EF;
+$main-color: #90E0EF;
+
+.jumbotron{
+  background-color: $main-color;
 }
 
 td label {
@@ -7,7 +9,7 @@ td label {
 }
 
 .light-gray {
-  background-color: #e9ecef;
+  background-color:  #e9ecef;
 }
 
 body {
@@ -18,5 +20,3 @@ body {
   margin-right: 10px;
   margin-left: 10px;
 }
-
-/*# sourceMappingURL=style.css.map */

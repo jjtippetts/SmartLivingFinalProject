@@ -1,0 +1,34 @@
+.nav-pills {
+  .nav-link {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: transparent;
+    color: white;
+  }
+  .nav-link:hover, .active {
+    background-color: white !important;
+    color: black !important;
+  }
+}
+
+html {
+  height: 100%;
+  body {
+    height: 100%;
+    padding-top: 56px;
+    main {
+      height: calc(100%);
+      #dashboard {
+        height: 100%;
+        #dash-navigation{
+          height: 100%;
+          width: 190px;
+        }
+        #dash-data{
+          min-height: 100%;
+          padding-left: 190px;
+        }
+      }
+    }
+  }
+}

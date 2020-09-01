@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Calorie Counter</title>
 
     <!-- Bootstrap CSS -->
     <link
@@ -13,13 +14,11 @@
     />
 
     <!-- File css -->
-    <link rel="stylesheet" href="css/style.css" />
-
-    <title>Calorie Counter</title>
+    <link rel="stylesheet" href="css/style.css"/>
 </head>
 
 <body>
-<header>
+<header class="fixed-top">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Smart Living</a>
         <button
@@ -37,14 +36,20 @@
             <ul class="navbar-nav">
                 <li class="nav-item active">
                     <a class="nav-link" href="#"
-                    >Homes <span class="sr-only">(current)</span></a
+                    >Home<span class="sr-only">(current)</span></a
                     >
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="/diet">Diet</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link" href="/indexxx">Exercise</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Tracking</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Support</a>
                 </li>
             </ul>
         </div>
@@ -52,97 +57,177 @@
 </header>
 
 <main>
+    <div class="jumbotron jumbotron-fluid pt-4 pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 mt-4 mb-4">
+                    <h1 class="display-3">Smart <span class="txt-type" data-wait="3000" data-words='["Living", "Dieting", "Training", "Analysis"]'></span></h1>
+                    <p class="lead">Create diet plans, manage clients, track progress, get results.</p>
+                </div>
+                <div class="col-6">
+                    <div class="card">
+                        <h5 class="card-header">Create an account</h5>
+                        <div class="card-body">
+<!--                            <h5 class="card-title">Special title treatment</h5>-->
+                            <form id="createAccount">
+                                <div class="form-row form-group">
+                                    <label class="col-2">Email</label>
+                                    <div class="col-10">
+                                        <input class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-row form-group">
+                                    <label class="col-2">Password</label>
+                                    <div class="col-10">
+                                        <input class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-row form-group">
+                                    <label class="col-2">Confirm password</label>
+                                    <div class="col-10">
+                                        <input class="form-control">
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <a href="#" class="btn btn-success">Create Account</a>
+                                    <div class="d-flex">
+                                        <p class="mr-2  mt-1 mb-0">Already have an account?</p>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#logInModal">Log In</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="logInModal" tabindex="-1" role="dialog" aria-labelledby="logInModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Log In</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="logIn">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input id="email" class="form-control" type="email" name="email" placeholder="john@gmail.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input id="password" class="form-control" type="password" name="password" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary btn-lg btn-block">Log In</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container mt-4">
-        <form method="POST" action="foods">
-            <legend>
-                <h1 class="font-bold">Add Food</h1>
-            </legend>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="foodName">Name</label>
-                    <input
-                            type="text"
-                            class="form-control"
-                            id="foodName"
-                            placeholder="Strawberries"
-                            name="foodName"
-                    />
-                </div>
 
-                <div class="form-group col-md-2">
-                    <label for="calories">Calories</label>
-                    <input
-                            type="number"
-                            min="0"
-                            class="form-control"
-                            id="calories"
-                            placeholder="40"
-                            name="calories"
-                    />
+        <!-- Card Deck -->
+        <div class="row py-3">
+            <div class="card-deck">
+                <div class="card shadow-lg">
+                    <a href="./services" class="img-hover-zoom">
+                        <img
+                                src="./Images/lawn-mower.jpg"
+                                class="card-img-top"
+                                alt="Lawn Mower"
+                        />
+                    </a>
+                    <div class="card-body">
+                        <h2 class="card-title font-weight-bold text-center">Dieting Made Simple</h2>
+                        <ul class="card-text">
+                            <li>Monthly Maintenance</li>
+                            <li>Lawn Sodding</li>
+                            <li>Mowing</li>
+                            <li>Yard Cleanup</li>
+                            <li>Planting</li>
+                        </ul>
+                    </div>
+                    <a href="./diet" class="btn btn-dark">Services</a>
                 </div>
-
-                <div class="form-group col-md-2">
-                    <label for="carbohydrates">Carbohydrates</label>
-                    <input
-                            type="number"
-                            min="0"
-                            class="form-control"
-                            id="carbohydrates"
-                            placeholder="9"
-                            name="carbohydrates"
-                    />
+                <div class="w-100 d-none d-sm-block d-md-block d-lg-none"></div>
+                <div class="card shadow-lg">
+                    <a href="./our-work" class="img-hover-zoom">
+                        <img
+                                src="./Images/gardener.jpg"
+                                class="card-img-top"
+                                alt="Person planting"
+                        />
+                    </a>
+                    <div class="card-body">
+                        <h2 class="card-title font-weight-bold text-center">Track Your Results</h2>
+                        <p class="card-text">
+                            We have worked all throughout Multnomah and Washington County
+                            on a wide variety of both residential and corporate
+                            properties. Check out some of our work.
+                        </p>
+                    </div>
+                    <a href="./our-work" class="btn btn-dark">Portfolio</a>
                 </div>
-
-                <div class="form-group col-md-2">
-                    <label for="fat">Fat</label>
-                    <input
-                            type="number"
-                            min="0"
-                            class="form-control"
-                            id="fat"
-                            placeholder="0"
-                            name="fat"
-                    />
-                </div>
-
-                <div class="form-group col-md-2">
-                    <label for="protein">Protein</label>
-                    <input
-                            type="number"
-                            min="0"
-                            class="form-control"
-                            id="protein"
-                            placeholder="1"
-                            name="protein"
-                    />
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-
-        <form>
-            <legend>
-                <h1 class="font-bold">Search For a Food</h1>
-            </legend>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="foodName">Name</label>
-                    <input
-                            type="text"
-                            class="form-control"
-                            id="foodName"
-                            placeholder="Strawberries"
-                            name="foodName"
-                    />
+                <div class="w-100 d-none d-sm-block d-md-block d-lg-none"></div>
+                <div class="card shadow-lg">
+                    <a href="./contact" class="img-hover-zoom">
+                        <img
+                                src="./Images/shovel.jpg"
+                                class="card-img-top"
+                                alt="Shovel in the dirt"
+                        />
+                    </a>
+                    <div class="card-body">
+                        <h2 class="card-title font-weight-bold text-center">Easily Manage Clients</h2>
+                        <p class="card-text">
+                            We pride ourselves in providing top quality landscaping at a
+                            competitive price. Contact us to ensure that your property
+                            looks exactly the way you've envisioned.
+                        </p>
+                    </div>
+                    <a href="./contact" class="btn btn-dark">Get Quote</a>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-
-        <button id="button" type="submit" class="btn btn-primary">View All Foods</button>
-        <div id="foodTable"></div>
+        </div>
     </div>
 </main>
+
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container text-muted font-weight-light">
+        <div class="justify-content-start">
+            <ul class="list-unstyled contact mb-0">
+                <li>
+                    <i class="fas fa-map-marker-alt"></i>
+                    Based in Beaverton, Oregon
+                </li>
+                <li>
+                    <i class="fas fa-phone-alt"></i>
+                    Phone: 888-888-8888
+                </li>
+                <li>
+                    <i class="fas fa-envelope"></i>
+                    <a
+                            class="text-decoration-none text-reset"
+                            href="mailto:naturetechlandscapeservices@gmail.com"
+                    >Email: support@smartliving.com</a
+                    >
+                </li>
+            </ul>
+        </div>
+
+        <div class="">
+            <span class="">&copy 2020 Smart Living</span>
+        </div>
+    </div>
+</footer>
 
 <!-- Bootstrap CSS -->
 <script
@@ -163,35 +248,8 @@
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
-<script>
-    $("button").click(function(){
-        $.getJSON("/food", function(results){
-            var table = $('<table>').addClass('table')
-            var head = $('<thead>')
-            head.append('<th scope="col">Name</th>')
-            head.append('<th scope="col">Calories</th>')
-            head.append('<th scope="col">Carbohydrates</th>')
-            head.append('<th scope="col">Fat</th>')
-            head.append('<th scope="col">Protein</th>')
-            table.append(head)
-            var body = $('<tbody>')
-            $.each(results, function(index) {
-                console.log(results[index])
-                console.log(results[index].name)
-                console.log(JSON.stringify(results[index].name))
-                var row = $('<tr>').addClass('aFood')
-                row.append('<td>' + results[index].name + '</td>')
-                row.append('<td>' + results[index].calories + '</td>')
-                row.append('<td>' + results[index].carbohydrates + '</td>')
-                row.append('<td>' + results[index].fat + '</td>')
-                row.append('<td>' + results[index].protein + '</td>')
-                body.append(row)
-            });
-            table.append(body)
-            $("#foodTable").append(table)
-        });
-    });
-</script>
+<!-- Type effect tutorial: https://www.youtube.com/watch?v=P0X3dT-p84E-->
+<script src="js/typewriter.js"></script>
 
 </body>
 </html>

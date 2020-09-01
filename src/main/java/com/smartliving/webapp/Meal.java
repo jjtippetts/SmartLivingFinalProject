@@ -1,11 +1,32 @@
 package com.smartliving.webapp;
 
-import java.util.ArrayList;
+import com.sun.istack.NotNull;
+import lombok.Data;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
+@Entity
 public class Meal {
 
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY)  Long id;
+
+    @NotNull
     private String name;
-    private ArrayList<Food> foods;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "meal_foods",
+        joinColumns = {
+            @JoinColumn(name = "meal_id", referencedColumnName = "id")},
+        inverseJoinColumns = {
+            @JoinColumn(name = "food_id", referencedColumnName = "id")})
+    private List<Food> foods;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name="DIET_PLAN_ID")
+    private DietPlan dietPlan;
 
     public Meal(String name){
         if(name == null || name.equals("")){
@@ -16,21 +37,29 @@ public class Meal {
         foods = new ArrayList<>();
     }
 
-    public void addFood(Food food){
+    public Meal(){}
+
+    public void setDiet(DietPlan dietPlan){
+        setDiet(dietPlan, true);
+    }
+
+    void setDiet(DietPlan dietPlan, boolean add){
+        this.dietPlan = dietPlan;
+        if(dietPlan != null && add){
+            dietPlan.addMeal(this,false);
+        }
+    }
+
+    void addFood(Food food){
         this.foods.add(food);
     }
 
-    public ArrayList<Food> getFoods(){
-        return foods;
+    public void removeFood(Food food){
+        this.foods.remove(food);
     }
 
-    @Override
-    public String toString(){
-        StringBuilder foodString = new StringBuilder();
-        foodString.append(this.name).append("\n");
-        for(Food food : foods){
-            foodString.append(food.toString());
-        }
-        return foodString.toString();
+    public String toString() {
+        return "Meal(id=" + this.getId() + ", name=" + this.getName() + ", meal=" + foods.toString() + ")";
     }
+
 }
