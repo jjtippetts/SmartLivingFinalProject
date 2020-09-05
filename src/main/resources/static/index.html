@@ -57,7 +57,7 @@
 </header>
 
 <main>
-    <div class="jumbotron jumbotron-fluid pt-4 pb-4">
+    <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <div class="row">
                 <div class="col-6 mt-4 mb-4">
@@ -112,19 +112,20 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id="logIn">
+                            <form id="logIn" action="/login" method="post">
                                 <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input id="email" class="form-control" type="email" name="email" placeholder="john@gmail.com" required>
+                                    <label for="username">Username</label>
+                                    <input id="username" class="form-control" type="text" name="username" placeholder="joe" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
                                     <input id="password" class="form-control" type="password" name="password" required>
                                 </div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Log In</button>
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary btn-lg btn-block">Log In</button>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Log In</button>
                         </div>
                     </div>
                 </div>
@@ -138,9 +139,9 @@
         <div class="row py-3">
             <div class="card-deck">
                 <div class="card shadow-lg">
-                    <a href="./services" class="img-hover-zoom">
+                    <a href="./diet" class="img-hover-zoom">
                         <img
-                                src="./Images/lawn-mower.jpg"
+                                src="./img/fruits.jpg"
                                 class="card-img-top"
                                 alt="Lawn Mower"
                         />
@@ -155,13 +156,13 @@
                             <li>Planting</li>
                         </ul>
                     </div>
-                    <a href="./diet" class="btn btn-dark">Services</a>
+                    <a href="./diet" class="btn">Dieting</a>
                 </div>
                 <div class="w-100 d-none d-sm-block d-md-block d-lg-none"></div>
                 <div class="card shadow-lg">
-                    <a href="./our-work" class="img-hover-zoom">
+                    <a href="./tracking" class="img-hover-zoom">
                         <img
-                                src="./Images/gardener.jpg"
+                                src="./img/data.jpg"
                                 class="card-img-top"
                                 alt="Person planting"
                         />
@@ -174,13 +175,13 @@
                             properties. Check out some of our work.
                         </p>
                     </div>
-                    <a href="./our-work" class="btn btn-dark">Portfolio</a>
+                    <a href="./tracking" class="btn">Tracking</a>
                 </div>
                 <div class="w-100 d-none d-sm-block d-md-block d-lg-none"></div>
                 <div class="card shadow-lg">
-                    <a href="./contact" class="img-hover-zoom">
+                    <a href="./manage" class="img-hover-zoom">
                         <img
-                                src="./Images/shovel.jpg"
+                                src="./img/clients.jpg"
                                 class="card-img-top"
                                 alt="Shovel in the dirt"
                         />
@@ -193,7 +194,7 @@
                             looks exactly the way you've envisioned.
                         </p>
                     </div>
-                    <a href="./contact" class="btn btn-dark">Get Quote</a>
+                    <a href="./manage" class="btn">Manage</a>
                 </div>
             </div>
         </div>

@@ -2,12 +2,17 @@ package com.smartliving.webapp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class LoadDatabase {
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
@@ -21,26 +26,26 @@ public class LoadDatabase {
         Food apple = new Food("Apple", 40, 10, 0,0);
         foodRepository.save(apple);
         Meal breakfast = new Meal("Breakfast");
-        mealRepository.save(breakfast);
         breakfast.addFood(apple);
-        mealRepository.save(breakfast);
+
         Meal lunch = new Meal("Lunch");
-        mealRepository.save(lunch);
         lunch.addFood(apple);
-        mealRepository.save(lunch);
+        Meal dinner = new Meal("Dinner");
 
         DietPlan smartDiet = new DietPlan("Smart Diet");
-        dietRepository.save(smartDiet);
         smartDiet.addMeal(lunch);
-        dietRepository.save(smartDiet);
+        smartDiet.addMeal(breakfast);
 
+        User user = new User("joe","joe@gmail.com",passwordEncoder.encode("secretpassword"));
+        user.addDietPlan(smartDiet);
+        userRepository.save(user);
 
         return args -> {
             log.info("Preloading " + apple);
             log.info("Preloading " + breakfast);
-            log.info("Preloading " + foodRepository.save(new Food("Greek Yogurt", 90, 10, 10,10)));
-            log.info("Preloading " + userRepository.save(new User("joe@gmail.com","secretpassword")));
-            log.info("Preloading " + userRepository.save(new User("doe@gmail.com","doepassword")));
+            log.info("Preloading " + foodRepository.save(new Food("Ham", 90, 10, 10,10)));
+            log.info("Preloading " + user);
+            log.info("Preloading " + userRepository.save(new User("doe","doe@gmail.com","doepassword")));
         };
     }
 }

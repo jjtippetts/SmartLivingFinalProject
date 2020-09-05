@@ -1,9 +1,12 @@
 package com.smartliving.webapp;
 
-import com.sun.istack.NotNull;
+
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +16,11 @@ public class Meal {
 
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY)  Long id;
 
+    @Valid
     @NotNull
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(name = "meal_foods",
         joinColumns = {
             @JoinColumn(name = "meal_id", referencedColumnName = "id")},
@@ -24,14 +28,16 @@ public class Meal {
             @JoinColumn(name = "food_id", referencedColumnName = "id")})
     private List<Food> foods;
 
+
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name="DIET_PLAN_ID")
     private DietPlan dietPlan;
 
     public Meal(String name){
-        if(name == null || name.equals("")){
-            throw new IllegalArgumentException("Name of meal cannot be null");
-        }
+//        if(name == null || name.equals("")){
+//            throw new IllegalArgumentException("Name of meal cannot be null");
+//        }
         this.name = name;
 
         foods = new ArrayList<>();

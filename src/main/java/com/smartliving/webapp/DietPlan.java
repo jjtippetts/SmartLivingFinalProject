@@ -3,6 +3,8 @@ package com.smartliving.webapp;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +13,18 @@ import java.util.List;
 public class DietPlan {
 
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY)  Long id;
+
+    @NotNull
     private String name;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dietPlan")
     private List<Meal> meals;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name="USER_ID")
+    private User user;
+
 
     public DietPlan(String name){
         if(name == null || name.equals("")){
@@ -48,4 +59,18 @@ public class DietPlan {
         }
     }
 
+    public void setUser(User user){
+        setUser(user, true);
+    }
+
+    void setUser(User user, boolean add){
+        this.user = user;
+        if(user != null && add){
+            user.addDietPlan(this,false);
+        }
+    }
+
+    public String toString() {
+        return "DietPlan(id=" + this.getId() + ", name=" + this.getName() + ", meals=" + this.meals.toString() + ", user=" + this.user.toString() + ")";
+    }
 }

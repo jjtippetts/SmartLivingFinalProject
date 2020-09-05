@@ -18,6 +18,13 @@
 
     <!-- Dashboard-->
     <link rel="stylesheet" href="css/dashboard.css">
+
+    <!--Font Awesome-->
+    <script
+            src="https://kit.fontawesome.com/fc7f1cbe69.js"
+            crossorigin="anonymous"
+            SameSite="none"
+    ></script>
   </head>
   <body>
     <header class="fixed-top"  th:insert="header :: header"></header>
@@ -25,42 +32,51 @@
       <div id="dashboard">
         <div class="bg-secondary position-fixed p-2" id="dash-navigation">
           <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">CREATE</a>
-            <a class="nav-link text-light" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">View Diets</a>
-            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">View foods</a>
-            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+            <div class="pl-3 pt-3 pb-3">
+              <i class="fas fa-user fa-2x"></i>
+              <span class="text-white pl-3" sec:authentication="name"></span>
+            </div>
+            <a class="nav-link active" id="v-pills-create-tab" data-toggle="pill" href="#v-pills-create" role="tab" aria-controls="v-pills-create" aria-selected="true">CREATE</a>
+            <a class="nav-link" id="v-pills-search-tab" data-toggle="pill" href="#v-pills-search" role="tab" aria-controls="v-pills-search" aria-selected="false">SEARCH</a>
+            <a class="nav-link" id="v-pills-tools-tab" data-toggle="pill" href="#v-pills-tools" role="tab" aria-controls="v-pills-tools" aria-selected="false">TOOLS</a>
+            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">SETTINGS</a>
           </div>
         </div>
         <div id="dash-data">
           <div class="container pt-4">
             <div class="tab-content" id="v-pills-tabContent">
-              <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                <!-- Find food by name-->
-                <section>
-                  <form id="findFoodByName">
-                    <legend>
-                      <h3 class="font-bold">Search for a food</h3>
-                    </legend>
-                    <div class="form-row">
-                      <div class="form-group col-md-4">
-                        <label for="foodName">Name</label>
-                        <input
-                                type="text"
-                                class="form-control"
-                                id="foodID"
-                                placeholder="Strawberries"
-                                name="foodName"
-                                required
-                        />
-                      </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                  </form>
-                </section>
+              <div class="tab-pane fade show active" id="v-pills-create" role="tabpanel" aria-labelledby="v-pills-create-tab">
 
                 <!-- Create Diet Plan -->
                 <section class="mt-3">
-                  <h3>Create a diet plan</h3>
+                  <div class="d-flex flex-row align-items-center">
+                    <h3 class="display-4 mr-3">Create a Diet Plan</h3>
+                    <button type="button" class="btn btn-warning " data-toggle="tooltip" data-placement="right" title="drag and drop foods to rearrange order">
+                      <i class="fas fa-question"></i>
+                    </button>
+                  </div>
+
+                  <!--Create Diet-->
+                  <form id="addDietPlan">
+                    <div class="form-group row">
+                      <label for="dietName" class="col-sm-2 col-form-label">Diet Name</label>
+                      <div class="col-sm-10 col-lg-3">
+                        <input id="dietName" type="text" class="form-control" placeholder="My Smart Diet" name="name" required>
+                      </div>
+                    </div>
+<!--                    <div class="form-group row">-->
+<!--                      <label for="clientName" class="col-sm-2 col-form-label">Client Name</label>-->
+<!--                      <div class="col-sm-10 col-lg-3">-->
+<!--                        <input id="clientName" type="text" class="form-control" placeholder="My Smart Diet" name="clientName" required>-->
+<!--                      </div>-->
+<!--                    </div>-->
+                    <div class="form-group row">
+                      <div class="col-sm-10">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                      </div>
+                    </div>
+                  </form>
+
                   <div>
                     <table class="table table-striped">
                       <thead>
@@ -81,7 +97,9 @@
                         <form id="addFoodToDiet">
                           <div class="form-group">
                             <td>
-                              <button class="btn btn-primary btn-sm" type="submit">+</button>
+                              <button class="btn btn-primary btn-sm" type="submit">
+                                <i class="fas fa-plus"></i>
+                              </button>
                             </td>
                             <td>
                               <label for="foodName"></label>
@@ -158,6 +176,32 @@
                   </div>
                 </section>
 
+                <div id="foodTable"></div>
+              </div>
+              <div class="tab-pane fade" id="v-pills-search" role="tabpanel" aria-labelledby="v-pills-search-tab">
+                <!-- Find food by name-->
+                <section>
+                  <form id="findFoodByName">
+                    <legend>
+                      <h3 class="font-bold">Search for a food</h3>
+                    </legend>
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
+                        <label for="foodName">Name</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="foodID"
+                                placeholder="Strawberries"
+                                name="foodName"
+                                required
+                        />
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </section>
+
                 <!--View all foods-->
                 <section class="mt-3 mb-3">
                   <div class="">
@@ -166,7 +210,9 @@
                     </button>
                   </div>
                 </section>
-
+              </div>
+              <div class="tab-pane fade" id="v-pills-tools" role="tabpanel" aria-labelledby="v-pills-tools-tab">
+                <!--BMR CALCULATOR-->
                 <div class="col-4 light-gray mt-2 mb-2 rounded">
                   <section class="p-2">
                     <form id="BMRCalculator">
@@ -227,11 +273,7 @@
                     </form>
                   </section>
                 </div>
-
-                <div id="foodTable"></div>
               </div>
-              <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
-              <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
               <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
             </div>
           </div>
@@ -240,11 +282,7 @@
     </main>
 
     <!-- Bootstrap CSS -->
-    <script
-            src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script
             src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
@@ -255,8 +293,6 @@
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             crossorigin="anonymous"
     ></script>
-
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
     <script>
       $("#findFoodByID").submit(function () {
@@ -314,9 +350,43 @@
           // $('#sum').children()[i].textContent(sum)
         }
       }
-
     </script>
 
+    <!--Post User-->
+    <script>
+      const form = document.getElementById("addDietPlan")
+      form.addEventListener("submit", function(event){
+        var user = {};
+        event.preventDefault();
+        //var form = $("#addDietPlan");
+        const formData = new FormData(form);
+        formData.forEach(function(value,key){
+          user[key]=value;
+        });
+        var json = JSON.stringify(user);
+
+        $.ajax({
+          type: "POST",
+          url: "/dietplan",
+          data: json,
+          headers: {
+            // Important that content type is used to accept json. jquery .post does not work because content type
+            // can't be specified
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          success: function (results) {
+            console.log("SUCCESS")
+          },
+          error: function(data){
+            console.log("ERROR" + data)
+          }
+        });
+        return false;
+      })
+    </script>
+
+    <!--Post Food-->
     <script>
       $("#addFoodToDiet").submit(function () {
         var name = $("#foodName").val();
@@ -343,7 +413,7 @@
           },
           success: function (results) {
             var row = $("<tr>").addClass("aFood");
-            row.append("<td><button class='btn btn-danger rm-food btn-sm'>-</button></td>")
+            row.append("<td><button class='btn btn-danger rm-food btn-sm'><i class='fas fa-minus'></i></button></td>")
             row.append("<td>" + results.name + "</td>");
             row.append("<td>" + results.calories + "</td>");
             row.append("<td>" + results.carbohydrates + "</td>");
@@ -384,7 +454,6 @@
     </script>
 
     <script>
-
       $(document).on('submit', '#BMRCalculator', function(event){
         event.preventDefault(event)
         var age = parseInt($('#age').val())
@@ -423,9 +492,23 @@
         }
       });
 
-      Sortable.create(list2, {
-        group: "shared",
-      });
+      // Sortable.create(list2, {
+      //   group: "shared",
+      // });
+    </script>
+
+    <!-- Tool Tips-->
+    <script>
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
+
+    <!--Stop buttons from staying focused-->
+    <script>
+      $(".btn").mouseup(function(){
+        $(this).blur();
+      })
     </script>
   </body>
 </html>

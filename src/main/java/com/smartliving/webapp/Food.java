@@ -1,6 +1,6 @@
 package com.smartliving.webapp;
 
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -29,7 +29,7 @@ public class Food {
 //    @NotNull
 //    private boolean approved;
 
-    @ManyToMany(mappedBy = "foods", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "foods", fetch = FetchType.LAZY)
     private List<Meal> meals;
 
     public void setMeals(List<Meal> meals){
@@ -37,9 +37,9 @@ public class Food {
     }
 
     public Food(String name, int calories, int carbohydrates, int fat, int protein){
-        if(name == null || name.equals("")){
-            throw new IllegalArgumentException("Name of food cannot be null");
-        }
+//        if(name == null || name.equals("")){
+//            throw new IllegalArgumentException("Name of food cannot be null");
+//        }
         this.name = name;
         this.calories = calories;
         this.carbohydrates = carbohydrates;

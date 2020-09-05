@@ -32,3 +32,12 @@ html {
     }
   }
 }
+
+.aFood > *{
+  cursor: grab;
+}
+
+//Prevents tool tip from twitching
+.tooltip{
+  pointer-events: none;
+}

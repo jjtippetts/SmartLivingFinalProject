@@ -1,0 +1,42 @@
+.nav-pills .nav-link {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: transparent;
+  color: white;
+}
+.nav-pills .nav-link:hover, .nav-pills .active {
+  background-color: white !important;
+  color: black !important;
+}
+
+html {
+  height: 100%;
+}
+html body {
+  height: 100%;
+  padding-top: 56px;
+}
+html body main {
+  height: calc(100%);
+}
+html body main #dashboard {
+  height: 100%;
+}
+html body main #dashboard #dash-navigation {
+  height: 100%;
+  width: 190px;
+}
+html body main #dashboard #dash-data {
+  min-height: 100%;
+  padding-left: 190px;
+}
+
+.aFood > * {
+  cursor: grab;
+}
+
+.tooltip {
+  pointer-events: none;
+}
+
+/*# sourceMappingURL=dashboard.css.map */

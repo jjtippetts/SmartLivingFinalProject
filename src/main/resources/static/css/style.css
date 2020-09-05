@@ -1,5 +1,7 @@
 .jumbotron {
   background-color: #90E0EF;
+  padding-bottom: 80px;
+  padding-top: 80px;
 }
 
 td label {
@@ -17,6 +19,25 @@ body {
 .nav-item {
   margin-right: 10px;
   margin-left: 10px;
+}
+
+.card-deck .card .btn {
+  background-color: #f4a261;
+}
+
+.card-deck .card .btn:hover {
+  background-color: #cf6348;
+}
+
+.img-hover-zoom {
+  overflow: hidden;
+}
+.img-hover-zoom img {
+  transition: transform 1s, filter 1s ease;
+}
+.img-hover-zoom img:hover {
+  transform: scale(1.2);
+  filter: grayscale(80%);
 }
 
 /*# sourceMappingURL=style.css.map */
