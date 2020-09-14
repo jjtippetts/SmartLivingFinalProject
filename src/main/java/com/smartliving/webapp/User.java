@@ -2,6 +2,8 @@ package com.smartliving.webapp;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -43,9 +45,11 @@ public class User {
 //    private String zip;
 //    private String phone;
 
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Client> clients;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<DietPlan> dietPlans;
 

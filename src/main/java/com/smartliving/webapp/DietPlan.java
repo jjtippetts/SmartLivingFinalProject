@@ -1,5 +1,7 @@
 package com.smartliving.webapp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,15 +16,17 @@ public class DietPlan {
 
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY)  Long id;
 
-    @NotNull
+    @NotNull(message = "Diet name cannot be null")
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dietPlan")
+    @JsonManagedReference
     private List<Meal> meals;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name="USER_ID")
+    @JsonBackReference
     private User user;
 
 
@@ -31,7 +35,7 @@ public class DietPlan {
             throw new IllegalArgumentException("Name of Diet Plan cannot be null");
         }
         this.name = name;
-        meals = new ArrayList<Meal>();
+        this.meals = new ArrayList<>();
     }
     public DietPlan(){}
 

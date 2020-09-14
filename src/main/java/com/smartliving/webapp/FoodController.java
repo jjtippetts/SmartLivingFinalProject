@@ -32,19 +32,56 @@ public class FoodController {
         return dietRepository.findAll();
     }
 
+    @GetMapping("/dietplan/{id}")
+    DietPlan getDietPlanById(@PathVariable Long id){
+        return dietRepository.findById(id).get();
+    }
+
+    /**
+     * Creates a new diet plan for a user
+     * @param principal user credentials
+     * @return
+     */
     @PostMapping(path = "/dietplan", consumes = MediaType.ALL_VALUE)
     DietPlan newDietPlan(@RequestBody DietPlan newDietPlan, Principal principal){
         String username = principal.getName();
         User user = userRepository.getUserByUsername(username);
         user.addDietPlan(newDietPlan);
-        userRepository.save(user);
-        return newDietPlan;
+        user = userRepository.save(user);
+        List<DietPlan> dietPlans = user.getDietPlans();
+        int numberOfDietPlans = dietPlans.size();
+        return dietPlans.get(numberOfDietPlans - 1);
+    }
+
+    @PutMapping(value = "/dietplan/{id}", consumes = MediaType.ALL_VALUE)
+    Meal newMeal(@RequestBody Meal newMeal, @PathVariable Long id){
+        DietPlan dietPlan = dietRepository.findById(id).orElse(null);
+        dietPlan.addMeal(newMeal);
+        dietPlan = dietRepository.save(dietPlan);
+        List<Meal> mealList = dietPlan.getMeals();
+        Meal savedMeal = mealRepository.findByNameAndAndDietPlan_Id(newMeal.getName(),dietPlan.getId());
+        return savedMeal;
     }
 
     // MEALS
     @GetMapping("/meal")
     List<Meal> allMeals(){
         return mealRepository.findAll();
+    }
+
+    @PostMapping(path = "/meal", consumes = MediaType.ALL_VALUE)
+    Meal newMeal(@RequestBody Meal newMeal){
+        mealRepository.save(newMeal);
+        return newMeal;
+    }
+
+    @PutMapping(value = "/meal/{id}", consumes = MediaType.ALL_VALUE)
+    Food addFoodToMeal(@RequestBody Food newFood, @PathVariable Long id){
+        Food food = foodRepository.save(newFood);
+        Meal meal = mealRepository.findById(id).orElse(null);
+        meal.addFood(newFood);
+        mealRepository.save(meal);
+        return food;
     }
 
     //    FOODS

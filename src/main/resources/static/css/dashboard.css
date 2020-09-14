@@ -39,4 +39,8 @@ html body main #dashboard #dash-data {
   pointer-events: none;
 }
 
+th label {
+  display: none;
+}
+
 /*# sourceMappingURL=dashboard.css.map */

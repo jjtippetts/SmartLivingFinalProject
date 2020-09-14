@@ -1,14 +1,20 @@
 package com.smartliving.webapp;
 
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Data
 @Entity
+@Table()
 public class Food {
 
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY)  Long id;
@@ -30,6 +36,7 @@ public class Food {
 //    private boolean approved;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "foods", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Meal> meals;
 
     public void setMeals(List<Meal> meals){
@@ -45,6 +52,8 @@ public class Food {
         this.carbohydrates = carbohydrates;
         this.fat = fat;
         this.protein = protein;
+
+        this.meals = new ArrayList<>();
     }
 
     public Food(){}

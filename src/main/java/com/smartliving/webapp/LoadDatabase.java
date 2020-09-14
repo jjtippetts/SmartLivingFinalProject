@@ -25,18 +25,19 @@ public class LoadDatabase {
     CommandLineRunner initDatabase(FoodRepository foodRepository, MealRepository mealRepository, DietRepository dietRepository, UserRepository userRepository){
         Food apple = new Food("Apple", 40, 10, 0,0);
         foodRepository.save(apple);
+        Food applePie = new Food("Apple Pie", 200, 20, 8, 3);
+        foodRepository.save(applePie);
         Meal breakfast = new Meal("Breakfast");
         breakfast.addFood(apple);
 
         Meal lunch = new Meal("Lunch");
         lunch.addFood(apple);
-        Meal dinner = new Meal("Dinner");
 
         DietPlan smartDiet = new DietPlan("Smart Diet");
         smartDiet.addMeal(lunch);
         smartDiet.addMeal(breakfast);
 
-        User user = new User("joe","joe@gmail.com",passwordEncoder.encode("secretpassword"));
+        User user = new User("jordan","jordan@gmail.com",passwordEncoder.encode("password"));
         user.addDietPlan(smartDiet);
         userRepository.save(user);
 
