@@ -18,6 +18,7 @@ import java.util.Objects;
 public class Food {
 
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY)  Long id;
+
     @NotNull
     private String name;
     @NotNull
@@ -35,7 +36,8 @@ public class Food {
 //    @NotNull
 //    private boolean approved;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "foods", fetch = FetchType.LAZY)
+    //@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "foods", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "foods")
     @JsonIgnore
     private List<Meal> meals;
 

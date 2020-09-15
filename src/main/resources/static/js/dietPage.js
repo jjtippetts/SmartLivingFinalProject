@@ -8,15 +8,37 @@ function updateGraph(){
     })
 }
 
+// Moves a food object between meals
+function moveFood(foodName, newPosition,mealAddedTo, mealRemovedFrom){
+    var addedFood = {}
+    newDietBefore.meals.forEach(function(meal) {
+        if (meal.name === mealRemovedFrom) {
+            meal.foods.forEach(function(food, index){
+                if(food.name === foodName){
+                    addedFood = food
+                    console.log("Food To be removed: ")
+                    console.log(addedFood)
+                    meal.foods.splice(index, 1)
+                }
+            })
+        }
+    })
+    newDietBefore.meals.forEach(function(meal, index) {
+        if (meal.name === mealAddedTo) {
+            meal.foods.splice(newPosition, 0, addedFood)
+        }
+    })
+}
+
 // Calculates the sum of all the nutrients in each meal by traversing the DOM
 function calculateTotalSum() {
     var totals = $(".sum")
-
+    var mealName
     for(var i = 2; i < 6; ++i){
         var sum = 0;
         $(totals).each(function(index){
-        var rowItems = totals[index].children
-        sum += parseInt(rowItems[i].textContent)
+            var rowItems = totals[index].children
+            sum += parseInt(rowItems[i].textContent)
         })
         $("#nutrient-totals").children().eq(i).text(sum)
     }
@@ -47,8 +69,6 @@ function calculateMealNutrients(mealName){
     newDietBefore.meals.forEach(function(meal) {
         if (meal.name === mealName) {
             var mealTotals = calculateSum(meal.foods)
-            console.log(mealTotals)
-            console.log(mealNutrientTotal)
             $(mealNutrientTotal).find('.food-calories').text(mealTotals.calories)
             $(mealNutrientTotal).find('.food-carbohydrates').text(mealTotals.carbohydrates)
             $(mealNutrientTotal).find('.food-fat').text(mealTotals.fat)
@@ -99,8 +119,7 @@ addFoodBody =
     "<tbody class='sortable'>\n" +
     "  <tr class=\"sortDisabled\">\n" +
     "        <td>\n" +
-    "    <form data-meal-name='' class=\"addFoodToDiet\">\n" +
-    "          <input class='meal-id' name='meal-id' type='hidden'>" +
+    "    <form class=\"addFoodToDiet\">\n" +
     "          <button class=\"btn btn-primary btn-sm\" type=\"submit\">\n" +
     "            <i class=\"fas fa-plus\"></i>\n" +
     "          </button>\n" +
@@ -200,7 +219,8 @@ form.addEventListener("submit", function(event){
     });
     console.log(newDietBefore)
 
-    $("#create-diet-container").html("<h3>Diet Name: " + newDietBefore.name + "</h3>")
+    $("#create-diet-container").html("<div class='d-flex justify-content-between pb-2'> " + "<h3>Diet Name: " + newDietBefore.name + "</h3>" +
+    "<form id=\"submit-entire-diet\">" + "<button type=\"submit\" class=\"btn btn-primary\">Save Diet</button>" + "</form>" + "</div>")
     // Add a form to enter in a meal name
     $("#diet-info").html(addMealTable)
     // Add a section for the total nutrients for all meals
@@ -254,22 +274,28 @@ $(document).on("submit", "form.create-meal", function (e) {
     Sortable.create($("#diet-info")[0], {
         group: "shared",
     });
-    $(table).find('form').data('data-meal-name', formData.get("name"))
-    $(table).find('form').attr('data-meal-name', formData.get("name"))
+    $(table).attr('data-meal-name', formData.get("name"))
+    addData(dietMacros, formData.get("name"),0 )
 })
 
 //Adding a food to a Meal
 $(document).on("submit", ".addFoodToDiet", function (e) {
     var food = {}
-    e.preventDefault();
     var formElement = $(this)
+    var table = $(this).closest('table')
     var formData = new FormData($(this)[0])
-    formData.delete("meal-id")
+    var mealName = $(table).attr('data-meal-name')
+
+    e.preventDefault();
+
     formData.forEach(function(value,key){
         food[key]=value;
     });
+
+    // Add meal to Diet Plan object to be submitted
     newDietBefore.meals.forEach(function(meal){
-        if(meal.name === $(formElement).data('data-meal-name')){
+        // if(meal.name === $(formElement).data('data-meal-name')){
+        if(meal.name === mealName){
             if(meal.foods == null){
                 meal.foods = [food]
             }
@@ -279,7 +305,14 @@ $(document).on("submit", ".addFoodToDiet", function (e) {
         }
     })
 
+    // Reset Form values
+    formId = $(this).attr('id')
+    var formInputs = $('input[form="' + formId + '"]')
+    $(formInputs).each(function(index){
+        $(formInputs[index]).val('')
+    })
 
+    // Add form data to table
     var row = $("<tr data-food-name = " + formData.get("name") + ">")
     row.append("<td><button class='btn btn-danger rm-food btn-sm'><i class='fas fa-minus'></i></button></td>")
     row.append("<td>" + formData.get("name") + "</td>");
@@ -289,11 +322,11 @@ $(document).on("submit", ".addFoodToDiet", function (e) {
     row.append("<td>" + formData.get("protein") + "</td>");
     $(formElement).closest("tr").before(row);
 
-    var mealName = $(formElement).data('data-meal-name')
+    //var mealName = $(formElement).data('data-meal-name')
     calculateMealNutrients(mealName)
-
     calculateTotalSum()
 
+    // Make food items sortable
     $(".sortable").each(function(index){
         Sortable.create($(".sortable")[index], {
             group: "foodShared",
@@ -303,24 +336,44 @@ $(document).on("submit", ".addFoodToDiet", function (e) {
                 return evt.related.className.indexOf('sortDisabled') === -1;
             },
             onAdd : function (evt) {
+                console.log(formData.get("name"))
                 console.log("Moved '" +
                     $(evt.to).children().eq(evt.newIndex).attr('data-food-name') + "' from: '" +
-                    $(evt.to).find('form').data('data-meal-name')+ "' to: '" +
-                    $(evt.from).find('form').data('data-meal-name'))
-
-                calculateSum($(formElement).closest("table"))
+                    $(evt.from).find('table').attr('data-meal-name') + "' to: '" +
+                    $(evt.to).find('table').attr('data-meal-name'))
+                var mealAddedTo = $(evt.to).find('table').attr('data-meal-name')
+                var mealRemovedFrom= $(evt.from).find('table').attr('data-meal-name')
+                var foodName = $(evt.to).children().eq(evt.newIndex).attr('data-food-name')
+                var foodIndex = evt.newIndex
+                moveFood(foodName, foodIndex,mealAddedTo, mealRemovedFrom)
+                $(evt.to).children().eq(evt.newIndex).attr('data-food-name')
+                calculateMealNutrients(mealAddedTo)
+                calculateMealNutrients(mealRemovedFrom)
+                calculateTotalSum()
             },
             onRemove : function (evt) {
-                calculateSum($(formElement).closest("table"))
+                //calculateSum($(formElement).closest("table"))
             }
         });
     })
 });
 
 $(document).on('click', '.rm-food', function (event) {
-    var table = $(this).closest("table")
+    var foodName = $(this).closest('tr').attr('data-food-name')
+    var mealName = $(this).closest("table").attr('data-meal-name')
+
+    newDietBefore.meals.forEach(function(meal){
+        if(meal.name === mealName){
+            meal.foods.forEach(function(food, index){
+                if(food.name === foodName){
+                    meal.foods.splice(index, 1)
+                }
+            })
+        }
+    })
+    console.log(newDietBefore)
     $(this).parent().parent().remove()
-    calculateSum(table)
+    calculateMealNutrients(mealName)
     calculateTotalSum()
 })
 
@@ -346,4 +399,27 @@ $(document).on('submit', '#submit-entire-diet', function (event) {
         }
     })
 })
+
+function updateCaloriePercentage(){
+    var mealNutrients = $(".sum")
+    $(mealNutrients).each(function(index){
+
+    })
+}
+
+function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+}
+
+function removeData(chart) {
+    chart.data.labels.pop();
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+    });
+    chart.update();
+}
 

@@ -20,6 +20,7 @@ public class Meal {
     @NotNull
     private String name;
 
+    //@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(name = "meal_foods",
         joinColumns = {
