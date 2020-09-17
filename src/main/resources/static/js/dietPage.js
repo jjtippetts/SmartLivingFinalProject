@@ -1,6 +1,10 @@
 var counter = 0
 
-var newDietBefore = {}
+var addFoodData = {
+    counter: 0
+}
+
+var dietPlan = {}
 
 function updateGraph(){
     $(".meal-name-row").each(function(index){
@@ -8,10 +12,53 @@ function updateGraph(){
     })
 }
 
+function createDietPlanHTML(){
+    $("#create-diet-container").html("<div class='d-flex justify-content-between pb-2'> " + "<h3>Diet Name: " + dietPlan.name + "</h3>" +
+        "<form id=\"submit-entire-diet\">" + "<button type=\"submit\" class=\"btn btn-primary\">Save Diet</button>" + "</form>" + "</div>")
+    // Add a form to enter in a meal name
+    $("#diet-info").html(addMealTable)
+    // Add a section for the total nutrients for all meals
+    $("#diet-total-nutrients").html("<table class='table'><thead>" +
+        "<tr class='table-primary'><th colspan='6'>Diet Totals</th></tr>" +
+        nutrientHeaders + "</thead><tbody>" + nutrientTotals + "</tbody></table>")
+}
+
+function makeFoodSortable(){
+    // Make food items sortable
+    $(".sortable").each(function(index){
+        Sortable.create($(".sortable")[index], {
+            group: "foodShared",
+            filter: ".sortDisabled", //prevents moving
+            preventOnFilter: false, //Allows input to be clickable
+            onMove: function (evt) { //Prevents moving object around
+                return evt.related.className.indexOf('sortDisabled') === -1;
+            },
+            onAdd : function (evt) {
+                console.log("Moved '" +
+                    $(evt.to).children().eq(evt.newIndex).attr('data-food-name') + "' from: '" +
+                    $(evt.from).closest('table').attr('data-meal-name') + "' to: '" +
+                    $(evt.to).closest('table').attr('data-meal-name'))
+                var mealAddedTo = $(evt.to).closest('table').attr('data-meal-name')
+                var mealRemovedFrom= $(evt.from).closest('table').attr('data-meal-name')
+                var foodName = $(evt.to).children().eq(evt.newIndex).attr('data-food-name')
+                var foodIndex = evt.newIndex
+                moveFood(foodName, foodIndex,mealAddedTo, mealRemovedFrom)
+                $(evt.to).children().eq(evt.newIndex).attr('data-food-name')
+                calculateMealNutrients(mealAddedTo)
+                calculateMealNutrients(mealRemovedFrom)
+                calculateTotalSum()
+            },
+            onRemove : function (evt) {
+                //calculateSum($(formElement).closest("table"))
+            }
+        });
+    })
+}
+
 // Moves a food object between meals
 function moveFood(foodName, newPosition,mealAddedTo, mealRemovedFrom){
     var addedFood = {}
-    newDietBefore.meals.forEach(function(meal) {
+    dietPlan.meals.forEach(function(meal) {
         if (meal.name === mealRemovedFrom) {
             meal.foods.forEach(function(food, index){
                 if(food.name === foodName){
@@ -23,7 +70,7 @@ function moveFood(foodName, newPosition,mealAddedTo, mealRemovedFrom){
             })
         }
     })
-    newDietBefore.meals.forEach(function(meal, index) {
+    dietPlan.meals.forEach(function(meal, index) {
         if (meal.name === mealAddedTo) {
             meal.foods.splice(newPosition, 0, addedFood)
         }
@@ -64,9 +111,9 @@ function calculateSum(listOfFoods) {
 }
 
 function calculateMealNutrients(mealName){
-    var mealNutrientTotal = $("[data-meal-name='" + mealName +"']").closest('tr').next('tr')
+    var mealNutrientTotal = $("[data-meal-name='" + mealName +"']")
 
-    newDietBefore.meals.forEach(function(meal) {
+    dietPlan.meals.forEach(function(meal) {
         if (meal.name === mealName) {
             var mealTotals = calculateSum(meal.foods)
             $(mealNutrientTotal).find('.food-calories').text(mealTotals.calories)
@@ -77,13 +124,11 @@ function calculateMealNutrients(mealName){
     })
 }
 
-
-
 // Injected Form to create meal after creating a diet plan
 var addMealTable =
     "<table class=\"table table-striped meal\">\n" +
     "  <thead>\n" +
-    "<tr class=\"meal-name-row table-primary\" id=\"mealHeader\">\n" +
+    "<tr class=\"meal-name-row table-primary\">\n" +
     "      <th colspan=\"2\">\n" +
     "        <form class='create-meal'>" +
     "          <div class='form-group row mb-0'>" +
@@ -104,7 +149,7 @@ var addMealTable =
     "</table> "
 
 //Nutrient table row headers
-nurtientHeaders =
+var nutrientHeaders =
     "<tr class=\"nutrient-info\">\n" +
     "  <th scope=\"col\" style='width: 10%'></th>\n" +
     "  <th scope=\"col\" style='width: 18%'>Name</th>\n" +
@@ -113,87 +158,6 @@ nurtientHeaders =
     "  <th scope=\"col\" style='width: 18%'>Fat</th>\n" +
     "  <th scope=\"col\" style='width: 18%'>Protein</th>\n" +
     "</tr>\n"
-
-//Form for adding a food to a meal
-addFoodBody =
-    "<tbody class='sortable'>\n" +
-    "  <tr class=\"sortDisabled\">\n" +
-    "        <td>\n" +
-    "    <form class=\"addFoodToDiet\">\n" +
-    "          <button class=\"btn btn-primary btn-sm\" type=\"submit\">\n" +
-    "            <i class=\"fas fa-plus\"></i>\n" +
-    "          </button>\n" +
-    "    </form>\n" +
-    "        </td>\n" +
-    "        <td>\n" +
-    "          <label for=\"foodName\"></label>\n" +
-    "          <input\n" +
-    "                  type=\"text\"\n" +
-    "                  class=\"form-control\"\n" +
-    "                  id=\"foodName\"\n" +
-    "                  placeholder=\"Strawberries\"\n" +
-    "                  name=\"name\"\n" +
-    "                  required\n" +
-    "          />\n" +
-    "        </td>\n" +
-    "        <td>\n" +
-    "          <label for=\"calories\"></label>\n" +
-    "          <input\n" +
-    "                  type=\"number\"\n" +
-    "                  min=\"0\"\n" +
-    "                  class=\"form-control\"\n" +
-    "                  id=\"calories\"\n" +
-    "                  placeholder=\"40\"\n" +
-    "                  name=\"calories\"\n" +
-    "                  required\n" +
-    "          />\n" +
-    "        </td>\n" +
-    "        <td>\n" +
-    "          <label for=\"carbohydrates\"></label>\n" +
-    "          <input\n" +
-    "                  type=\"number\"\n" +
-    "                  min=\"0\"\n" +
-    "                  class=\"form-control\"\n" +
-    "                  id=\"carbohydrates\"\n" +
-    "                  placeholder=\"9\"\n" +
-    "                  name=\"carbohydrates\"\n" +
-    "                  required\n" +
-    "          />\n" +
-    "        </td>\n" +
-    "        <td>\n" +
-    "          <label for=\"fat\"></label>\n" +
-    "          <input\n" +
-    "                  type=\"number\"\n" +
-    "                  min=\"0\"\n" +
-    "                  class=\"form-control\"\n" +
-    "                  id=\"fat\"\n" +
-    "                  placeholder=\"0\"\n" +
-    "                  name=\"fat\"\n" +
-    "                  required\n" +
-    "          />\n" +
-    "        </td>\n" +
-    "        <td>\n" +
-    "          <label for=\"protein\"></label>\n" +
-    "          <input\n" +
-    "                  type=\"number\"\n" +
-    "                  min=\"0\"\n" +
-    "                  class=\"form-control\"\n" +
-    "                  id=\"protein\"\n" +
-    "                  placeholder=\"1\"\n" +
-    "                  name=\"protein\"\n" +
-    "                  required\n" +
-    "          />\n" +
-    "        </td>\n" +
-    "  </tr>\n" +
-    "  <tr class=\"sum table-info sortDisabled\">\n" +
-    "    <td>Total</td>\n" +
-    "    <td></td>\n" +
-    "    <td class='food-calories'>0</td>\n" +
-    "    <td class='food-carbohydrates'>0</td>\n" +
-    "    <td class='food-fat'>0</td>\n" +
-    "    <td class='food-protein'>0</td>\n" +
-    "  </tr>\n" +
-    "</tbody>\n"
 
 // Starting nutrient totals for each meal
 var nutrientTotals = "<tr id='nutrient-totals' class=\"table-info\">\n" +
@@ -215,17 +179,11 @@ form.addEventListener("submit", function(event){
 
     // Extract from name and values and create object to send to controller
     formData.forEach(function(value,key){
-        newDietBefore[key]=value;
+        dietPlan[key]=value;
     });
-    console.log(newDietBefore)
+    console.log(dietPlan)
 
-    $("#create-diet-container").html("<div class='d-flex justify-content-between pb-2'> " + "<h3>Diet Name: " + newDietBefore.name + "</h3>" +
-    "<form id=\"submit-entire-diet\">" + "<button type=\"submit\" class=\"btn btn-primary\">Save Diet</button>" + "</form>" + "</div>")
-    // Add a form to enter in a meal name
-    $("#diet-info").html(addMealTable)
-    // Add a section for the total nutrients for all meals
-    $("#diet-total-nutrients").html("<table class='table'><thead>" +
-        nurtientHeaders + "</thead><tbody>" + nutrientTotals + "</tbody></table>")
+    createDietPlanHTML()
 })
 
 //Create A meal
@@ -240,37 +198,31 @@ $(document).on("submit", "form.create-meal", function (e) {
     formData.forEach(function(value,key){
         meal[key]=value;
     });
-    if(newDietBefore['meals'] == null){
-        newDietBefore['meals'] = [meal]
+    // Add meal to diet plan object
+    if(dietPlan['meals'] == null){
+        dietPlan['meals'] = [meal]
     }
     else {
-        newDietBefore['meals'].push(meal)
+        dietPlan['meals'].push(meal)
     }
-    console.log(newDietBefore)
+    console.log(dietPlan)
 
-    $(formElement).closest("tr").after(nurtientHeaders)
+    // Add nutrient headers to meal
+    $(formElement).closest("tr").after(nutrientHeaders)
+
+    // Add food form with unique ID's
+    addFoodData.counter += 1
+    var template = $("#add-food-form").html()
+    var addFoodFormHtml = Mustache.render(template,addFoodData)
     // Injects the rows for adding a new food to the meal and the total nutrients for that meal
-    $(formElement).closest("thead").after(addFoodBody)
+    $(formElement).closest("thead").after(addFoodFormHtml)
+
     var table = $(formElement).closest("table")
     // Add a new form for adding a meal below the current Meal table
     $("#diet-info").append(addMealTable)
     // Replace the form with the name of the meal
     $(formElement).closest("tr").html("<th colspan='6'>" + formData.get("name") + "</th>")
-    // Alter the id's of the form, label, and input so that there are not duplicates
-    $(table).find("form").attr('id','addMeal' + (++counter))
-    $(table).find("label").attr("form", "addMeal" + (counter))
-    $(table).find("input").attr("form", "addMeal" + (counter))
 
-    $("#foodName").attr("id", "foodName" + (counter))
-    $("#calories").attr("id", "calories" + (counter))
-    $("#carbohydrates").attr("id", "carbohydrates" + (counter))
-    $("#fat").attr("id", "fat" + (counter))
-    $("#protein").attr("id", "protein" + (counter))
-    $("label[for='foodName']").attr("for", "foodName" + (counter))
-    $("label[for='calories']").attr("for", "calories" + (counter))
-    $("label[for='carbohydrates']").attr("for", "carbohydrates" + (counter))
-    $("label[for='fat']").attr("for", "fat" + (counter))
-    $("label[for='protein']").attr("for", "protein" + (counter))
     Sortable.create($("#diet-info")[0], {
         group: "shared",
     });
@@ -292,8 +244,9 @@ $(document).on("submit", ".addFoodToDiet", function (e) {
         food[key]=value;
     });
 
+
     // Add meal to Diet Plan object to be submitted
-    newDietBefore.meals.forEach(function(meal){
+    dietPlan.meals.forEach(function(meal){
         // if(meal.name === $(formElement).data('data-meal-name')){
         if(meal.name === mealName){
             if(meal.foods == null){
@@ -319,7 +272,7 @@ $(document).on("submit", ".addFoodToDiet", function (e) {
     row.append("<td>" + formData.get("calories") + "</td>");
     row.append("<td>" + formData.get("carbohydrates") + "</td>");
     row.append("<td>" + formData.get("fat") + "</td>");
-    row.append("<td>" + formData.get("protein") + "</td>");
+    row.append("<td>" + formData.get("protein") + "     </td>");
     $(formElement).closest("tr").before(row);
 
     //var mealName = $(formElement).data('data-meal-name')
@@ -327,42 +280,16 @@ $(document).on("submit", ".addFoodToDiet", function (e) {
     calculateTotalSum()
 
     // Make food items sortable
-    $(".sortable").each(function(index){
-        Sortable.create($(".sortable")[index], {
-            group: "foodShared",
-            filter: ".sortDisabled", //prevents moving
-            preventOnFilter: false, //Allows input to be clickable
-            onMove: function (evt) { //Prevents moving object around
-                return evt.related.className.indexOf('sortDisabled') === -1;
-            },
-            onAdd : function (evt) {
-                console.log(formData.get("name"))
-                console.log("Moved '" +
-                    $(evt.to).children().eq(evt.newIndex).attr('data-food-name') + "' from: '" +
-                    $(evt.from).find('table').attr('data-meal-name') + "' to: '" +
-                    $(evt.to).find('table').attr('data-meal-name'))
-                var mealAddedTo = $(evt.to).find('table').attr('data-meal-name')
-                var mealRemovedFrom= $(evt.from).find('table').attr('data-meal-name')
-                var foodName = $(evt.to).children().eq(evt.newIndex).attr('data-food-name')
-                var foodIndex = evt.newIndex
-                moveFood(foodName, foodIndex,mealAddedTo, mealRemovedFrom)
-                $(evt.to).children().eq(evt.newIndex).attr('data-food-name')
-                calculateMealNutrients(mealAddedTo)
-                calculateMealNutrients(mealRemovedFrom)
-                calculateTotalSum()
-            },
-            onRemove : function (evt) {
-                //calculateSum($(formElement).closest("table"))
-            }
-        });
-    })
+    makeFoodSortable()
 });
 
+
+//Removes Food
 $(document).on('click', '.rm-food', function (event) {
     var foodName = $(this).closest('tr').attr('data-food-name')
     var mealName = $(this).closest("table").attr('data-meal-name')
 
-    newDietBefore.meals.forEach(function(meal){
+    dietPlan.meals.forEach(function(meal){
         if(meal.name === mealName){
             meal.foods.forEach(function(food, index){
                 if(food.name === foodName){
@@ -371,15 +298,17 @@ $(document).on('click', '.rm-food', function (event) {
             })
         }
     })
-    console.log(newDietBefore)
+    console.log(dietPlan)
     $(this).parent().parent().remove()
     calculateMealNutrients(mealName)
     calculateTotalSum()
 })
 
+
+// Saves Diet Plan
 $(document).on('submit', '#submit-entire-diet', function (event) {
     event.preventDefault()
-    var json = JSON.stringify(newDietBefore);
+    var json = JSON.stringify(dietPlan);
     $.ajax({
         type: "POST",
         url: "/dietplan",
@@ -391,7 +320,7 @@ $(document).on('submit', '#submit-entire-diet', function (event) {
             "Content-Type": "application/json",
         },
         success: function (results) {
-            newDietBefore = results
+            dietPlan = results
             console.log(results)
         },
         error: function (results) {
@@ -400,12 +329,25 @@ $(document).on('submit', '#submit-entire-diet', function (event) {
     })
 })
 
+
+// If diet plan is set save it to the session
+$(window).on('unload', function(){
+
+    // If diet plan is set
+    if(!jQuery.isEmptyObject(dietPlan)){
+        sessionStorage.setItem("dietplan", JSON.stringify(dietPlan))
+    }
+
+})
+
+
 function updateCaloriePercentage(){
     var mealNutrients = $(".sum")
     $(mealNutrients).each(function(index){
 
     })
 }
+
 
 function addData(chart, label, data) {
     chart.data.labels.push(label);
@@ -414,6 +356,7 @@ function addData(chart, label, data) {
     });
     chart.update();
 }
+
 
 function removeData(chart) {
     chart.data.labels.pop();

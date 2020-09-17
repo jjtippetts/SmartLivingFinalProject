@@ -47,7 +47,7 @@
       </div>
     </div>
     <div id="dash-data">
-      <div class="container pt-4">
+      <div class="container pt-4 bg-white">
         <div class="tab-content" id="v-pills-tabContent">
           <div class="tab-pane fade show active" id="v-pills-create" role="tabpanel"
                aria-labelledby="v-pills-create-tab">
@@ -55,11 +55,11 @@
             <!-- Create Diet Plan -->
             <section class="mt-3">
               <div class="d-flex flex-row align-items-center">
-                <h3 class="display-4 mr-3">Create a Diet Plan</h3>
-                <button type="button" class="btn btn-warning " data-toggle="tooltip" data-placement="right"
-                        title="drag and drop foods to rearrange order">
-                  <i class="fas fa-question"></i>
-                </button>
+                <h3 class="mr-3">Create a Diet Plan</h3>
+<!--                <button type="button" class="btn btn-warning " data-toggle="tooltip" data-placement="right"-->
+<!--                        title="drag and drop foods to rearrange order">-->
+<!--                  <i class="fas fa-question"></i>-->
+<!--                </button>-->
               </div>
 
               <div id="create-diet-container">
@@ -92,33 +92,36 @@
           <div class="tab-pane fade" id="v-pills-search" role="tabpanel" aria-labelledby="v-pills-search-tab">
             <!-- Find food by name-->
             <section>
-              <form id="findFoodByName">
-                <legend>
-                  <h1 class="font-bold">Search for a Food</h1>
-                </legend>
-                <div class="form-row">
-                  <div class="form-group col-md-5">
-                    <label for="search-food-name"></label>
-                    <div class="input-group input-group-lg">
-                      <div class="input-group-prepend">
-                        <button class="btn btn-outline-primary" type="submit">
-                          <i class="fas fa-search"></i>
-                        </button>
+              <div class="row">
+                <div class="col-6 p-1 bg-light rounded">
+                  <form id="findFoodByName">
+                    <legend>
+                      <h1 class="font-bold">Search for a Food</h1>
+                    </legend>
+                    <div class="form-row">
+                      <div class="form-group col-md-12">
+                        <label for="search-food-name"></label>
+                        <div class="input-group input-group-lg">
+                          <div class="input-group-prepend">
+                            <button class="btn btn-outline-primary" type="submit">
+                              <i class="fas fa-search"></i>
+                            </button>
+                          </div>
+                          <input
+                                  type="text"
+                                  class="form-control"
+                                  id="search-food-name"
+                                  placeholder="Name of Food"
+                                  name="name"
+                          />
+                        </div>
                       </div>
-                      <input
-                              type="text"
-                              class="form-control"
-                              id="search-food-name"
-                              placeholder="Name of Food"
-                              name="name"
-                      />
                     </div>
+                  </form>
+                  <div id="foods-found">
+                    <ul class="list-group list-group-flush"></ul>
                   </div>
                 </div>
-<!--                <button type="submit" class="btn btn-primary">Search</button>-->
-              </form>
-              <div id="foods-found">
-                <ul class="list-group list-group-flush"></ul>
               </div>
             </section>
 
@@ -235,6 +238,122 @@
         crossorigin="anonymous"
 ></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.1/mustache.min.js"></script>
+
+<script type="text/template" id="add-food-form">
+  <tbody class='sortable'>
+    <tr class="sortDisabled">
+      <td>
+        <form id='addMeal{{counter}}' class="addFoodToDiet">
+          <button class="btn btn-primary btn-sm" type="submit">
+            <i class="fas fa-plus"></i>
+          </button>
+        </form>
+      </td>
+      <td>
+        <label form='addMeal{{counter}}' for='foodName{{counter}}'></label>
+        <input
+                form='addMeal{{counter}}'
+                type="text"
+                class="form-control"
+                id='foodName{{counter}}'
+                placeholder="Strawberries"
+                name="name"
+                required
+        />
+      </td>
+      <td>
+        <label form='addMeal{{counter}}' for="calories"></label>
+        <input
+                form='addMeal{{counter}}'
+                type="number"
+                min="0"
+                class="form-control"
+                id="calories"
+                placeholder="40"
+                name="calories"
+                required
+        />
+      </td>
+      <td>
+        <label form='addMeal{{counter}}' for="carbohydrates"></label>
+        <input
+                form='addMeal{{counter}}'
+                type="number"
+                min="0"
+                class="form-control"
+                id="carbohydrates"
+                placeholder="9"
+                name="carbohydrates"
+                required
+        />
+      </td>
+      <td>
+        <label form='addMeal{{counter}}' for="fat"></label>
+        <input
+                form='addMeal{{counter}}'
+                type="number"
+                min="0"
+                class="form-control"
+                id="fat"
+                placeholder="0"
+                name="fat"
+                required
+        />
+      </td>
+      <td>
+        <label form='addMeal{{counter}}' for="protein"></label>
+        <input
+                form='addMeal{{counter}}'
+                type="number"
+                min="0"
+                class="form-control"
+                id="protein"
+                placeholder="1"
+                name="protein"
+                required
+        />
+      </td>
+    </tr>
+    <tr class="sum table-info sortDisabled">
+      <td>Total</td>
+      <td></td>
+      <td class='food-calories'>0</td>
+      <td class='food-carbohydrates'>0</td>
+      <td class='food-fat'>0</td>
+      <td class='food-protein'>0</td>
+    </tr>
+  </tbody>
+</script>
+
+<script type="text/html">
+  <table class="table table-striped meal">
+    <thead>
+      <tr class="meal-name-row table-primary">
+
+      </tr>
+    </thead>
+  </table>
+</script>
+
+<script type ="text/html" id="mealNameForm">
+  <th colspan="2">
+    <form class='create-meal'>
+      <div class='form-group row mb-0'>
+        <div class='col-1'>
+          <button class="btn btn-large btn-primary" type="submit">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        <label for="mealName">Add a meal</label>
+        <div class='col-6'>
+          <input class="form-control" id="mealName" placeholder='Meal Name' type="text" name="name">
+        </div>
+      </div>
+    </form>
+  </th>
+</script>
+
 <script>
     $("#findFoodByID").submit(function () {
         var id = $("#foodID").val();
@@ -274,8 +393,11 @@
     });
 </script>
 
-<!--Post Food-->
+<!--Create Diet Plan-->
 <script src="js/dietPage.js"></script>
+
+<!--On window load, load diet plan-->
+<script src="js/dietPlanOnLoad.js"></script>
 
 <script>
     $("#findFoodByName").submit(function () {

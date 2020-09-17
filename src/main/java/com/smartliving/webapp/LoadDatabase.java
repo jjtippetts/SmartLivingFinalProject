@@ -41,6 +41,9 @@ public class LoadDatabase {
         user.addDietPlan(smartDiet);
         userRepository.save(user);
 
+        User user1 = new User("j","jordan12@gmail.com",passwordEncoder.encode("j"));
+        userRepository.save(user1);
+
         return args -> {
             log.info("Preloading " + apple);
             log.info("Preloading " + breakfast);
