@@ -3,7 +3,7 @@
     margin-top: 10px;
     margin-bottom: 10px;
     background-color: transparent;
-    color: white;
+    color: black;
   }
   .nav-link:hover, .active {
     background-color: white !important;
@@ -21,12 +21,12 @@ html {
       #dashboard {
         height: 100%;
         #dash-navigation{
-          height: 100%;
-          width: 190px;
+          height: calc(90%);
+          width: 350px;
         }
         #dash-data{
           min-height: 100%;
-          padding-left: 190px;
+          padding-left: 374px;
         }
       }
     }

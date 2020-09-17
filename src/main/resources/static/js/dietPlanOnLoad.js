@@ -1,10 +1,16 @@
 var counter = 0;
 
+var allDietPlans = []
+
+
+// Loads a diet plan to the screen
 function loadDietPlan(dietPlan){
     if(!jQuery.isEmptyObject(dietPlan)){
         // Check if there is a diet name
+        console.log(dietPlan)
         if(dietPlan.name != null){
-            createDietPlanHTML()
+
+            createDietPlanHTML(dietPlan.name)
 
             // Check if any meals
             if(dietPlan.meals != null && dietPlan.meals.length){
@@ -64,8 +70,59 @@ function loadDietPlan(dietPlan){
     }
 }
 
-$(document).ready(function(){
-    var dietPlan = JSON.parse(sessionStorage.getItem("dietplan"))
 
-    loadDietPlan(dietPlan)
+// Gets all of the diets and displays them
+function getListOfDiets(){
+    // Get List of diet plans
+    $.getJSON("/dietplan", function (results) {
+        console.log(results)
+        var list = $("#diets-found")
+        //Remove previous queries if any
+        list.html("")
+        $.each(results, function (index) {
+            console.log(results[index])
+            allDietPlans.push(results[index])
+            list.append("<a class='found-diet list-group-item list-group-item-action bg-light'>" +
+                "<h5 class='text-primary'>" +
+                results[index].name +
+                "</h5>" +
+                "</a>")
+            JSON.stringify(results[index])
+            console.log(results)
+        })
+    })
+}
+
+
+// Loads a diet if screen was refreshed
+$(document).ready(function(){
+    selectedDietPlan = JSON.parse(sessionStorage.getItem("dietplan"))
+
+    loadDietPlan(selectedDietPlan)
+
+    getListOfDiets()
+})
+
+
+// when user clicks on a found diet. It loads the diet to the page.
+$(document).on('click', '.found-diet', function(e){
+    var dietName = $(this).text()
+
+    $(allDietPlans).each(function(index){
+        console.log(allDietPlans[index])
+        if(allDietPlans[index].name === dietName){
+            console.log("FOUND!")
+            selectedDietPlan = allDietPlans[index]
+        }
+    })
+    //Reset current Diet Plan
+    $('#diet-info').html('')
+    $('#diet-total-nutrients').html('')
+    loadDietPlan(selectedDietPlan)
+})
+
+
+// For sync button. Syncs newly added diet plans
+$(document).on('click', '#sync-diet-plans', function(e){
+    getListOfDiets()
 })

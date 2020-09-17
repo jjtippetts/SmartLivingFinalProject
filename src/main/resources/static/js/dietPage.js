@@ -4,16 +4,11 @@ var addFoodData = {
     counter: 0
 }
 
-var dietPlan = {}
+var selectedDietPlan = {}
 
-function updateGraph(){
-    $(".meal-name-row").each(function(index){
-        console.log($(this).children())
-    })
-}
-
-function createDietPlanHTML(){
-    $("#create-diet-container").html("<div class='d-flex justify-content-between pb-2'> " + "<h3>Diet Name: " + dietPlan.name + "</h3>" +
+function createDietPlanHTML(dietPlanName){
+    $("#name-of-diet").remove()
+    $("#diet-container").prepend("<div id='name-of-diet' class='d-flex justify-content-between pb-2'> " + "<h3>Diet Name: " + dietPlanName + "</h3>" +
         "<form id=\"submit-entire-diet\">" + "<button type=\"submit\" class=\"btn btn-primary\">Save Diet</button>" + "</form>" + "</div>")
     // Add a form to enter in a meal name
     $("#diet-info").html(addMealTable)
@@ -58,7 +53,7 @@ function makeFoodSortable(){
 // Moves a food object between meals
 function moveFood(foodName, newPosition,mealAddedTo, mealRemovedFrom){
     var addedFood = {}
-    dietPlan.meals.forEach(function(meal) {
+    selectedDietPlan.meals.forEach(function(meal) {
         if (meal.name === mealRemovedFrom) {
             meal.foods.forEach(function(food, index){
                 if(food.name === foodName){
@@ -70,56 +65,9 @@ function moveFood(foodName, newPosition,mealAddedTo, mealRemovedFrom){
             })
         }
     })
-    dietPlan.meals.forEach(function(meal, index) {
+    selectedDietPlan.meals.forEach(function(meal, index) {
         if (meal.name === mealAddedTo) {
             meal.foods.splice(newPosition, 0, addedFood)
-        }
-    })
-}
-
-// Calculates the sum of all the nutrients in each meal by traversing the DOM
-function calculateTotalSum() {
-    var totals = $(".sum")
-    var mealName
-    for(var i = 2; i < 6; ++i){
-        var sum = 0;
-        $(totals).each(function(index){
-            var rowItems = totals[index].children
-            sum += parseInt(rowItems[i].textContent)
-        })
-        $("#nutrient-totals").children().eq(i).text(sum)
-    }
-}
-
-// Calculates the sum of nutrients by traversing the DOM
-function calculateSum(listOfFoods) {
-
-    var mealTotals = {
-        calories : 0,
-        carbohydrates : 0,
-        fat : 0,
-        protein : 0
-    }
-
-    listOfFoods.forEach(function(food){
-        mealTotals.calories += parseInt(food.calories)
-        mealTotals.carbohydrates += parseInt(food.carbohydrates)
-        mealTotals.fat += parseInt(food.fat)
-        mealTotals.protein += parseInt(food.protein)
-    })
-    return mealTotals
-}
-
-function calculateMealNutrients(mealName){
-    var mealNutrientTotal = $("[data-meal-name='" + mealName +"']")
-
-    dietPlan.meals.forEach(function(meal) {
-        if (meal.name === mealName) {
-            var mealTotals = calculateSum(meal.foods)
-            $(mealNutrientTotal).find('.food-calories').text(mealTotals.calories)
-            $(mealNutrientTotal).find('.food-carbohydrates').text(mealTotals.carbohydrates)
-            $(mealNutrientTotal).find('.food-fat').text(mealTotals.fat)
-            $(mealNutrientTotal).find('.food-protein').text(mealTotals.protein)
         }
     })
 }
@@ -172,18 +120,20 @@ var nutrientTotals = "<tr id='nutrient-totals' class=\"table-info\">\n" +
 // Create a diet plan
 var form = document.getElementById("addDietPlan")
 form.addEventListener("submit", function(event){
-
     var formData = new FormData(form);
 
     event.preventDefault();
+    selectedDietPlan = {}
 
     // Extract from name and values and create object to send to controller
     formData.forEach(function(value,key){
-        dietPlan[key]=value;
+        selectedDietPlan[key]=value;
     });
-    console.log(dietPlan)
+    console.log(selectedDietPlan)
 
-    createDietPlanHTML()
+    createDietPlanHTML(selectedDietPlan.name)
+    //Reset form value
+    $('#diet-name').val('')
 })
 
 //Create A meal
@@ -199,13 +149,13 @@ $(document).on("submit", "form.create-meal", function (e) {
         meal[key]=value;
     });
     // Add meal to diet plan object
-    if(dietPlan['meals'] == null){
-        dietPlan['meals'] = [meal]
+    if(selectedDietPlan['meals'] == null){
+        selectedDietPlan['meals'] = [meal]
     }
     else {
-        dietPlan['meals'].push(meal)
+        selectedDietPlan['meals'].push(meal)
     }
-    console.log(dietPlan)
+    console.log(selectedDietPlan)
 
     // Add nutrient headers to meal
     $(formElement).closest("tr").after(nutrientHeaders)
@@ -246,7 +196,7 @@ $(document).on("submit", ".addFoodToDiet", function (e) {
 
 
     // Add meal to Diet Plan object to be submitted
-    dietPlan.meals.forEach(function(meal){
+    selectedDietPlan.meals.forEach(function(meal){
         // if(meal.name === $(formElement).data('data-meal-name')){
         if(meal.name === mealName){
             if(meal.foods == null){
@@ -289,7 +239,7 @@ $(document).on('click', '.rm-food', function (event) {
     var foodName = $(this).closest('tr').attr('data-food-name')
     var mealName = $(this).closest("table").attr('data-meal-name')
 
-    dietPlan.meals.forEach(function(meal){
+    selectedDietPlan.meals.forEach(function(meal){
         if(meal.name === mealName){
             meal.foods.forEach(function(food, index){
                 if(food.name === foodName){
@@ -298,7 +248,7 @@ $(document).on('click', '.rm-food', function (event) {
             })
         }
     })
-    console.log(dietPlan)
+    console.log(selectedDietPlan)
     $(this).parent().parent().remove()
     calculateMealNutrients(mealName)
     calculateTotalSum()
@@ -308,7 +258,7 @@ $(document).on('click', '.rm-food', function (event) {
 // Saves Diet Plan
 $(document).on('submit', '#submit-entire-diet', function (event) {
     event.preventDefault()
-    var json = JSON.stringify(dietPlan);
+    var json = JSON.stringify(selectedDietPlan);
     $.ajax({
         type: "POST",
         url: "/dietplan",
@@ -320,7 +270,7 @@ $(document).on('submit', '#submit-entire-diet', function (event) {
             "Content-Type": "application/json",
         },
         success: function (results) {
-            dietPlan = results
+            selectedDietPlan = results
             console.log(results)
         },
         error: function (results) {
@@ -334,35 +284,9 @@ $(document).on('submit', '#submit-entire-diet', function (event) {
 $(window).on('unload', function(){
 
     // If diet plan is set
-    if(!jQuery.isEmptyObject(dietPlan)){
-        sessionStorage.setItem("dietplan", JSON.stringify(dietPlan))
+    if(!jQuery.isEmptyObject(selectedDietPlan)){
+        sessionStorage.setItem("dietplan", JSON.stringify(selectedDietPlan))
     }
 
 })
-
-
-function updateCaloriePercentage(){
-    var mealNutrients = $(".sum")
-    $(mealNutrients).each(function(index){
-
-    })
-}
-
-
-function addData(chart, label, data) {
-    chart.data.labels.push(label);
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
-    });
-    chart.update();
-}
-
-
-function removeData(chart) {
-    chart.data.labels.pop();
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.pop();
-    });
-    chart.update();
-}
 

@@ -30,59 +30,56 @@
 <header class="fixed-top" th:insert="header :: header"></header>
 <main>
   <div id="dashboard">
-    <div class="bg-light position-fixed ml-3 p-2 m-2  shadow" id="dash-navigation">
-<!--      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">-->
-<!--        <div class="pl-3 pt-3 pb-3">-->
-<!--          <i class="fas fa-user fa-2x"></i>-->
-<!--          <span class="text-white pl-3" sec:authentication="name"></span>-->
-<!--        </div>-->
-<!--        <a class="nav-link active" id="v-pills-create-tab" data-toggle="pill" href="#v-pills-create" role="tab"-->
-<!--           aria-controls="v-pills-create" aria-selected="true">CREATE</a>-->
-<!--        <a class="nav-link" id="v-pills-search-tab" data-toggle="pill" href="#v-pills-search" role="tab"-->
-<!--           aria-controls="v-pills-search" aria-selected="false">SEARCH</a>-->
-<!--        <a class="nav-link" id="v-pills-tools-tab" data-toggle="pill" href="#v-pills-tools" role="tab"-->
-<!--           aria-controls="v-pills-tools" aria-selected="false">TOOLS</a>-->
-<!--        <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"-->
-<!--           aria-controls="v-pills-settings" aria-selected="false">SETTINGS</a>-->
-<!--      </div>-->
-      <div class="flex-column">
-        <div>
-          <div class="flex-row d-flex justify-content-between align-items-center pb-2 border-bottom">
-            <p class="mb-0 font-weight-bold">Current Diet Plans</p>
-            <div>
-              <button id="sync-diet-plans" class="btn btn-primary btn-sm" type="button">
-                <i class="fas fa-sync"></i>
-              </button>
-
-            </div>
-          </div>
-          <div class="py-2">
-            <p class="mb-0">Create a New Diet</p>
-            <form id="addDietPlan" class="form-inline border-bottom d-flex justify-content-between">
-              <div class="form-group mb-2">
-                <label for="diet-name" class="sr-only"></label>
-                <input type="text" class="form-control" id="diet-name" placeholder="Diet Name" name="name">
-              </div>
-              <button class="btn btn-primary btn-sm" type="submit">
-                <i class="fas fa-plus"></i>
-              </button>
-            </form>
-          </div>
-
-          <ul id="diets-found" class="pl-0 list-group list-group-flush">
-
-          </ul>
+    <div class="bg-secondary position-fixed p-2" id="dash-navigation">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <div class="pl-3 pt-3 pb-3">
+          <i class="fas fa-user fa-2x"></i>
+          <span class="text-white pl-3" sec:authentication="name"></span>
         </div>
+        <a class="nav-link active" id="v-pills-create-tab" data-toggle="pill" href="#v-pills-create" role="tab"
+           aria-controls="v-pills-create" aria-selected="true">CREATE</a>
+        <a class="nav-link" id="v-pills-search-tab" data-toggle="pill" href="#v-pills-search" role="tab"
+           aria-controls="v-pills-search" aria-selected="false">SEARCH</a>
+        <a class="nav-link" id="v-pills-tools-tab" data-toggle="pill" href="#v-pills-tools" role="tab"
+           aria-controls="v-pills-tools" aria-selected="false">TOOLS</a>
+        <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
+           aria-controls="v-pills-settings" aria-selected="false">SETTINGS</a>
       </div>
     </div>
     <div id="dash-data">
-      <div class="container pt-3 bg-white">
+      <div class="container pt-4 bg-white">
         <div class="tab-content" id="v-pills-tabContent">
           <div class="tab-pane fade show active" id="v-pills-create" role="tabpanel"
                aria-labelledby="v-pills-create-tab">
 
             <!-- Create Diet Plan -->
             <section class="mt-3">
+              <div class="d-flex flex-row align-items-center">
+                <h3 class="mr-3">Create a Diet Plan</h3>
+                <!--                <button type="button" class="btn btn-warning " data-toggle="tooltip" data-placement="right"-->
+                <!--                        title="drag and drop foods to rearrange order">-->
+                <!--                  <i class="fas fa-question"></i>-->
+                <!--                </button>-->
+              </div>
+
+              <div id="create-diet-container">
+                <!--Create Diet-->
+                <form id="addDietPlan">
+                  <div class="form-group row">
+                    <label for="dietName" class="col-sm-2 col-form-label">Diet Name</label>
+                    <div class="col-sm-10 col-lg-3">
+                      <input id="dietName" type="text" class="form-control" placeholder="My Smart Diet" name="name"
+                             required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-10">
+                      <button class="btn btn-primary" type="submit">Create</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
               <div id="diet-container">
                 <div id="diet-info"></div>
                 <div id="diet-total-nutrients"></div>
@@ -129,23 +126,23 @@
             </section>
 
             <!--View all foods-->
-<!--            <section class="mt-3 mb-3">-->
-<!--              <div class="">-->
-<!--                <button id="viewAllFoods" type="submit" class="btn btn-primary">-->
-<!--                  View All Foods-->
-<!--                </button>-->
-<!--              </div>-->
-<!--            </section>-->
+            <!--            <section class="mt-3 mb-3">-->
+            <!--              <div class="">-->
+            <!--                <button id="viewAllFoods" type="submit" class="btn btn-primary">-->
+            <!--                  View All Foods-->
+            <!--                </button>-->
+            <!--              </div>-->
+            <!--            </section>-->
 
             <!--Find Diet Plans-->
-<!--            <section class="mt-3 mb-3">-->
-<!--              <form>-->
-<!--                <legend>-->
-<!--                  <h3 class="font-bold">View Diet Plans</h3>-->
-<!--                </legend>-->
+            <!--            <section class="mt-3 mb-3">-->
+            <!--              <form>-->
+            <!--                <legend>-->
+            <!--                  <h3 class="font-bold">View Diet Plans</h3>-->
+            <!--                </legend>-->
 
-<!--              </form>-->
-<!--            </section>-->
+            <!--              </form>-->
+            <!--            </section>-->
 
           </div>
           <div class="tab-pane fade" id="v-pills-tools" role="tabpanel" aria-labelledby="v-pills-tools-tab">
@@ -423,7 +420,7 @@
                     " &#x25CF Protein: " +
                     results[index].protein +
                     "</li>")
-              JSON.stringify(results[index])
+                JSON.stringify(results[index])
             })
             $("#search-food-name").val('')
         }).fail(function () {
@@ -477,7 +474,7 @@
     })
 </script>
 
-<!--Chart JS-->
+//Chart JS
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
 <script>
@@ -504,15 +501,15 @@
 </script>
 
 <script>
-  $(document).on('submit', '#search-diet-form', function(e){
-     e.preventDefault();
-     var dietID = $("#search-diet").val()
-      console.log(dietID)
+    $(document).on('submit', '#search-diet-form', function(e){
+        e.preventDefault();
+        var dietID = $("#search-diet").val()
+        console.log(dietID)
 
-     $.getJSON("/dietplan/" + $("#search-diet").val(), function (results) {
-         console.log(results)
-     })
-  })
+        $.getJSON("/dietplan/" + $("#search-diet").val(), function (results) {
+            console.log(results)
+        })
+    })
 </script>
 </body>
 </html>
