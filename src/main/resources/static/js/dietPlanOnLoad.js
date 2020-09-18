@@ -33,8 +33,8 @@ function loadDietPlan(dietPlan){
 
                     var table = $('#diet-info table:nth-last-child(2)')
                     $(table).attr('data-meal-name', dietPlan.meals[index].name)
-                    //addData(dietMacros, formData.get("name"),0 )
 
+                    // Check if any foods in a meal
                     if(dietPlan.meals[index].foods != null && dietPlan.meals[index].foods.length){
                         $(dietPlan.meals[index].foods).each(function (j) {
                             var row = $("<tr data-food-name = " + dietPlan.meals[index].foods[j].name + ">")
@@ -51,6 +51,14 @@ function loadDietPlan(dietPlan){
 
                             makeFoodSortable()
                         })
+                        //TEST
+                        var dietNutrients = calculateDietNutrients(selectedDietPlan)
+                        removeAllData(dietMacros)
+                        addData(dietMacros,"carbohydrates", dietNutrients.carbohydrates)
+                        addData(dietMacros,"fat", dietNutrients.fat)
+                        addData(dietMacros,"protein", dietNutrients.protein)
+                        console.log(dietNutrients)
+                        console.log(dietMacros)
                     }else{
                         console.log("No foods in: " + dietPlan.meals[index].name)
                     }
@@ -82,10 +90,21 @@ function getListOfDiets(){
         $.each(results, function (index) {
             console.log(results[index])
             allDietPlans.push(results[index])
+
+            var dietNutrients = calculateDietNutrients(results[index])
+
             list.append("<a class='found-diet list-group-item list-group-item-action bg-light'>" +
                 "<h5 class='text-primary'>" +
                 results[index].name +
                 "</h5>" +
+                "Calories: " +
+                dietNutrients.calories + " cal" +
+                " &#x25CF Carbs: " +
+                dietNutrients.carbohydrates + "g" +
+                " &#x25CF Fat: " +
+                dietNutrients.fat + "g" +
+                " &#x25CF Protein: " +
+                dietNutrients.protein + "g" +
                 "</a>")
             JSON.stringify(results[index])
             console.log(results)
@@ -96,10 +115,9 @@ function getListOfDiets(){
 
 // Loads a diet if screen was refreshed
 $(document).ready(function(){
-    selectedDietPlan = JSON.parse(sessionStorage.getItem("dietplan"))
-
-    loadDietPlan(selectedDietPlan)
-
+    // selectedDietPlan = JSON.parse(sessionStorage.getItem("dietplan"))
+    //
+    // loadDietPlan(selectedDietPlan)
     getListOfDiets()
 })
 

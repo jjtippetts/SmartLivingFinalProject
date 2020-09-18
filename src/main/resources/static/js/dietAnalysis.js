@@ -47,6 +47,27 @@ function calculateMealNutrients(mealName){
     })
 }
 
+function calculateDietNutrients(dietPlan){
+    var dietNutrients = {
+        calories : 0,
+        carbohydrates : 0,
+        fat : 0,
+        protein : 0
+    }
+    var dietPlanTotalNutrients = {}
+    $(dietPlan.meals).each(function(index){
+        if(dietPlan.meals[index].foods != null && dietPlan.meals[index].foods.length){
+            var mealNutrients = calculateSum(dietPlan.meals[index].foods)
+            dietNutrients.calories += mealNutrients.calories
+            dietNutrients.carbohydrates += mealNutrients.carbohydrates
+            dietNutrients.protein += mealNutrients.protein
+            dietNutrients.fat += mealNutrients.fat
+        }
+
+    })
+    return dietNutrients
+}
+
 
 function updateGraph(){
     $(".meal-name-row").each(function(index){
@@ -78,4 +99,12 @@ function removeData(chart) {
         dataset.data.pop();
     });
     chart.update();
+}
+
+function removeAllData(chart) {
+    chart.data.labels = []
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data = []
+    });
+
 }

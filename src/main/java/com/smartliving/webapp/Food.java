@@ -37,8 +37,8 @@ public class Food {
 //    private boolean approved;
 
     //@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "foods", fetch = FetchType.LAZY)
-    @ManyToMany(mappedBy = "foods")
     @JsonIgnore
+    @ManyToMany(mappedBy = "foods")
     private List<Meal> meals;
 
     public void setMeals(List<Meal> meals){

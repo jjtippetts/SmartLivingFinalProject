@@ -21,7 +21,7 @@ public class Meal {
     private String name;
 
     //@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(name = "meal_foods",
         joinColumns = {
             @JoinColumn(name = "meal_id", referencedColumnName = "id")},

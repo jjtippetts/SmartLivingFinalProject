@@ -28,9 +28,11 @@ public class LoadDatabase {
         Food applePie = new Food("Apple Pie", 200, 20, 8, 3);
         foodRepository.save(applePie);
         Meal breakfast = new Meal("Breakfast");
+        breakfast.addFood(applePie);
         breakfast.addFood(apple);
 
         Meal lunch = new Meal("Lunch");
+        lunch.addFood(apple);
         lunch.addFood(apple);
 
         DietPlan smartDiet = new DietPlan("Smart Diet");

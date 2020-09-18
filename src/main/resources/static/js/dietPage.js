@@ -194,6 +194,29 @@ $(document).on("submit", ".addFoodToDiet", function (e) {
         food[key]=value;
     });
 
+    var jsonFood = JSON.stringify(food)
+
+    $.ajax({
+        type: "POST",
+        url: "/food",
+        data: jsonFood,
+        headers: {
+            // Important that content type is used to accept json. jquery .post does not work because content type
+            // can't be specified
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        success: function (results) {
+            console.log(results.id)
+            food['id'] = results.id
+            console.log(results)
+        },
+        error: function (results) {
+            console.log(results)
+        }
+    })
+
+
 
     // Add meal to Diet Plan object to be submitted
     selectedDietPlan.meals.forEach(function(meal){
@@ -279,14 +302,14 @@ $(document).on('submit', '#submit-entire-diet', function (event) {
     })
 })
 
-
+// ** Not currently supported
 // If diet plan is set save it to the session
 $(window).on('unload', function(){
 
     // If diet plan is set
-    if(!jQuery.isEmptyObject(selectedDietPlan)){
-        sessionStorage.setItem("dietplan", JSON.stringify(selectedDietPlan))
-    }
+    // if(!jQuery.isEmptyObject(selectedDietPlan)){
+    //     sessionStorage.setItem("dietplan", JSON.stringify(selectedDietPlan))
+    // }
 
 })
 

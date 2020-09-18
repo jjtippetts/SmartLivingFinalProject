@@ -2,6 +2,10 @@ $main-color: #90E0EF;
 $secondary-color: #f4a261;
 $secondary-color-hover: #cf6348;
 
+.bg-main-color {
+  background-color: $main-color;
+}
+
 .jumbotron{
   background-color: $main-color;
   padding-bottom:80px;
@@ -17,7 +21,7 @@ td label {
 }
 
 body {
-  padding-top: 56px;
+  padding-top: 88px;
 }
 
 .nav-item {
