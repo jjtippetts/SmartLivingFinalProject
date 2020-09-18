@@ -7,10 +7,13 @@ var allDietPlans = []
 function loadDietPlan(dietPlan){
     if(!jQuery.isEmptyObject(dietPlan)){
         // Check if there is a diet name
-        console.log(dietPlan)
         if(dietPlan.name != null){
 
             createDietPlanHTML(dietPlan.name)
+
+            // Create MacroPie Graph
+            var dietNutrients = calculateDietNutrients(selectedDietPlan)
+            initializeDietMacroPieChart(dietMacros,[dietNutrients.carbohydrates,dietNutrients.fat,dietNutrients.protein])
 
             // Check if any meals
             if(dietPlan.meals != null && dietPlan.meals.length){
@@ -51,14 +54,7 @@ function loadDietPlan(dietPlan){
 
                             makeFoodSortable()
                         })
-                        //TEST
-                        var dietNutrients = calculateDietNutrients(selectedDietPlan)
-                        removeAllData(dietMacros)
-                        addData(dietMacros,"carbohydrates", dietNutrients.carbohydrates)
-                        addData(dietMacros,"fat", dietNutrients.fat)
-                        addData(dietMacros,"protein", dietNutrients.protein)
-                        console.log(dietNutrients)
-                        console.log(dietMacros)
+
                     }else{
                         console.log("No foods in: " + dietPlan.meals[index].name)
                     }
@@ -83,12 +79,10 @@ function loadDietPlan(dietPlan){
 function getListOfDiets(){
     // Get List of diet plans
     $.getJSON("/dietplan", function (results) {
-        console.log(results)
         var list = $("#diets-found")
         //Remove previous queries if any
         list.html("")
         $.each(results, function (index) {
-            console.log(results[index])
             allDietPlans.push(results[index])
 
             var dietNutrients = calculateDietNutrients(results[index])
@@ -107,7 +101,6 @@ function getListOfDiets(){
                 dietNutrients.protein + "g" +
                 "</a>")
             JSON.stringify(results[index])
-            console.log(results)
         })
     })
 }
@@ -124,12 +117,11 @@ $(document).ready(function(){
 
 // when user clicks on a found diet. It loads the diet to the page.
 $(document).on('click', '.found-diet', function(e){
-    var dietName = $(this).text()
+    var dietName = $(this).find('h5').text()
+    console.log($(this).text())
 
     $(allDietPlans).each(function(index){
-        console.log(allDietPlans[index])
         if(allDietPlans[index].name === dietName){
-            console.log("FOUND!")
             selectedDietPlan = allDietPlans[index]
         }
     })

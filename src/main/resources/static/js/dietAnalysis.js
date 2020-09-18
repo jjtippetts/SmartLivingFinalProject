@@ -35,7 +35,6 @@ function calculateSum(listOfFoods) {
 function calculateMealNutrients(mealName){
     var mealNutrientTotal = $("[data-meal-name='" + mealName +"']")
 
-    console.log(selectedDietPlan.meals)
     selectedDietPlan.meals.forEach(function(meal) {
         if (meal.name === mealName) {
             var mealTotals = calculateSum(meal.foods)
@@ -68,43 +67,36 @@ function calculateDietNutrients(dietPlan){
     return dietNutrients
 }
 
+// ***Prototypes***
+// function addData(chart, label, data) {
+//     chart.data.labels.push(label);
+//     chart.data.datasets.forEach((dataset) => {
+//         dataset.data.push(data);
+//     });
+//     chart.update();
+// }
+//
+//
+// function removeData(chart) {
+//     chart.data.labels.pop();
+//     chart.data.datasets.forEach((dataset) => {
+//         dataset.data.pop();
+//     });
+//     chart.update();
+// }
 
-function updateGraph(){
-    $(".meal-name-row").each(function(index){
-        console.log($(this).children())
-    })
-}
-
-
-function updateCaloriePercentage(){
-    var mealNutrients = $(".sum")
-    $(mealNutrients).each(function(index){
-
-    })
-}
-
-
-function addData(chart, label, data) {
-    chart.data.labels.push(label);
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
-    });
+function initializeDietMacroPieChart(chart, data){
+    console.log(chart.data.datasets[0].data)
+    chart.data.datasets[0].data = data
+    console.log(chart.data.datasets[0].data)
     chart.update();
 }
 
-
-function removeData(chart) {
-    chart.data.labels.pop();
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.pop();
-    });
-    chart.update();
-}
-
-function removeAllData(chart) {
-    chart.data.labels = []
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data = []
-    });
-
+function updateDietMacroPieChart(chart, data){
+    $(data).each(function(index){
+        console.log(chart.data.datasets[0].data[index])
+        console.log(data[index])
+        chart.data.datasets[0].data[index] += data[index]
+        chart.update()
+    })
 }

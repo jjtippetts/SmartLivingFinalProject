@@ -82,6 +82,25 @@
 
             <!-- Create Diet Plan -->
             <section class="mt-3">
+
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item "><a class="page-link" href="#">1</a></li>
+                  <li class="page-item "><a class="page-link" href="#">2</a></li>
+                  <li class="page-item "><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+
               <div id="diet-container">
                 <div id="diet-info"></div>
                 <div id="diet-total-nutrients"></div>
@@ -492,10 +511,10 @@
     var dietMacros = new Chart(document.getElementById("pie-chart"), {
         type: 'pie',
         data: {
-            labels: [],
+            labels: ["carbs","fat","protein"],
             datasets: [{
                 backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"],
-                data: []
+                data: [0,0,0]
                 //"#e8c3b9","#c45850"
                 // label: "Population (millions)",
                 // backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],

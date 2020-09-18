@@ -5,11 +5,12 @@ var addFoodData = {
 }
 
 var selectedDietPlan = {}
+var dietSaved = true
 
 function createDietPlanHTML(dietPlanName){
     $("#name-of-diet").remove()
     $("#diet-container").prepend("<div id='name-of-diet' class='d-flex justify-content-between pb-2'> " + "<h3>Diet Name: " + dietPlanName + "</h3>" +
-        "<form id=\"submit-entire-diet\">" + "<button type=\"submit\" class=\"btn btn-primary\">Save Diet</button>" + "</form>" + "</div>")
+        "<form id=\"submit-entire-diet\">" + "<button type=\"submit\" class=\"btn btn-primary\">Save Diet</button></form>" + "</div>" + "<div id='submit-diet-alert'></div>")
     // Add a form to enter in a meal name
     $("#diet-info").html(addMealTable)
     // Add a section for the total nutrients for all meals
@@ -125,6 +126,9 @@ form.addEventListener("submit", function(event){
     event.preventDefault();
     selectedDietPlan = {}
 
+    // Reset macro pie graph if diet plan was loaded
+    initializeDietMacroPieChart(dietMacros,[0,0,0])
+
     // Extract from name and values and create object to send to controller
     formData.forEach(function(value,key){
         selectedDietPlan[key]=value;
@@ -132,6 +136,7 @@ form.addEventListener("submit", function(event){
     console.log(selectedDietPlan)
 
     createDietPlanHTML(selectedDietPlan.name)
+
     //Reset form value
     $('#diet-name').val('')
 })
@@ -177,7 +182,7 @@ $(document).on("submit", "form.create-meal", function (e) {
         group: "shared",
     });
     $(table).attr('data-meal-name', formData.get("name"))
-    addData(dietMacros, formData.get("name"),0 )
+
 })
 
 //Adding a food to a Meal
@@ -216,8 +221,6 @@ $(document).on("submit", ".addFoodToDiet", function (e) {
         }
     })
 
-
-
     // Add meal to Diet Plan object to be submitted
     selectedDietPlan.meals.forEach(function(meal){
         // if(meal.name === $(formElement).data('data-meal-name')){
@@ -254,6 +257,14 @@ $(document).on("submit", ".addFoodToDiet", function (e) {
 
     // Make food items sortable
     makeFoodSortable()
+
+    var carbs = parseInt(formData.get("carbohydrates"))
+    var fat = parseInt(formData.get("fat"))
+    var protein = parseInt(formData.get("protein"))
+
+    updateDietMacroPieChart(dietMacros,[carbs,fat,protein])
+
+    dietSaved = false
 });
 
 
@@ -271,7 +282,7 @@ $(document).on('click', '.rm-food', function (event) {
             })
         }
     })
-    console.log(selectedDietPlan)
+
     $(this).parent().parent().remove()
     calculateMealNutrients(mealName)
     calculateTotalSum()
@@ -280,6 +291,21 @@ $(document).on('click', '.rm-food', function (event) {
 
 // Saves Diet Plan
 $(document).on('submit', '#submit-entire-diet', function (event) {
+    // $('.alert').alert()
+    var successAlert = "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">\n" +
+        "  <p class='font-weight-bold'>Diet Plan Saved</p>" +
+        "  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n" +
+        "    <span aria-hidden=\"true\">&times;</span>\n" +
+        "  </button>\n" +
+        "</div>"
+
+    var failAlert = "<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\n" +
+        "  <p class='font-weight-bold'>Error in Saving Diet Plan</p>" +
+        "  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n" +
+        "    <span aria-hidden=\"true\">&times;</span>\n" +
+        "  </button>\n" +
+        "</div>"
+
     event.preventDefault()
     var json = JSON.stringify(selectedDietPlan);
     $.ajax({
@@ -295,8 +321,20 @@ $(document).on('submit', '#submit-entire-diet', function (event) {
         success: function (results) {
             selectedDietPlan = results
             console.log(results)
+            $("#submit-diet-alert").html(successAlert)
+            window.setTimeout(function() {
+                $(".alert").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, 3000);
         },
         error: function (results) {
+            $("#submit-diet-alert").html(failAlert)
+            window.setTimeout(function() {
+                $(".alert").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, 3000);
             console.log(results)
         }
     })
