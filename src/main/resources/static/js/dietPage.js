@@ -4,6 +4,8 @@ var addFoodData = {
     counter: 0
 }
 
+var selectedFood = {}
+
 var selectedDietPlan = {}
 var dietSaved = true
 
@@ -14,7 +16,7 @@ function createDietPlanHTML(dietPlanName){
     // Add a form to enter in a meal name
     $("#diet-info").html(addMealTable)
     // Add a section for the total nutrients for all meals
-    $("#diet-total-nutrients").html("<table class='table'><thead>" +
+    $("#diet-total-nutrients").html("<table class='table table-sm'><thead>" +
         "<tr class='table-primary'><th colspan='6'>Diet Totals</th></tr>" +
         nutrientHeaders + "</thead><tbody>" + nutrientTotals + "</tbody></table>")
 }
@@ -75,7 +77,7 @@ function moveFood(foodName, newPosition,mealAddedTo, mealRemovedFrom){
 
 // Injected Form to create meal after creating a diet plan
 var addMealTable =
-    "<table class=\"table table-striped meal\">\n" +
+    "<table class=\"table table-sm table-striped meal\">\n" +
     "  <thead>\n" +
     "<tr class=\"meal-name-row table-primary\">\n" +
     "      <th colspan=\"2\">\n" +
@@ -103,7 +105,7 @@ var nutrientHeaders =
     "  <th scope=\"col\" style='width: 10%'></th>\n" +
     "  <th scope=\"col\" style='width: 18%'>Name</th>\n" +
     "  <th scope=\"col\" style='width: 18%'>Calories</th>\n" +
-    "  <th scope=\"col\" style='width: 18%'>Carbohydrates</th>\n" +
+    "  <th scope=\"col\" style='width: 18%'>Carbs</th>\n" +
     "  <th scope=\"col\" style='width: 18%'>Fat</th>\n" +
     "  <th scope=\"col\" style='width: 18%'>Protein</th>\n" +
     "</tr>\n"
@@ -351,3 +353,88 @@ $(window).on('unload', function(){
 
 })
 
+// Add food to meal when clicked
+$(document).on('click', ".food-found", function (event) {
+    event.preventDefault();
+    $(this).addClass("active")
+
+    selectedFood = {
+        id : parseInt($(this).attr('data-food-id')),
+        name : $(this).find(".food-name-found").text(),
+        calories : parseInt($(this).find(".food-calories-found").text()),
+        carbohydrates : parseInt($(this).find(".food-carbs-found").text()),
+        fat : parseInt($(this).find(".food-fat-found").text()),
+        protein : parseInt($(this).find(".food-protein-found").text())
+    }
+
+    // var formData = new FormData($("#add-food-to-meal")[0])
+    // console.log(formData)
+    // console.log($("#add-food-to-meal")[0])
+    // console.log($("#add-food-to-meal"))
+
+    // formData.forEach(function(value,key){
+    //     console.log(value)
+    //     console.log(key)
+    //     // food[key]=value;
+    // });
+
+
+
+    var template = $('#add-food-modal').html()
+    var addFoodModalHtml = Mustache.render(template,selectedFood)
+    $("#selected-food-modal").html(addFoodModalHtml)
+
+    $(selectedDietPlan.meals).each(function(index) {
+        $("#list-of-meals").append("<option>" + selectedDietPlan.meals[index].name + "</option>")
+    })
+
+    $("#exampleModal").modal('show')
+
+})
+
+$(document).on('submit','#add-food-to-meal',function(event){
+    event.preventDefault()
+    var formData = new FormData($(this)[0])
+    console.log(formData)
+    var data = {}
+
+    formData.forEach(function(value,key){
+        data[key]=value;
+    });
+    // console.log(meal)
+
+
+    $(selectedDietPlan.meals).each(function(index){
+        if(selectedDietPlan.meals[index].name == data['meal']){
+            if(selectedDietPlan.meals[index].foods == null){
+                selectedDietPlan.meals[index].foods = [selectedFood]
+            }
+            else{
+                selectedDietPlan.meals[index].foods.push(selectedFood)
+            }
+        }
+    })
+
+    console.log(selectedDietPlan)
+
+})
+
+$(document).on('click','.btn-next', function(event){
+    console.log("Clicked")
+    var tab =  $('#diet-slide-options .active').parent().next('li').find('a')
+    if(tab.length){
+        $(tab).trigger('click');
+    }else{
+        tab = $('#diet-slide-options li:first-child a').trigger('click')
+    }
+})
+
+$(document).on('click','.btn-previous', function(event){
+    console.log("Clicked")
+    var tab =  $('#diet-slide-options .active').parent().prev('li').find('a')
+    if(tab.length){
+        $(tab).trigger('click');
+    }else{
+        tab = $('#diet-slide-options li:last a').trigger('click')
+    }
+})

@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Configuration
 public class LoadDatabase {
 
@@ -23,21 +26,38 @@ public class LoadDatabase {
      */
     @Bean
     CommandLineRunner initDatabase(FoodRepository foodRepository, MealRepository mealRepository, DietRepository dietRepository, UserRepository userRepository){
+        // Sample Diet
+
+        // Breakfast Foods
+        Food almondMilk = new Food("Almond Milk", 30,1,3,1);
+        Food honeyNutCheerios = new Food("Honey Nut Cheerios", 140, 30, 2,3);
+
+        // Lunch Foods
         Food apple = new Food("Apple", 40, 10, 0,0);
-        foodRepository.save(apple);
-        Food applePie = new Food("Apple Pie", 200, 20, 8, 3);
-        foodRepository.save(applePie);
+        Food whiteBread = new Food("White Bread", 90, 19,0,3);
+        Food ham = new Food("Ham", 50, 1,2,8);
+        Food cheese = new Food("Cheese", 120, 10,1,6);
+        Food mayo = new Food("Mayo", 90,0,10,0);
+
+
+        List<Food> foods = Arrays.asList(almondMilk,honeyNutCheerios,apple,whiteBread,ham,cheese,mayo);
+        foodRepository.saveAll(foods);
+
         Meal breakfast = new Meal("Breakfast");
-        breakfast.addFood(applePie);
-        breakfast.addFood(apple);
+        breakfast.addFood(almondMilk);
+        breakfast.addFood(honeyNutCheerios);
 
         Meal lunch = new Meal("Lunch");
-        lunch.addFood(apple);
+        lunch.addFood(whiteBread);
+        lunch.addFood(ham);
+        lunch.addFood(cheese);
+        lunch.addFood(mayo);
         lunch.addFood(apple);
 
         DietPlan smartDiet = new DietPlan("Smart Diet");
-        smartDiet.addMeal(lunch);
         smartDiet.addMeal(breakfast);
+        smartDiet.addMeal(lunch);
+
 
         User user = new User("jordan","jordan@gmail.com",passwordEncoder.encode("password"));
         user.addDietPlan(smartDiet);
@@ -47,9 +67,9 @@ public class LoadDatabase {
         userRepository.save(user1);
 
         return args -> {
+            log.info("Preloading " + foods);
             log.info("Preloading " + apple);
             log.info("Preloading " + breakfast);
-            log.info("Preloading " + foodRepository.save(new Food("Ham", 90, 10, 10,10)));
             log.info("Preloading " + user);
             log.info("Preloading " + userRepository.save(new User("doe","doe@gmail.com","doepassword")));
         };

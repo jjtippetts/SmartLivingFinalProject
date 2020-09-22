@@ -18,12 +18,15 @@ function loadDietPlan(dietPlan){
             // Check if any meals
             if(dietPlan.meals != null && dietPlan.meals.length){
                 $(dietPlan.meals).each(function(index){
+                    $("#list-of-meals").append("<option>" + dietPlan.meals[index].name +"</option>")
+
+                    // Add form to add meal
                     addFoodData.counter += 1
                     var template = $("#add-food-form").html()
                     var addFoodFormHtml = Mustache.render(template,addFoodData)
 
                     $('#diet-info table:nth-last-child(1)').before(
-                        "<table class=\"table table-striped meal\" data-meal-name='" + dietPlan.meals[index].name  +"'>\n" +
+                        "<table class=\"table table-striped meal table-sm\" data-meal-name='" + dietPlan.meals[index].name  +"'>\n" +
                         "  <thead>\n" +
                         "    <tr class=\"meal-name-row table-primary\">\n" +
                         "      <th colspan='6'>" + dietPlan.meals[index].name + "</th>" +
@@ -47,7 +50,7 @@ function loadDietPlan(dietPlan){
                             row.append("<td>" + dietPlan.meals[index].foods[j].carbohydrates + "</td>");
                             row.append("<td>" + dietPlan.meals[index].foods[j].fat + "</td>");
                             row.append("<td>" + dietPlan.meals[index].foods[j].protein + "</td>");
-                            $(table).find('tbody').prepend(row)
+                            $(table).find('tbody tr:nth-last-child(2)').before(row)
 
                             calculateMealNutrients(dietPlan.meals[index].name)
                             calculateTotalSum()
@@ -117,6 +120,7 @@ $(document).ready(function(){
 
 // when user clicks on a found diet. It loads the diet to the page.
 $(document).on('click', '.found-diet', function(e){
+    $(this).addClass('active')
     var dietName = $(this).find('h5').text()
     console.log($(this).text())
 

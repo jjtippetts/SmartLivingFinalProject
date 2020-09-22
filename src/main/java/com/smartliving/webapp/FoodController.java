@@ -94,7 +94,7 @@ public class FoodController {
 
     @GetMapping("/food/{name}")
     List<Food> multiple(@PathVariable String name) {
-        return foodRepository.findByNameContaining(name);
+        return foodRepository.findByNameContainingIgnoreCase(name);
     }
 
     @PostMapping(path = "/food", consumes = MediaType.ALL_VALUE)

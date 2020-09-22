@@ -1,4 +1,4 @@
-.nav-pills {
+header .nav-pills {
   .nav-link {
     background-color: transparent;
     color: white;
@@ -9,25 +9,14 @@
   }
 }
 
-html {
-  height: 100%;
-  body {
-    height: 100%;
-    main {
-      height: calc(100%);
-      #dashboard {
-        height: 100%;
-        #dash-navigation{
-          height: calc(90%);
-          width: 350px;
-        }
-        #dash-data{
-          min-height: 100%;
-          padding-left: 374px;
-        }
-      }
-    }
-  }
+#dash-navigation {
+  min-height: 60vh;
+  max-height: 80vh;
+}
+
+#dash-search {
+  min-height: 20vh;
+  max-height: 100vh;
 }
 
 .aFood > *{
@@ -42,3 +31,24 @@ html {
 th label {
   display: none;
 }
+
+label[for="search-food-name"] {
+  display: none;
+}
+
+.list-group-item {
+  transition: background-color .75s ease;
+}
+
+.list-group-item:hover {
+  background-color: #dae0e5 !important;
+  transition: background-color .75s ease;
+}
+
+.list-group-item.active{
+  color: inherit;
+  background-color: #dae0e5 !important;
+  transition: background-color .75s ease;
+}
+
+
