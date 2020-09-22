@@ -28,8 +28,10 @@ public class FoodController {
 
     // DIETPLANS
     @GetMapping("/dietplan")
-    List<DietPlan> allDietPlans(){
-        return dietRepository.findAll();
+    List<DietPlan> allDietPlans(Principal principal){
+        String username = principal.getName();
+        User user = userRepository.getUserByUsername(username);
+        return dietRepository.findByUser_Id(user.getId());
     }
 
     @GetMapping("/dietplan/{id}")
@@ -92,7 +94,7 @@ public class FoodController {
 
     @GetMapping("/food/{name}")
     List<Food> multiple(@PathVariable String name) {
-        return foodRepository.findByNameContaining(name);
+        return foodRepository.findByNameContainingIgnoreCase(name);
     }
 
     @PostMapping(path = "/food", consumes = MediaType.ALL_VALUE)

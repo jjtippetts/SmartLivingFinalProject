@@ -8,4 +8,5 @@ interface DietRepository extends JpaRepository<DietPlan, Long> {
 
     List<DietPlan> findByName(String name);
     List<DietPlan> findByNameContaining(String name);
+    List<DietPlan> findByUser_Id(Long Id);
 }

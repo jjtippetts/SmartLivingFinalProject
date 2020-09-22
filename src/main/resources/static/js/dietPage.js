@@ -4,21 +4,19 @@ var addFoodData = {
     counter: 0
 }
 
-var dietPlan = {}
+var selectedFood = {}
 
-function updateGraph(){
-    $(".meal-name-row").each(function(index){
-        console.log($(this).children())
-    })
-}
+var selectedDietPlan = {}
+var dietSaved = true
 
-function createDietPlanHTML(){
-    $("#create-diet-container").html("<div class='d-flex justify-content-between pb-2'> " + "<h3>Diet Name: " + dietPlan.name + "</h3>" +
-        "<form id=\"submit-entire-diet\">" + "<button type=\"submit\" class=\"btn btn-primary\">Save Diet</button>" + "</form>" + "</div>")
+function createDietPlanHTML(dietPlanName){
+    $("#name-of-diet").remove()
+    $("#diet-container").prepend("<div id='name-of-diet' class='d-flex justify-content-between pb-2'> " + "<h3>Diet Name: " + dietPlanName + "</h3>" +
+        "<form id=\"submit-entire-diet\">" + "<button type=\"submit\" class=\"btn btn-primary\">Save Diet</button></form>" + "</div>" + "<div id='submit-diet-alert'></div>")
     // Add a form to enter in a meal name
     $("#diet-info").html(addMealTable)
     // Add a section for the total nutrients for all meals
-    $("#diet-total-nutrients").html("<table class='table'><thead>" +
+    $("#diet-total-nutrients").html("<table class='table table-sm'><thead>" +
         "<tr class='table-primary'><th colspan='6'>Diet Totals</th></tr>" +
         nutrientHeaders + "</thead><tbody>" + nutrientTotals + "</tbody></table>")
 }
@@ -58,7 +56,7 @@ function makeFoodSortable(){
 // Moves a food object between meals
 function moveFood(foodName, newPosition,mealAddedTo, mealRemovedFrom){
     var addedFood = {}
-    dietPlan.meals.forEach(function(meal) {
+    selectedDietPlan.meals.forEach(function(meal) {
         if (meal.name === mealRemovedFrom) {
             meal.foods.forEach(function(food, index){
                 if(food.name === foodName){
@@ -70,63 +68,16 @@ function moveFood(foodName, newPosition,mealAddedTo, mealRemovedFrom){
             })
         }
     })
-    dietPlan.meals.forEach(function(meal, index) {
+    selectedDietPlan.meals.forEach(function(meal, index) {
         if (meal.name === mealAddedTo) {
             meal.foods.splice(newPosition, 0, addedFood)
         }
     })
 }
 
-// Calculates the sum of all the nutrients in each meal by traversing the DOM
-function calculateTotalSum() {
-    var totals = $(".sum")
-    var mealName
-    for(var i = 2; i < 6; ++i){
-        var sum = 0;
-        $(totals).each(function(index){
-            var rowItems = totals[index].children
-            sum += parseInt(rowItems[i].textContent)
-        })
-        $("#nutrient-totals").children().eq(i).text(sum)
-    }
-}
-
-// Calculates the sum of nutrients by traversing the DOM
-function calculateSum(listOfFoods) {
-
-    var mealTotals = {
-        calories : 0,
-        carbohydrates : 0,
-        fat : 0,
-        protein : 0
-    }
-
-    listOfFoods.forEach(function(food){
-        mealTotals.calories += parseInt(food.calories)
-        mealTotals.carbohydrates += parseInt(food.carbohydrates)
-        mealTotals.fat += parseInt(food.fat)
-        mealTotals.protein += parseInt(food.protein)
-    })
-    return mealTotals
-}
-
-function calculateMealNutrients(mealName){
-    var mealNutrientTotal = $("[data-meal-name='" + mealName +"']")
-
-    dietPlan.meals.forEach(function(meal) {
-        if (meal.name === mealName) {
-            var mealTotals = calculateSum(meal.foods)
-            $(mealNutrientTotal).find('.food-calories').text(mealTotals.calories)
-            $(mealNutrientTotal).find('.food-carbohydrates').text(mealTotals.carbohydrates)
-            $(mealNutrientTotal).find('.food-fat').text(mealTotals.fat)
-            $(mealNutrientTotal).find('.food-protein').text(mealTotals.protein)
-        }
-    })
-}
-
 // Injected Form to create meal after creating a diet plan
 var addMealTable =
-    "<table class=\"table table-striped meal\">\n" +
+    "<table class=\"table table-sm table-striped meal\">\n" +
     "  <thead>\n" +
     "<tr class=\"meal-name-row table-primary\">\n" +
     "      <th colspan=\"2\">\n" +
@@ -154,7 +105,7 @@ var nutrientHeaders =
     "  <th scope=\"col\" style='width: 10%'></th>\n" +
     "  <th scope=\"col\" style='width: 18%'>Name</th>\n" +
     "  <th scope=\"col\" style='width: 18%'>Calories</th>\n" +
-    "  <th scope=\"col\" style='width: 18%'>Carbohydrates</th>\n" +
+    "  <th scope=\"col\" style='width: 18%'>Carbs</th>\n" +
     "  <th scope=\"col\" style='width: 18%'>Fat</th>\n" +
     "  <th scope=\"col\" style='width: 18%'>Protein</th>\n" +
     "</tr>\n"
@@ -172,18 +123,24 @@ var nutrientTotals = "<tr id='nutrient-totals' class=\"table-info\">\n" +
 // Create a diet plan
 var form = document.getElementById("addDietPlan")
 form.addEventListener("submit", function(event){
-
     var formData = new FormData(form);
 
     event.preventDefault();
+    selectedDietPlan = {}
+
+    // Reset macro pie graph if diet plan was loaded
+    initializeDietMacroPieChart(dietMacros,[0,0,0])
 
     // Extract from name and values and create object to send to controller
     formData.forEach(function(value,key){
-        dietPlan[key]=value;
+        selectedDietPlan[key]=value;
     });
-    console.log(dietPlan)
+    console.log(selectedDietPlan)
 
-    createDietPlanHTML()
+    createDietPlanHTML(selectedDietPlan.name)
+
+    //Reset form value
+    $('#diet-name').val('')
 })
 
 //Create A meal
@@ -199,13 +156,13 @@ $(document).on("submit", "form.create-meal", function (e) {
         meal[key]=value;
     });
     // Add meal to diet plan object
-    if(dietPlan['meals'] == null){
-        dietPlan['meals'] = [meal]
+    if(selectedDietPlan['meals'] == null){
+        selectedDietPlan['meals'] = [meal]
     }
     else {
-        dietPlan['meals'].push(meal)
+        selectedDietPlan['meals'].push(meal)
     }
-    console.log(dietPlan)
+    console.log(selectedDietPlan)
 
     // Add nutrient headers to meal
     $(formElement).closest("tr").after(nutrientHeaders)
@@ -227,7 +184,7 @@ $(document).on("submit", "form.create-meal", function (e) {
         group: "shared",
     });
     $(table).attr('data-meal-name', formData.get("name"))
-    addData(dietMacros, formData.get("name"),0 )
+
 })
 
 //Adding a food to a Meal
@@ -244,9 +201,30 @@ $(document).on("submit", ".addFoodToDiet", function (e) {
         food[key]=value;
     });
 
+    var jsonFood = JSON.stringify(food)
+
+    $.ajax({
+        type: "POST",
+        url: "/food",
+        data: jsonFood,
+        headers: {
+            // Important that content type is used to accept json. jquery .post does not work because content type
+            // can't be specified
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        success: function (results) {
+            console.log(results.id)
+            food['id'] = results.id
+            console.log(results)
+        },
+        error: function (results) {
+            console.log(results)
+        }
+    })
 
     // Add meal to Diet Plan object to be submitted
-    dietPlan.meals.forEach(function(meal){
+    selectedDietPlan.meals.forEach(function(meal){
         // if(meal.name === $(formElement).data('data-meal-name')){
         if(meal.name === mealName){
             if(meal.foods == null){
@@ -281,6 +259,14 @@ $(document).on("submit", ".addFoodToDiet", function (e) {
 
     // Make food items sortable
     makeFoodSortable()
+
+    var carbs = parseInt(formData.get("carbohydrates"))
+    var fat = parseInt(formData.get("fat"))
+    var protein = parseInt(formData.get("protein"))
+
+    updateDietMacroPieChart(dietMacros,[carbs,fat,protein])
+
+    dietSaved = false
 });
 
 
@@ -289,7 +275,7 @@ $(document).on('click', '.rm-food', function (event) {
     var foodName = $(this).closest('tr').attr('data-food-name')
     var mealName = $(this).closest("table").attr('data-meal-name')
 
-    dietPlan.meals.forEach(function(meal){
+    selectedDietPlan.meals.forEach(function(meal){
         if(meal.name === mealName){
             meal.foods.forEach(function(food, index){
                 if(food.name === foodName){
@@ -298,7 +284,7 @@ $(document).on('click', '.rm-food', function (event) {
             })
         }
     })
-    console.log(dietPlan)
+
     $(this).parent().parent().remove()
     calculateMealNutrients(mealName)
     calculateTotalSum()
@@ -307,8 +293,23 @@ $(document).on('click', '.rm-food', function (event) {
 
 // Saves Diet Plan
 $(document).on('submit', '#submit-entire-diet', function (event) {
+    // $('.alert').alert()
+    var successAlert = "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">\n" +
+        "  <p class='font-weight-bold'>Diet Plan Saved</p>" +
+        "  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n" +
+        "    <span aria-hidden=\"true\">&times;</span>\n" +
+        "  </button>\n" +
+        "</div>"
+
+    var failAlert = "<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\n" +
+        "  <p class='font-weight-bold'>Error in Saving Diet Plan</p>" +
+        "  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n" +
+        "    <span aria-hidden=\"true\">&times;</span>\n" +
+        "  </button>\n" +
+        "</div>"
+
     event.preventDefault()
-    var json = JSON.stringify(dietPlan);
+    var json = JSON.stringify(selectedDietPlan);
     $.ajax({
         type: "POST",
         url: "/dietplan",
@@ -320,49 +321,120 @@ $(document).on('submit', '#submit-entire-diet', function (event) {
             "Content-Type": "application/json",
         },
         success: function (results) {
-            dietPlan = results
+            selectedDietPlan = results
             console.log(results)
+            $("#submit-diet-alert").html(successAlert)
+            window.setTimeout(function() {
+                $(".alert").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, 3000);
         },
         error: function (results) {
+            $("#submit-diet-alert").html(failAlert)
+            window.setTimeout(function() {
+                $(".alert").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, 3000);
             console.log(results)
         }
     })
 })
 
-
+// ** Not currently supported
 // If diet plan is set save it to the session
 $(window).on('unload', function(){
 
     // If diet plan is set
-    if(!jQuery.isEmptyObject(dietPlan)){
-        sessionStorage.setItem("dietplan", JSON.stringify(dietPlan))
-    }
+    // if(!jQuery.isEmptyObject(selectedDietPlan)){
+    //     sessionStorage.setItem("dietplan", JSON.stringify(selectedDietPlan))
+    // }
 
 })
 
+// Add food to meal when clicked
+$(document).on('click', ".food-found", function (event) {
+    event.preventDefault();
+    $(this).addClass("active")
 
-function updateCaloriePercentage(){
-    var mealNutrients = $(".sum")
-    $(mealNutrients).each(function(index){
+    selectedFood = {
+        id : parseInt($(this).attr('data-food-id')),
+        name : $(this).find(".food-name-found").text(),
+        calories : parseInt($(this).find(".food-calories-found").text()),
+        carbohydrates : parseInt($(this).find(".food-carbs-found").text()),
+        fat : parseInt($(this).find(".food-fat-found").text()),
+        protein : parseInt($(this).find(".food-protein-found").text())
+    }
 
+    // var formData = new FormData($("#add-food-to-meal")[0])
+    // console.log(formData)
+    // console.log($("#add-food-to-meal")[0])
+    // console.log($("#add-food-to-meal"))
+
+    // formData.forEach(function(value,key){
+    //     console.log(value)
+    //     console.log(key)
+    //     // food[key]=value;
+    // });
+
+
+
+    var template = $('#add-food-modal').html()
+    var addFoodModalHtml = Mustache.render(template,selectedFood)
+    $("#selected-food-modal").html(addFoodModalHtml)
+
+    $(selectedDietPlan.meals).each(function(index) {
+        $("#list-of-meals").append("<option>" + selectedDietPlan.meals[index].name + "</option>")
     })
-}
 
+    $("#exampleModal").modal('show')
 
-function addData(chart, label, data) {
-    chart.data.labels.push(label);
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
+})
+
+$(document).on('submit','#add-food-to-meal',function(event){
+    event.preventDefault()
+    var formData = new FormData($(this)[0])
+    console.log(formData)
+    var data = {}
+
+    formData.forEach(function(value,key){
+        data[key]=value;
     });
-    chart.update();
-}
+    // console.log(meal)
 
 
-function removeData(chart) {
-    chart.data.labels.pop();
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.pop();
-    });
-    chart.update();
-}
+    $(selectedDietPlan.meals).each(function(index){
+        if(selectedDietPlan.meals[index].name == data['meal']){
+            if(selectedDietPlan.meals[index].foods == null){
+                selectedDietPlan.meals[index].foods = [selectedFood]
+            }
+            else{
+                selectedDietPlan.meals[index].foods.push(selectedFood)
+            }
+        }
+    })
 
+    console.log(selectedDietPlan)
+
+})
+
+$(document).on('click','.btn-next', function(event){
+    console.log("Clicked")
+    var tab =  $('#diet-slide-options .active').parent().next('li').find('a')
+    if(tab.length){
+        $(tab).trigger('click');
+    }else{
+        tab = $('#diet-slide-options li:first-child a').trigger('click')
+    }
+})
+
+$(document).on('click','.btn-previous', function(event){
+    console.log("Clicked")
+    var tab =  $('#diet-slide-options .active').parent().prev('li').find('a')
+    if(tab.length){
+        $(tab).trigger('click');
+    }else{
+        tab = $('#diet-slide-options li:last a').trigger('click')
+    }
+})
