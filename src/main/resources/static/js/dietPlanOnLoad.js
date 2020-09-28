@@ -4,32 +4,30 @@ var allDietPlans = []
 
 
 // Loads a diet plan to the screen
-function loadDietPlan(dietPlan){
-    if(!jQuery.isEmptyObject(dietPlan)){
+function loadDietPlan(dietPlan) {
+    if (!jQuery.isEmptyObject(dietPlan)) {
         // Check if there is a diet name
-        if(dietPlan.name != null){
+        if (dietPlan.name != null) {
 
             createDietPlanHTML(dietPlan.name)
 
-            // Create MacroPie Graph
-            var dietNutrients = calculateDietNutrients(selectedDietPlan)
-            initializeDietMacroPieChart(dietMacros,[dietNutrients.carbohydrates,dietNutrients.fat,dietNutrients.protein])
-
             // Check if any meals
-            if(dietPlan.meals != null && dietPlan.meals.length){
-                $(dietPlan.meals).each(function(index){
-                    $("#list-of-meals").append("<option>" + dietPlan.meals[index].name +"</option>")
+            if (dietPlan.meals != null && dietPlan.meals.length) {
+                $(dietPlan.meals).each(function (index) {
+                    $("#list-of-meals").append("<option>" + dietPlan.meals[index].name + "</option>")
 
                     // Add form to add meal
                     addFoodData.counter += 1
                     var template = $("#add-food-form").html()
-                    var addFoodFormHtml = Mustache.render(template,addFoodData)
+                    var addFoodFormHtml = Mustache.render(template, addFoodData)
+
+                    var mealName = dietPlan.meals[index].name
 
                     $('#diet-info table:nth-last-child(1)').before(
-                        "<table class=\"table table-striped meal table-sm\" data-meal-name='" + dietPlan.meals[index].name  +"'>\n" +
+                        "<table class=\"table table-striped meal table-sm\" data-meal-name='" + mealName + "'>\n" +
                         "  <thead>\n" +
                         "    <tr class=\"meal-name-row table-primary\">\n" +
-                        "      <th colspan='6'>" + dietPlan.meals[index].name + "</th>" +
+                        "      <th colspan='7'>" + mealName + "</th>" +
                         "    </tr>\n" +
                         nutrientHeaders +
                         "  </thead>\n" +
@@ -38,27 +36,37 @@ function loadDietPlan(dietPlan){
                     )
 
                     var table = $('#diet-info table:nth-last-child(2)')
-                    $(table).attr('data-meal-name', dietPlan.meals[index].name)
+                    $(table).attr('data-meal-name', mealName)
 
                     // Check if any foods in a meal
-                    if(dietPlan.meals[index].foods != null && dietPlan.meals[index].foods.length){
+                    if (dietPlan.meals[index].foods != null && dietPlan.meals[index].foods.length) {
                         $(dietPlan.meals[index].foods).each(function (j) {
-                            var row = $("<tr data-food-name = " + dietPlan.meals[index].foods[j].name + ">")
-                            row.append("<td><button class='btn btn-danger rm-food btn-sm'><i class='fas fa-minus'></i></button></td>")
-                            row.append("<td>" + dietPlan.meals[index].foods[j].name + "</td>");
-                            row.append("<td>" + dietPlan.meals[index].foods[j].calories + "</td>");
-                            row.append("<td>" + dietPlan.meals[index].foods[j].carbohydrates + "</td>");
-                            row.append("<td>" + dietPlan.meals[index].foods[j].fat + "</td>");
-                            row.append("<td>" + dietPlan.meals[index].foods[j].protein + "</td>");
+                            //Create food row with data and insert into table
+                            var food = dietPlan.meals[index].foods[j]
+                            var row = createFoodRow(food)
                             $(table).find('tbody tr:nth-last-child(2)').before(row)
 
-                            calculateMealNutrients(dietPlan.meals[index].name)
+                            displayMealNutrients(mealName)
                             calculateTotalSum()
 
                             makeFoodSortable()
+                            $(function () {
+                                $('[data-toggle="popover"]').popover({
+                                    container: 'main'
+                                })
+                            })
+                            $('.popover-dismiss').popover({
+                                trigger: 'focus'
+                            })
+                            if (food.foodGroup !== 'UNDEFINED') {
+                                addFoodToBarChartFoodGroup(barChartFoodGroups, food.foodGroup.replace("_", "/"))
+                            }
+                            addNutrientDietMacroPieChart(dietMacros, food)
+                            addCaloriesToCaloriesPerMeal(caloriesPerMeal,mealName,food)
+
                         })
 
-                    }else{
+                    } else {
                         console.log("No foods in: " + dietPlan.meals[index].name)
                     }
                 })
@@ -66,20 +74,20 @@ function loadDietPlan(dietPlan){
                 Sortable.create($("#diet-info")[0], {
                     group: "shared",
                 });
-            }else{
+            } else {
                 console.log("No meals")
             }
-        }else{
+        } else {
             console.log("No diet name")
         }
-    }else{
+    } else {
         console.log("No saved diet plan")
     }
 }
 
 
 // Gets all of the diets and displays them
-function getListOfDiets(){
+function getListOfDiets() {
     // Get List of diet plans
     $.getJSON("/dietplan", function (results) {
         var list = $("#diets-found")
@@ -110,7 +118,7 @@ function getListOfDiets(){
 
 
 // Loads a diet if screen was refreshed
-$(document).ready(function(){
+$(document).ready(function () {
     // selectedDietPlan = JSON.parse(sessionStorage.getItem("dietplan"))
     //
     // loadDietPlan(selectedDietPlan)
@@ -119,13 +127,13 @@ $(document).ready(function(){
 
 
 // when user clicks on a found diet. It loads the diet to the page.
-$(document).on('click', '.found-diet', function(e){
+$(document).on('click', '.found-diet', function (e) {
     $(this).addClass('active')
     var dietName = $(this).find('h5').text()
     console.log($(this).text())
 
-    $(allDietPlans).each(function(index){
-        if(allDietPlans[index].name === dietName){
+    $(allDietPlans).each(function (index) {
+        if (allDietPlans[index].name === dietName) {
             selectedDietPlan = allDietPlans[index]
         }
     })
@@ -137,6 +145,6 @@ $(document).on('click', '.found-diet', function(e){
 
 
 // For sync button. Syncs newly added diet plans
-$(document).on('click', '#sync-diet-plans', function(e){
+$(document).on('click', '#sync-diet-plans', function (e) {
     getListOfDiets()
 })

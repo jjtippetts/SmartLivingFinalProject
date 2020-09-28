@@ -1,3 +1,7 @@
+html {
+  overflow-y: scroll;
+}
+
 header .nav-pills .nav-link {
   background-color: transparent;
   color: white;
@@ -11,9 +15,9 @@ header .nav-pills .nav-link:hover, header .nav-pills .nav-link:active, header .n
   max-height: 80vh;
 }
 
-#dash-search {
-  min-height: 20vh;
-  max-height: 100vh;
+#foods-found {
+  max-height: 60vh;
+  overflow: auto;
 }
 
 .aFood > * {
@@ -43,8 +47,21 @@ label[for=search-food-name] {
 
 .list-group-item.active {
   color: inherit;
-  background-color: #dae0e5 !important;
+  background-color: #c4c9ce !important;
+  border-color: transparent !important;
   transition: background-color 0.75s ease;
+}
+
+.popover {
+  white-space: pre-wrap;
+}
+
+.popover-header {
+  background: var(--info);
+}
+
+.popover {
+  z-index: 1000;
 }
 
 /*# sourceMappingURL=dashboard.css.map */

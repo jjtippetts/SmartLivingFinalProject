@@ -16,7 +16,7 @@ public class FoodRepositoryTest {
 
     @Test
     public void testFoodSavesInRepository(){
-        Food pear = new Food("pear",30,6,0,1);
+        Food pear = new Food("pear",30,6,0,1,FoodGroup.FRUIT);
         repository.save(pear);
         assertThat(repository.findByName("pear"),is(notNullValue()));
     }

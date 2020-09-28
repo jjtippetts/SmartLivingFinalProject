@@ -29,15 +29,15 @@ public class LoadDatabase {
         // Sample Diet
 
         // Breakfast Foods
-        Food almondMilk = new Food("Almond Milk", 30,1,3,1);
-        Food honeyNutCheerios = new Food("Honey Nut Cheerios", 140, 30, 2,3);
+        Food almondMilk = new Food("Almond Milk", 30,1,3,1,FoodGroup.DAIRY);
+        Food honeyNutCheerios = new Food("Honey Nut Cheerios", 140, 30, 2,3,FoodGroup.GRAIN);
 
         // Lunch Foods
-        Food apple = new Food("Apple", 40, 10, 0,0);
-        Food whiteBread = new Food("White Bread", 90, 19,0,3);
-        Food ham = new Food("Ham", 50, 1,2,8);
-        Food cheese = new Food("Cheese", 120, 10,1,6);
-        Food mayo = new Food("Mayo", 90,0,10,0);
+        Food apple = new Food("Apple", 40, 10, 0,0, FoodGroup.FRUIT);
+        Food whiteBread = new Food("White Bread", 90, 19,0,3, FoodGroup.GRAIN);
+        Food ham = new Food("Ham", 50, 1,2,8, FoodGroup.MEAT);
+        Food cheese = new Food("Cheese", 120, 10,1,6,FoodGroup.DAIRY);
+        Food mayo = new Food("Mayo", 90,0,10,0, FoodGroup.FATS_OILS);
 
 
         List<Food> foods = Arrays.asList(almondMilk,honeyNutCheerios,apple,whiteBread,ham,cheese,mayo);
