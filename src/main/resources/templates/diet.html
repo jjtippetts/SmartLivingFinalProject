@@ -195,7 +195,8 @@
 <!--                    </div>-->
                     <div id="diet-info"></div>
                     <div id="diet-total-nutrients"></div>
-                  </div>                   </section>
+                  </div>
+                </section>
               </div>
               <div class="tab-pane fade" id="pills-diet-analysis" role="tabpanel" aria-labelledby="pills-diet-analysis-tab">
                 <section class="bg-white">
@@ -214,7 +215,31 @@
                   </div>
                 </section>
               </div>
-              <div class="tab-pane fade" id="pills-diet-search" role="tabpanel" aria-labelledby="pills-diet-search-tab">HELLO</div>
+              <div class="tab-pane fade" id="pills-diet-search" role="tabpanel" aria-labelledby="pills-diet-search-tab">
+                <section id="advanced-search-section" class="bg-white">
+                  <legend>
+                    <h3>Advanced Search</h3>
+                  </legend>
+                  <form id="advanced-search-form">
+                    <div class="form-row">
+                      <div class="form-group">
+                        <label for="advanced-search-food-group">Food Group</label>
+                        <select id="advanced-search-food-group" class="form-control" name="food-group">
+                          <option value="fruit">Fruit</option>
+                          <option value="VEGETABLE">Vegetable</option>
+                          <option value="meat">Meat</option>
+                          <option value="dairy">Dairy</option>
+                          <option value="grain">Grain</option>
+                          <option value="sweet">Sweet</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                  </form>
+                </section>
+              </div>
             </div>
           </div>
         </div>

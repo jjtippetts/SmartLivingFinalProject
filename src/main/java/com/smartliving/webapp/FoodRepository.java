@@ -13,4 +13,6 @@ interface FoodRepository extends JpaRepository<Food, Long>{
     List<Food> findByName(String name);
 
     List<Food> findByNameContainingIgnoreCase(String name);
+
+    List<Food> findByFoodGroup(FoodGroup foodGroup);
 }

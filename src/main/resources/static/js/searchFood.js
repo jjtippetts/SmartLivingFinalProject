@@ -82,3 +82,28 @@ $(document).on('submit','#load-foods-form', function(event){
         )
     }
 })
+
+$(document).on("submit","#advanced-search-form", function(event){
+    event.preventDefault()
+    var formData = new FormData($(this)[0])
+    var foodGroup = formData.get("food-group")
+
+    $.ajax({
+        type: "GET",
+        url: "/food",
+        data: {
+            foodGroup : foodGroup.toUpperCase()
+        },
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        success: function(results){
+            console.log(results)
+        },
+        error: function (results) {
+            console.log(results)
+        }
+    })
+
+})

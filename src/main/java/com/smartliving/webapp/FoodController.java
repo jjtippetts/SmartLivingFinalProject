@@ -96,12 +96,17 @@ public class FoodController {
     }
 
     //    FOODS
-    @GetMapping("/food")
-    Page<Food> findAllFood(@RequestParam(value = "page", required = false) int page,
+    @GetMapping(value = "/food", params = "page")
+    Page<Food> findAllFood(@RequestParam(value = "page") int page,
                            @PageableDefault(size = DEFAULT_PAGE_SIZE)
                                    @SortDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
 
         return foodRepository.findAll(pageable);
+    }
+
+    @GetMapping(value = "/food", params = "foodGroup")
+    List<Food> findFoodByFoodGroup(@RequestParam("foodGroup") FoodGroup foodGroup){
+        return foodRepository.findByFoodGroup(foodGroup);
     }
 
     @GetMapping("/food/{name}")

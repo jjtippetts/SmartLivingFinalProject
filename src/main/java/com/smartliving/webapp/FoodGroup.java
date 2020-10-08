@@ -8,7 +8,7 @@ public enum FoodGroup {
     MEAT,
     NUTS_SEEDS_BEANS,
     FATS_OILS,
-    SWEETS,
+    SWEET,
     MIXED,
     UNDEFINED
 }
