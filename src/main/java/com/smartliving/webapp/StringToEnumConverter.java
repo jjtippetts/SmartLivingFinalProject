@@ -3,11 +3,10 @@ package com.smartliving.webapp;
 
 
 
+import com.smartliving.webapp.food.FoodGroup;
 import org.springframework.core.convert.converter.Converter;
 
-import java.lang.annotation.Annotation;
-
-public class StringToEnumConverter implements Converter<String,FoodGroup> {
+public class StringToEnumConverter implements Converter<String, FoodGroup> {
 
     @Override
     public FoodGroup convert(String source){

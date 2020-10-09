@@ -1,4 +1,4 @@
-package com.smartliving.webapp;
+package com.smartliving.webapp.food;
 
 public class FoodNotFoundException extends RuntimeException {
     public FoodNotFoundException(Long id) {

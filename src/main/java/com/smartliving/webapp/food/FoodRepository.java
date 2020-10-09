@@ -1,4 +1,4 @@
-package com.smartliving.webapp;
+package com.smartliving.webapp.food;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-interface FoodRepository extends JpaRepository<Food, Long>{
+public interface FoodRepository extends JpaRepository<Food, Long>{
 
     Page<Food> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
 

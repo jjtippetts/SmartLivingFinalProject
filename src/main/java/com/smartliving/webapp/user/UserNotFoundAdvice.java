@@ -1,4 +1,4 @@
-package com.smartliving.webapp;
+package com.smartliving.webapp.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class FoodNotFoundAdvice {
+public class UserNotFoundAdvice {
 
     @ResponseBody
-    @ExceptionHandler (FoodNotFoundException.class)
-    @ResponseStatus (HttpStatus.NOT_FOUND)
-    String foodNotFoundHandler(FoodNotFoundException ex){
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String foodNotFoundHandler(UserNotFoundException ex){
         return ex.getMessage();
     }
 }

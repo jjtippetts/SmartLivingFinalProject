@@ -1,5 +1,6 @@
-package com.smartliving.webapp;
+package com.smartliving.webapp.client;
 
+import com.smartliving.webapp.user.User;
 import com.sun.istack.NotNull;
 import lombok.Data;
 
@@ -40,7 +41,7 @@ public class Client {
         setUser(user, true);
     }
 
-    void setUser(User user, boolean add){
+    public void setUser(User user, boolean add){
         this.user = user;
         if(user != null && add){
             user.addClient(this,false);

@@ -1,5 +1,15 @@
 package com.smartliving.webapp;
 
+
+import com.smartliving.webapp.dietplan.DietPlan;
+import com.smartliving.webapp.dietplan.DietRepository;
+import com.smartliving.webapp.food.Food;
+import com.smartliving.webapp.food.FoodGroup;
+import com.smartliving.webapp.food.FoodRepository;
+import com.smartliving.webapp.meal.Meal;
+import com.smartliving.webapp.meal.MealRepository;
+import com.smartliving.webapp.user.User;
+import com.smartliving.webapp.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +39,7 @@ public class LoadDatabase {
         // Sample Diet
 
         // Breakfast Foods
-        Food almondMilk = new Food("Almond Milk", 30,1,3,1,FoodGroup.DAIRY);
+        Food almondMilk = new Food("Almond Milk", 30,1,3,1, FoodGroup.DAIRY);
         Food honeyNutCheerios = new Food("Honey Nut Cheerios", 140, 30, 2,3,FoodGroup.GRAIN);
 
         // Lunch Foods

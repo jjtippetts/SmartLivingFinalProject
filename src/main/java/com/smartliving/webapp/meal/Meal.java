@@ -1,7 +1,9 @@
-package com.smartliving.webapp;
+package com.smartliving.webapp.meal;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.smartliving.webapp.dietplan.DietPlan;
+import com.smartliving.webapp.food.Food;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -59,14 +61,14 @@ public class Meal {
         setDiet(dietPlan, true);
     }
 
-    void setDiet(DietPlan dietPlan, boolean add){
+    public void setDiet(DietPlan dietPlan, boolean add){
         this.dietPlan = dietPlan;
         if(dietPlan != null && add){
             dietPlan.addMeal(this,false);
         }
     }
 
-    void addFood(Food food){
+    public void addFood(Food food){
         this.foods.add(food);
     }
 

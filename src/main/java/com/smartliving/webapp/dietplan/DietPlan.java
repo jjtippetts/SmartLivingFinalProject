@@ -1,11 +1,12 @@
-package com.smartliving.webapp;
+package com.smartliving.webapp.dietplan;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.smartliving.webapp.meal.Meal;
+import com.smartliving.webapp.user.User;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class DietPlan {
         meal.setDiet(this);
     }
 
-    void addMeal(Meal meal, boolean set){
+    public void addMeal(Meal meal, boolean set){
         if(meal != null){
             this.meals.add(meal);
             if(set){
@@ -67,7 +68,7 @@ public class DietPlan {
         setUser(user, true);
     }
 
-    void setUser(User user, boolean add){
+    public void setUser(User user, boolean add){
         this.user = user;
         if(user != null && add){
             user.addDietPlan(this,false);
