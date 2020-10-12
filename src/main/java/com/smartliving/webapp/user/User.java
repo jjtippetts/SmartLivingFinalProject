@@ -104,4 +104,32 @@ public class User {
         return "User(id=" + this.getId() + ", username=" + this.getUsername() + ", email=" + this.getEmail() + ", password=" + this.getPassword() + ", role=" + this.getRole() + ", enabled=" + this.isEnabled() + ", clients=" + this.getClients() + ")";
     }
 
+    public String getClients() {
+        return clients.toString();
+    }
+
+    public String isEnabled() {
+        return enabled ? "True" : "False" ;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getId() {
+        return id.toString();
+    }
+
 }
