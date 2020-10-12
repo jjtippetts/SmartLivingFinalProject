@@ -78,4 +78,16 @@ public class DietPlan {
     public String toString() {
         return "DietPlan(id=" + this.getId() + ", name=" + this.getName() + ", meals=" + this.meals.toString() + ", user=" + this.user.toString() + ")";
     }
+
+    private String getName() {
+        return name;
+    }
+
+    Long getId() {
+        return id;
+    }
+
+    public List<Meal> getMeals() {
+      return meals;
+  }
 }

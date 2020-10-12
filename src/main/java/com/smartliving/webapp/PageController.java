@@ -28,5 +28,4 @@ public class PageController {
     public String toLogin(Model model) {
         return "login";
     }
-
 }

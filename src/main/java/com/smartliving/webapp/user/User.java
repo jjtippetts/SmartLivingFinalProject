@@ -128,8 +128,11 @@ public class User {
         return username;
     }
 
-    public String getId() {
-        return id.toString();
+    public Long getId() {
+        return id;
     }
 
+    public List<DietPlan> getDietPlans() {
+        return dietPlans;
+    }
 }
