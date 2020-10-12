@@ -1,14 +1,16 @@
 package com.smartliving.webapp;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PageController {
+
+    @GetMapping("/")
+    public String toIndex(Model model) {
+        return "landing";
+    }
 
     @GetMapping("/diet")
     public String toDiet(Model model) {
