@@ -31,13 +31,12 @@ public class FoodController {
     }
 
     @GetMapping(value = "/food", params = "foodGroup")
-    public List<Food> findFoodByFoodGroup(@RequestParam("foodGroup") FoodGroup foodGroup){
-        List<Food> foodsFound = foodRepository.findByFoodGroup(foodGroup);
-        if(foodsFound.isEmpty())
-            throw new FoodNotFoundException();
-        else{
-            return foodsFound;
-        }
+    public Page<Food> findFoodByFoodGroup(@RequestParam("foodGroup") FoodGroup foodGroup,
+                                          @RequestParam("page") int page,
+                                          @PageableDefault(size = DEFAULT_PAGE_SIZE)
+                                              @SortDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable){
+        Page<Food> foodsFound = foodRepository.findByFoodGroup(foodGroup,pageable);
+        return foodsFound;
     }
 
     @GetMapping("/food/{name}")
@@ -46,7 +45,8 @@ public class FoodController {
                               @PageableDefault(size = DEFAULT_PAGE_SIZE)
                               @SortDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
 
-        return foodRepository.findAllByNameContainingIgnoreCase(name,pageable);
+        Page<Food> foodsFound = foodRepository.findAllByNameContainingIgnoreCase(name,pageable);
+        return foodsFound;
     }
 
     @PostMapping(path = "/food", consumes = MediaType.ALL_VALUE)
