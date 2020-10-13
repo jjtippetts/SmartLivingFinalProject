@@ -12,12 +12,30 @@
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
-<form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
+<div class="container d-flex align-items-center min-vh-25">
+    <div class="card mx-auto">
+        <div class="card-body card-body-responsive">
+            <h3 class="card-title">
+                Sign In
+            </h3>
 
+            <form th:action="@{/login}" method="post" class="form">
+                <div class="form-row">
+                    <label for="username"> User Name : </label>
+                    <input type="text" name="username" id="username"/>
+                </div>
+                <div class="form-row">
+                    <label for="password"> Password: </label>
+                    <input type="password" name="password" id="password"/>
+                </div>
+                <div class="form-row">
+                    <input type="submit" value="Sign In" class="btn"/>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
 <div th:replace="~{footer :: footer}"></div>
 <div th:replace="~{scripts :: bootstrap}"></div>
 </body>
