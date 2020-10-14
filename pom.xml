@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.smartliving</groupId>
-	<artifactId>web-app</artifactId>
+	<artifactId>webapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>web-app</name>
+	<name>webapp</name>
 	<description>App to create diet plans</description>
 
 	<properties>
