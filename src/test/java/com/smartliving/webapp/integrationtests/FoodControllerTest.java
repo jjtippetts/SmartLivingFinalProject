@@ -1,4 +1,4 @@
-package com.smartliving.webapp;
+package com.smartliving.webapp.integrationtests;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -38,56 +38,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Tests the interaction between the controller and database
+ */
 @SpringBootTest
 @AutoConfigureMockMvc()
 public class FoodControllerTest {
 
-//    @LocalServerPort
-//    private int port;
-
-//    @Autowired
-//    FoodController controller;
-
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private FoodRepository foodRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private MealRepository mealRepository;
-
-    @Autowired
-    private DietRepository dietRepository;
-
-//    @Test
-//    public void contextLoads() throws Exception{
-//        assertThat(controller,notNullValue());
-//
-//    }
-//
-//    @Test
-//    public void foodNotFoundReturnsError(){
-//        assertThat(controller.findFoodByFoodGroup(FoodGroup.MIXED),is(2));
-//    }
-
-//    @Test
-//    public void shouldReturnNull() throws Exception {
-//        this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk());
-//    }
-
-    @BeforeEach
-    public void setup(){
-        MockitoAnnotations.initMocks(this);
-    }
 
     @WithMockUser
     @Test
     public void validInputReturns200() throws Exception{
-
         mockMvc.perform(get("/food").param("foodGroup",FoodGroup.FRUIT.toString())).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("Hello World")));
     }
 
@@ -97,7 +60,7 @@ public class FoodControllerTest {
         String json =
                 "{\"name\":\"pear\",\"calories\":\"200\",\"carbohydrates\":\"20\",\"fat\":\"2\",\"protein\":\"2\"}";
         Food pear = new Food("pear",200,20,2,2,FoodGroup.FRUIT);
-        mockMvc.perform(post("/food").content(json).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andExpect(content().string("hello"));
+        mockMvc.perform(post("/food").content(json).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("pear")));
     }
 
 }

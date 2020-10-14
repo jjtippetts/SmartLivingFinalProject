@@ -1,4 +1,4 @@
-package com.smartliving.webapp;
+package com.smartliving.webapp.unittests;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
