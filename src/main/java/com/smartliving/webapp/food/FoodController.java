@@ -43,10 +43,14 @@ public class FoodController {
     public Page<Food> findFoodByName(@PathVariable String name,
                               @RequestParam("page") int page,
                               @PageableDefault(size = DEFAULT_PAGE_SIZE)
-                              @SortDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+                              @SortDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable) throws FoodNotFoundException{
 
         Page<Food> foodsFound = foodRepository.findAllByNameContainingIgnoreCase(name,pageable);
-        return foodsFound;
+        if(foodsFound.getContent().isEmpty()){
+            throw new FoodNotFoundException();
+        }else{
+            return foodsFound;
+        }
     }
 
     @PostMapping(path = "/food", consumes = MediaType.ALL_VALUE)
