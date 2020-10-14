@@ -9,6 +9,7 @@ public class PageController {
 
     @GetMapping("/")
     public String toIndex(Model model) {
+        model.addAttribute("homeActive", "active");
         return "landing";
     }
 
