@@ -13,6 +13,10 @@
     />
 
     <!-- File css -->
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/login.css"/>
 </head>
@@ -26,37 +30,81 @@
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
-<div class="container-fluid vh-100 login-container login-container-grid">
-        <div class="login-card-container ">
-                    <form th:action="@{/login}" method="post" class="inline-form d-flex flex-column justify-content-around">
-                        <h3 class="text-center text-primary">
-                            Sign In
-                        </h3>
-                        <div class="form-row">
-                            <div class="col">
-                                <label for="username"></label>
-                                <input required="required" placeholder="Username" type="text" name="username" id="username" class="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col">
-                                <label for="password"></label>
-                                <input required="required" placeholder="Password" type="password" name="password" id="password" class="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-row mt-4">
-                            <div class="col">
-                                <input type="submit" value="Sign In" class="btn btn-primary form-control text-center"/>
-                            </div>
-                        </div>
-                    </form>
+<div class="container-fluid vh-100 main-container main-container-grid">
+    <div class="login-container animate__animated animate__fadeIn" id="login-container">
+        <form th:action="@{/login}" method="post" class="inline-form d-flex flex-column justify-content-around">
+            <h3 class="text-center text-primary">
+                Sign In
+            </h3>
+            <div class="form-row">
+                <div class="col">
+                    <label for="username"></label>
+                    <input required="required" placeholder="Username" type="text" name="username" id="username" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="password"></label>
+                    <input required="required" placeholder="Password" type="password" name="password" id="password" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-row mt-4">
+                <div class="col">
+                    <input type="submit" value="Sign In" class="btn btn-primary form-control text-center"/>
+                </div>
+            </div>
+        </form>
             <div class="account-creation mt-3">
                 Don't have an account yet?
-                <a href="#" id="create-account">
+                <a href="#" id="create-account-link">
                     Create an Account
                 </a>
             </div>
+    </div>
+
+    <div class="create-account-container animate__animated" id="create-account-container">
+        <!-- TODO: CREATE USER ROUTE -->
+        <form th:action="@{/create-user}" method="post" class="inline-form d-flex flex-column justify-content-around">
+            <h3 class="text-center text-primary">
+                Create an Account
+            </h3>
+            <div class="form-row">
+                <div class="col">
+                    <label for="create-username"></label>
+                    <input required="required" placeholder="Username" type="text" name="username" id="create-username" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="email"></label>
+                    <input required="required" placeholder="Email" type="text" name="email" id="create-email" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="password"></label>
+                    <input required="required" placeholder="Password" type="password" name="password" id="create-password" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="password"></label>
+                    <input required="required" placeholder="Confirm Password" type="password" name="confirm-password" id="create-confirm-password" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-row mt-4">
+                <div class="col">
+                    <input type="submit" value="Create Account" class="btn btn-primary form-control text-center"/>
+                </div>
+            </div>
+        </form>
+        <div class="sign-in-back mt-3">
+            Already have an account?
+            <a href="#" id="sign-in-link">
+                Sign in
+            </a>
         </div>
+    </div>
 </div>
 
 <div th:replace="~{footer :: footer}"></div>

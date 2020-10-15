@@ -73,4 +73,28 @@ public class Food {
         return "Food(id=" + this.getId() + ", name=" + this.getName() + ", calories=" + this.getCalories() + ", carbohydrates=" + this.getCarbohydrates() + ", fat=" + this.getFat() + ", protein=" + this.getProtein() + ", foodGroup=" + this.foodGroup + ")";
     }
 
+    private String getProtein() {
+        return null;
+    }
+
+    private String getFat() {
+        return null;
+    }
+
+    private String getCarbohydrates() {
+        return null;
+    }
+
+    private String getCalories() {
+        return null;
+    }
+
+    private String getName() {
+        return null;
+    }
+
+    private String getId() {
+        return null;
+    }
+
 }

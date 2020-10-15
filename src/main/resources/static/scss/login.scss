@@ -1,11 +1,11 @@
 @import "variables";
 
-.login-container {
+.main-container {
   height: 100vh;
   background-color: $main-color;
 }
 
-.login-container-grid {
+.main-container-grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(8, 1fr);
@@ -15,7 +15,7 @@
   }
 }
 
-.login-card-container {
+.login-container {
   grid-column: 4 / span 2;
   grid-row: 2 / span 3;
 
@@ -26,8 +26,7 @@
 }
 
 .create-account-container {
-  opacity: 0;
-  display: none;
+  display: block;
   grid-column: 4 / span 2;
   grid-row: 2 / span 3;
 
@@ -35,4 +34,12 @@
     grid-column: 2 / span 6;
     grid-row: 2 / span 2;
   }
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.transparent {
+  opacity: 0;
 }
