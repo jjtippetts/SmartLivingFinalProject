@@ -5,7 +5,10 @@
     <title></title>
 </head>
 <body>
-<div th:insert="~{nav :: header}"></div>
+<header class="fixed-top" th:insert="~{nav :: main-nav}">
+</header>
+
+<div ></div>
 <div th:if="${param.error}">
     Invalid username and password.
 </div>
