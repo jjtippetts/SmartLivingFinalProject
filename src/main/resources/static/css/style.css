@@ -32,8 +32,3 @@ body {
   .img-hover-zoom img:hover {
     transform: scale(1.2);
     filter: grayscale(80%); }
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%; }

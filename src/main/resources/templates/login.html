@@ -1,41 +1,58 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head th:replace="~{head::general(title='Login')}">
-    <title></title>
+<head>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link th:fragment="bootstrap"
+          rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous"
+    />
+
+    <!-- File css -->
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/login.css"/>
 </head>
 <body>
 <div th:insert="~{nav :: header}"></div>
 <div th:if="${param.error}">
-    Invalid username and password.
+    <div class="bg-warning">
+        Invalid username and password.
+    </div>
 </div>
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
-<div class="container d-flex align-items-center min-vh-25">
-    <div class="card mx-auto">
-        <div class="card-body card-body-responsive">
-            <h3 class="card-title">
-                Sign In
-            </h3>
-
-            <form th:action="@{/login}" method="post" class="form">
-                <div class="form-row">
-                    <label for="username"> User Name : </label>
-                    <input type="text" name="username" id="username"/>
-                </div>
-                <div class="form-row">
-                    <label for="password"> Password: </label>
-                    <input type="password" name="password" id="password"/>
-                </div>
-                <div class="form-row">
-                    <input type="submit" value="Sign In" class="btn"/>
-                </div>
-            </form>
+<div class="container-fluid vh-100 login-container login-container-grid">
+        <div class="login-card-container ">
+                    <form th:action="@{/login}" method="post" class="inline-form d-flex flex-column justify-content-around">
+                        <h3 class="text-center">
+                            Sign In
+                        </h3>
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="username"></label>
+                                <input required="required" placeholder="Username" type="text" name="username" id="username" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="password"></label>
+                                <input required="required" placeholder="Password" type="password" name="password" id="password" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <input type="submit" value="Sign In" class="btn btn-primary form-control text-center"/>
+                            </div>
+                        </div>
+                    </form>
         </div>
-
-    </div>
 </div>
+
 <div th:replace="~{footer :: footer}"></div>
 <div th:replace="~{scripts :: bootstrap}"></div>
 </body>
