@@ -1,10 +1,4 @@
-$main-color: #90E0EF;
-$secondary-color: #f4a261;
-$secondary-color-hover: #cf6348;
-
-.bg-main-color {
-  background-color: $main-color;
-}
+@import "utilities";
 
 .jumbotron{
   background-color: $main-color;
@@ -31,14 +25,6 @@ main {
 .nav-item {
   margin-right: 10px;
   margin-left: 10px;
-}
-
-.card-deck .card .btn {
-  background-color: $secondary-color;
-}
-
-.card-deck .card .btn:hover{
-  background-color: $secondary-color-hover;
 }
 
 .img-hover-zoom {
