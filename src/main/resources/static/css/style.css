@@ -12,9 +12,6 @@ td label {
 .light-gray {
   background-color: #e9ecef; }
 
-body {
-  padding-top: 88px; }
-
 .nav-item {
   margin-right: 10px;
   margin-left: 10px; }
@@ -32,3 +29,6 @@ body {
   .img-hover-zoom img:hover {
     transform: scale(1.2);
     filter: grayscale(80%); }
+
+.fixed-top {
+  width: 100%; }

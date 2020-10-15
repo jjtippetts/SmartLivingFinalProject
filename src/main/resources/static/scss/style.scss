@@ -1,6 +1,4 @@
-$main-color: #90E0EF;
-$secondary-color: #f4a261;
-$secondary-color-hover: #cf6348;
+@import "variables";
 
 .bg-main-color {
   background-color: $main-color;
@@ -18,10 +16,6 @@ td label {
 
 .light-gray {
   background-color:  #e9ecef;
-}
-
-body {
-  padding-top: 88px;
 }
 
 .nav-item {
@@ -48,3 +42,6 @@ body {
   }
 }
 
+.fixed-top {
+  width: 100%;
+}

@@ -1,5 +1,6 @@
 .login-container {
-  height: 100vh; }
+  height: 100vh;
+  background-color: #90E0EF; }
 
 .login-container-grid {
   display: grid;
@@ -14,5 +15,15 @@
   grid-row: 2 / span 3; }
   @media screen and (max-width: 768px) {
     .login-card-container {
+      grid-column: 2 / span 6;
+      grid-row: 2 / span 2; } }
+
+.create-account-container {
+  opacity: 0;
+  display: none;
+  grid-column: 4 / span 2;
+  grid-row: 2 / span 3; }
+  @media screen and (max-width: 768px) {
+    .create-account-container {
       grid-column: 2 / span 6;
       grid-row: 2 / span 2; } }

@@ -29,7 +29,7 @@
 <div class="container-fluid vh-100 login-container login-container-grid">
         <div class="login-card-container ">
                     <form th:action="@{/login}" method="post" class="inline-form d-flex flex-column justify-content-around">
-                        <h3 class="text-center">
+                        <h3 class="text-center text-primary">
                             Sign In
                         </h3>
                         <div class="form-row">
@@ -50,10 +50,17 @@
                             </div>
                         </div>
                     </form>
+            <div class="account-creation mt-3">
+                Don't have an account yet?
+                <a href="#" id="create-account">
+                    Create an Account
+                </a>
+            </div>
         </div>
 </div>
 
 <div th:replace="~{footer :: footer}"></div>
 <div th:replace="~{scripts :: bootstrap}"></div>
+<script src="js/login.js"></script>
 </body>
 </html>
