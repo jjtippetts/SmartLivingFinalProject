@@ -12,6 +12,10 @@ td label {
 .light-gray {
   background-color: #e9ecef; }
 
+main {
+  min-height: calc(100vh - 128px - 88px);
+}
+
 .nav-item {
   margin-right: 10px;
   margin-left: 10px; }
