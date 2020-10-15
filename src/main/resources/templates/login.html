@@ -21,7 +21,10 @@
     <link rel="stylesheet" href="css/login.css"/>
 </head>
 <body>
-<div th:insert="~{nav :: header}"></div>
+<header class="fixed-top" th:insert="~{nav :: main-nav}">
+</header>
+
+<div ></div>
 <div th:if="${param.error}">
     <div class="bg-warning">
         Invalid username and password.
