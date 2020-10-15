@@ -1,6 +1,5 @@
 .main-container {
-  height: 100vh;
-  background-color: #90E0EF; }
+  height: 100vh; }
 
 .main-container-grid {
   display: grid;
