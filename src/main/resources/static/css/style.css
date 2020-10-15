@@ -13,8 +13,7 @@ td label {
   background-color: #e9ecef; }
 
 main {
-  min-height: calc(100vh - 128px - 88px);
-}
+  min-height: calc(100vh - 128px - 88px); }
 
 .nav-item {
   margin-right: 10px;
@@ -36,3 +35,6 @@ main {
 
 .fixed-top {
   width: 100%; }
+
+.footer {
+  height: 20vh; }
