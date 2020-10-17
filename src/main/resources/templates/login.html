@@ -1,8 +1,24 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head th:replace="~{head::general(title='Login')}">
-    <title></title>
+<head>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link th:fragment="bootstrap"
+          rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous"
+    />
+
+    <!-- File css -->
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/login.css"/>
 </head>
 <body>
 <header class="fixed-top" th:insert="~{nav :: main-nav}">
@@ -10,18 +26,92 @@
 
 <div ></div>
 <div th:if="${param.error}">
-    Invalid username and password.
+    <div class="bg-warning">
+        Invalid username and password.
+    </div>
 </div>
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
-<form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
+<div class="container-fluid main-container main-container-grid">
+    <div class="login-container animate__animated animate__fadeIn" id="login-container">
+        <form th:action="@{/login}" method="post" class="inline-form d-flex flex-column justify-content-around">
+            <h3 class="text-center text-primary">
+                Sign In
+            </h3>
+            <div class="form-row">
+                <div class="col">
+                    <label for="username"></label>
+                    <input required="required" placeholder="Username" type="text" name="username" id="username" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="password"></label>
+                    <input required="required" placeholder="Password" type="password" name="password" id="password" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-row mt-4">
+                <div class="col">
+                    <input type="submit" value="Sign In" class="btn btn-primary form-control text-center"/>
+                </div>
+            </div>
+        </form>
+            <div class="account-creation mt-3">
+                Don't have an account yet?
+                <a href="#" id="create-account-link">
+                    Create an Account
+                </a>
+            </div>
+    </div>
+
+    <div class="create-account-container animate__animated" id="create-account-container">
+        <!-- TODO: CREATE USER ROUTE -->
+        <form th:action="@{/create-user}" method="post" class="inline-form d-flex flex-column justify-content-around">
+            <h3 class="text-center text-primary">
+                Create an Account
+            </h3>
+            <div class="form-row">
+                <div class="col">
+                    <label for="create-username"></label>
+                    <input required="required" placeholder="Username" type="text" name="username" id="create-username" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="email"></label>
+                    <input required="required" placeholder="Email" type="text" name="email" id="create-email" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="password"></label>
+                    <input required="required" placeholder="Password" type="password" name="password" id="create-password" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="password"></label>
+                    <input required="required" placeholder="Confirm Password" type="password" name="confirm-password" id="create-confirm-password" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-row mt-4">
+                <div class="col">
+                    <input type="submit" value="Create Account" class="btn btn-primary form-control text-center"/>
+                </div>
+            </div>
+        </form>
+        <div class="sign-in-back mt-3">
+            Already have an account?
+            <a href="#" id="sign-in-link">
+                Sign in
+            </a>
+        </div>
+    </div>
+</div>
 
 <div th:replace="~{footer :: footer}"></div>
 <div th:replace="~{scripts :: bootstrap}"></div>
+<script src="js/login.js"></script>
 </body>
 </html>
