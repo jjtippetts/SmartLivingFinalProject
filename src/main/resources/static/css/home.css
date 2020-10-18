@@ -1,7 +1,3 @@
-.bg-main-color {
-  background-color: #90E0EF;
-}
-
 .btn-orange {
   color: white;
   background-color: #f4a261;
@@ -12,31 +8,31 @@
   background-color: #cf6348;
 }
 
+.nav-item {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+body {
+  margin-top: 56px;
+}
+
+.bg-main-color {
+  background-color: #90E0EF;
+}
+
 .jumbotron {
   background-color: #90E0EF;
   padding-bottom: 80px;
   padding-top: 80px;
 }
 
-td label {
-  display: none;
-}
-
 .light-gray {
   background-color: #e9ecef;
 }
 
-body {
-  padding-top: 88px;
-}
-
 main {
-  min-height: calc(100vh - 128px - 88px);
-}
-
-.nav-item {
-  margin-right: 10px;
-  margin-left: 10px;
+  min-height: calc(100vh - 128px - 56px);
 }
 
 .img-hover-zoom {
@@ -50,4 +46,4 @@ main {
   filter: grayscale(80%);
 }
 
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=home.css.map */

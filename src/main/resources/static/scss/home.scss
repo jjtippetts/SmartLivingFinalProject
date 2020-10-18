@@ -1,4 +1,15 @@
-@import "utilities";
+@import "abstracts/abstracts-index";
+@import "base/base-index";
+@import "components/components-index";
+@import "layout/layout-index";
+
+body {
+  margin-top: 56px;
+}
+
+.bg-main-color {
+  background-color: $main-color;
+}
 
 .jumbotron{
   background-color: $main-color;
@@ -6,25 +17,12 @@
   padding-top: 80px;
 }
 
-td label {
-  display: none;
-}
-
 .light-gray {
   background-color:  #e9ecef;
 }
 
-body {
-  padding-top: 88px;
-}
-
 main {
-  min-height: calc(100vh - 128px - 88px);;
-}
-
-.nav-item {
-  margin-right: 10px;
-  margin-left: 10px;
+  min-height: calc(100vh - 128px - 56px);
 }
 
 .img-hover-zoom {

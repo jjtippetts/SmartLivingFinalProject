@@ -1,5 +1,26 @@
+@import "abstracts/abstracts-index";
+@import "base/base-index";
+@import "components/components-index";
+@import "layout/header";
+
+body {
+  margin-top: 88px;
+}
+
 html {
   overflow-y: scroll;
+}
+
+main#diet-main {
+  padding-top: 32px;
+}
+
+td label {
+  display: none;
+}
+
+main {
+  min-height: calc(100vh - 88px);;
 }
 
 header .nav-pills {
