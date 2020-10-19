@@ -20,7 +20,7 @@ td label {
 }
 
 main {
-  min-height: calc(100vh - 88px);;
+  min-height: calc(100vh - 88px);
 }
 
 header .nav-pills {
@@ -40,7 +40,6 @@ header .nav-pills {
 }
 
 #foods-found {
-  //min-height: 20vh;
   max-height: 60vh;
   overflow: auto;
 }
@@ -81,10 +80,6 @@ label[for="search-food-name"] {
 .popover {
   white-space: pre-wrap;
 }
-
-//.rm-food {
-//  border-radius: 15px;
-//}
 
 .popover-header{
   background: var(--info);
