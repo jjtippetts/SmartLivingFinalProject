@@ -1,0 +1,39 @@
+@import "abstracts/abstracts-index";
+@import "base/base-index";
+@import "components/components-index";
+@import "layout/layout-index";
+
+body {
+  margin-top: 56px;
+}
+
+.bg-main-color {
+  background-color: $main-color;
+}
+
+.jumbotron{
+  background-color: $main-color;
+  padding-bottom:80px;
+  padding-top: 80px;
+}
+
+.light-gray {
+  background-color: #e9ecef;
+}
+
+main {
+  min-height: calc(100vh - 128px - 56px);
+}
+
+.img-hover-zoom {
+  overflow: hidden;
+  img {
+    transition: transform 1s, filter 1s ease;
+  }
+  img:hover {
+    transform: scale(1.2);
+    filter: grayscale(80%);
+  }
+}
+
+

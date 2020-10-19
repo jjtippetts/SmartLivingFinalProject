@@ -1,0 +1,49 @@
+.btn-orange {
+  color: white;
+  background-color: #f4a261;
+}
+
+.btn-orange:hover {
+  color: white;
+  background-color: #cf6348;
+}
+
+.nav-item {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+body {
+  margin-top: 56px;
+}
+
+.bg-main-color {
+  background-color: #90E0EF;
+}
+
+.jumbotron {
+  background-color: #90E0EF;
+  padding-bottom: 80px;
+  padding-top: 80px;
+}
+
+.light-gray {
+  background-color: #e9ecef;
+}
+
+main {
+  min-height: calc(100vh - 128px - 56px);
+}
+
+.img-hover-zoom {
+  overflow: hidden;
+}
+.img-hover-zoom img {
+  transition: transform 1s, filter 1s ease;
+}
+.img-hover-zoom img:hover {
+  transform: scale(1.2);
+  filter: grayscale(80%);
+}
+
+/*# sourceMappingURL=home.css.map */

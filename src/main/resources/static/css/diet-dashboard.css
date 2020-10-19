@@ -1,0 +1,98 @@
+.btn-orange {
+  color: white;
+  background-color: #f4a261;
+}
+
+.btn-orange:hover {
+  color: white;
+  background-color: #cf6348;
+}
+
+.nav-item {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+body {
+  margin-top: 88px;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+main#diet-main {
+  padding-top: 32px;
+}
+
+td label {
+  display: none;
+}
+
+main {
+  min-height: calc(100vh - 88px);
+}
+
+header .nav-pills .nav-link {
+  background-color: transparent;
+  color: white;
+}
+header .nav-pills .nav-link:hover, header .nav-pills .nav-link:active, header .nav-pills .nav-link:focus, header .nav-pills .active {
+  background-color: transparent !important;
+}
+
+#dash-navigation {
+  min-height: 60vh;
+  max-height: 80vh;
+}
+
+#foods-found {
+  max-height: 60vh;
+  overflow: auto;
+}
+
+.aFood > * {
+  cursor: grab;
+}
+
+.tooltip {
+  pointer-events: none;
+}
+
+th label {
+  display: none;
+}
+
+label[for=search-food-name] {
+  display: none;
+}
+
+.list-group-item {
+  transition: background-color 0.75s ease;
+}
+
+.list-group-item:hover {
+  background-color: #dae0e5 !important;
+  transition: background-color 0.75s ease;
+}
+
+.list-group-item.active {
+  color: inherit;
+  background-color: #c4c9ce !important;
+  border-color: transparent !important;
+  transition: background-color 0.75s ease;
+}
+
+.popover {
+  white-space: pre-wrap;
+}
+
+.popover-header {
+  background: var(--info);
+}
+
+.popover {
+  z-index: 1000;
+}
+
+/*# sourceMappingURL=diet-dashboard.css.map */

@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{head::general(title='SmartLiving | Home')}">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Smart Living | Home</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+          rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous"
+    />
+
+    <!-- File css -->
+    <link rel="stylesheet" href="css/home.css"/>
+
+    <!--Font Awesome-->
+    <script
+            src="https://kit.fontawesome.com/fc7f1cbe69.js"
+            crossorigin="anonymous"
+            SameSite="none"
+    ></script>
 </head>
 <body>
 <header class="fixed-top" th:insert="~{nav::main-nav(homeActive='active')}">
@@ -106,7 +127,7 @@
                             <li>Planting</li>
                         </ul>
                     </div>
-                    <a href="./diet" class="btn">Dieting</a>
+                    <a href="./diet" class=" btn btn-orange">Dieting</a>
                 </div>
                 <div class="w-100 d-none d-sm-block d-md-block d-lg-none"></div>
                 <div class="card shadow-lg">
@@ -125,7 +146,7 @@
                             properties. Check out some of our work.
                         </p>
                     </div>
-                    <a href="./tracking" class="btn">Tracking</a>
+                    <a href="./tracking" class="btn btn-orange">Tracking</a>
                 </div>
                 <div class="w-100 d-none d-sm-block d-md-block d-lg-none"></div>
                 <div class="card shadow-lg">
@@ -144,7 +165,7 @@
                             looks exactly the way you've envisioned.
                         </p>
                     </div>
-                    <a href="./manage" class="btn">Manage</a>
+                    <a href="./manage" class="btn btn-orange">Manage</a>
                 </div>
             </div>
         </div>
