@@ -1,7 +1,5 @@
-package com.smartliving.webapp;
+package com.smartliving.webapp.userdetails;
 
-import com.smartliving.webapp.user.User;
-import com.smartliving.webapp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * Searches the database for the username. Returns the corresponding user as an argument to
  * MyUserDetails
  */
-public class MyUserDetailsService implements UserDetailsService{
+public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 

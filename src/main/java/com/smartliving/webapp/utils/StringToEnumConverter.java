@@ -1,4 +1,4 @@
-package com.smartliving.webapp;
+package com.smartliving.webapp.utils;
 
 
 

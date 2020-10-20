@@ -13,11 +13,6 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-//    @GetMapping("/food/{name}")
-//    List<Food> multiple(@PathVariable String name){
-//        return repository.findByNameContaining(name);
-//    }
-
     //User
     @PostMapping(path = "/user", consumes = MediaType.ALL_VALUE)
     User newUser(@RequestBody User newUser, Principal principal){
