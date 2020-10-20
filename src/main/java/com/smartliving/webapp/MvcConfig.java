@@ -1,5 +1,7 @@
 package com.smartliving.webapp;
 
+import com.smartliving.webapp.utils.StringToEnumConverter;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
