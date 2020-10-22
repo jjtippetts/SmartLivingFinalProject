@@ -1,13 +1,14 @@
-package com.smartliving.webapp;
+package com.smartliving.webapp.userdetails;
 
 import java.util.Collection;
 import java.util.Collections;
 
 import com.smartliving.webapp.user.User;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class MyUserDetails implements UserDetails{
+public class MyUserDetails implements UserDetails {
     private User user;
 
     public MyUserDetails(User user) {
