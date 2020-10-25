@@ -90,6 +90,10 @@
         el.innerHTML = message;
         toggleVisibility(parent);
         parent.classList.toggle('animate__fadeIn');
+        window.setTimeout(() => {
+            parent.classList.toggle('animate__fadeIn');
+            parent.classList.toggle('animate__fadeOut');
+        }, 1000);
     }
 
     function getUserCreationFormData(el) {
