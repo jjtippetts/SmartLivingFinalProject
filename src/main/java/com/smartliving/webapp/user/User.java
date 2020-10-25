@@ -33,18 +33,6 @@ public class User {
 
     private boolean enabled;
 
-//    private String firstName;
-//    private String lastName;
-//    private Date birthDate;
-//    private Date birthDate;
-//    private Date creationDate;
-//    private String street;
-//    private String city;
-//    private String state;
-//    private String zip;
-//    private String phone;
-
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Client> clients;
 
@@ -56,13 +44,6 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-//        this.birthDate = birthDate;
-//        this.creationDate = null;
-//        this.street = street;
-//        this.city = city;
-//        this.state = state;
-//        this.zip = zip;
-//        this.phone = phone;
         dietPlans = new ArrayList<DietPlan>();
         clients = new ArrayList<Client>();
     }
