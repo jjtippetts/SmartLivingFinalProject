@@ -28,8 +28,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(path = "/create-user", consumes = MediaType.ALL_VALUE)
-    public User newUser(@Valid @RequestBody UserCreationFormViewModel newUserForm) throws EmailExistsException {
+    @PostMapping(path = "/api/create-user", consumes = MediaType.ALL_VALUE)
+    public User apiNewUser(@Valid @RequestBody UserCreationFormViewModel newUserForm) throws EmailExistsException {
         return userService.saveUser(newUserForm);
     }
 
@@ -45,6 +45,7 @@ public class UserController {
         errorResult.put("errors", errors);
         return errorResult;
     }
+
     @ExceptionHandler(EmailExistsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, List<String>> handleEmailExistsException(EmailExistsException ex) {

@@ -3,6 +3,7 @@
     const signInLink = document.querySelector("#sign-in-link");
     const createAccountContainer = document.querySelector("#create-account-container");
     const loginContainer = document.querySelector("#login-container");
+    const userCreationFormEl = document.querySelector("#user-creation-form");
 
     function toggleVisiblity(el) {
         el.classList.toggle('invisible');
@@ -42,6 +43,26 @@
             createAccountContainer.addEventListener('animationend', createContainerAnimationEndHandler);
             createAccountContainer.classList.toggle('animate__fadeOut');
         });
+
+        userCreationFormEl.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const request = new XMLHttpRequest();
+            const url = "/api/create-user";
+
+            let formData = getUserCreationFormData(userCreationFormEl);
+            request.open("POST", url);
+            request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            request.send(JSON.stringify(formData));
+        });
+    }
+
+    function getUserCreationFormData(el) {
+        return {
+            "username": el[0].value,
+            "email": el[1].value,
+            "password": el[2].value,
+            "confirmPassword": el[3].value
+        }
     }
 
     function main() {
