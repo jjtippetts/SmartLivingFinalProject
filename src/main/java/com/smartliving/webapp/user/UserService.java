@@ -22,12 +22,8 @@ public class UserService {
             throw new EmailExistsException("There is already an account with this email address");
         }
         User newUser = createUser(form);
-        try {
-            userRepository.save(newUser);
-        }
-        catch(Exception ex) {
-            // TODO: Handle error pls. Like for already existing users
-        }
+        userRepository.save(newUser);
+
         return newUser;
     }
 
