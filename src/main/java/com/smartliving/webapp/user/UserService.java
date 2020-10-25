@@ -17,9 +17,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User saveUser(UserCreationFormViewModel form) throws EmailExistsException {
+    public User saveUser(UserCreationFormViewModel form) throws EmailExistsException, UserExistsException {
         if(emailExists(form.getEmail())) {
             throw new EmailExistsException("There is already an account with this email address");
+        }
+        if(userExists(form.getUsername())) {
+            throw new UserExistsException("There is already an account with this username");
         }
         User newUser = createUser(form);
         userRepository.save(newUser);
@@ -29,6 +32,10 @@ public class UserService {
 
     private boolean emailExists(String email) {
         return userRepository.getUserByEmail((email)) != null;
+    }
+
+    private boolean userExists(String username) {
+        return userRepository.getUserByUsername((username)) != null;
     }
 
     private User createUser(UserCreationFormViewModel form) {

@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/api/create-user", consumes = MediaType.ALL_VALUE)
-    public User apiNewUser(@Valid @RequestBody UserCreationFormViewModel newUserForm) throws EmailExistsException {
+    public User apiNewUser(@Valid @RequestBody UserCreationFormViewModel newUserForm) throws EmailExistsException, UserExistsException {
         return userService.saveUser(newUserForm);
     }
 
@@ -46,9 +46,9 @@ public class UserController {
         return errorResult;
     }
 
-    @ExceptionHandler(EmailExistsException.class)
+    @ExceptionHandler({EmailExistsException.class, UserExistsException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, List<String>> handleEmailExistsException(EmailExistsException ex) {
+    public Map<String, List<String>> handleDuplicateUserException(Exception ex) {
         HashMap<String, List<String>> errorResult = new HashMap<>() {};
         ArrayList<String> errorList = new ArrayList<>();
         errorList.add(ex.getMessage());
