@@ -33,17 +33,22 @@
 <body>
 <header class="fixed-top" th:insert="~{nav :: main-nav}">
 </header>
-
-<div ></div>
-<div th:if="${param.error}">
-    <div class="bg-warning">
-        Invalid username and password.
-    </div>
-</div>
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
 <div class="container-fluid main-container main-container-grid">
+    <div class="alert alert-success toast-position animate__animated" id="success-container" role="alert">
+        <div id="success-content">
+        </div>
+    </div>
+    <div class="alert alert-danger toast-position animate__animated" id="error-container" role="alert">
+        <div id="error-content">
+
+        </div>
+    </div>
+    <div th:if="${param.error}" class="alert alert-danger toast-position animate__animated animate__slower animate__fadeOut">
+            Invalid username or password.
+    </div>
     <div class="login-container animate__animated animate__fadeIn" id="login-container">
         <form th:action="@{/login}" method="post" class="inline-form d-flex flex-column justify-content-around">
             <h3 class="text-center text-primary">
@@ -61,6 +66,7 @@
                     <input required="required" placeholder="Password" type="password" name="password" id="password" class="form-control"/>
                 </div>
             </div>
+
             <div class="form-row mt-4">
                 <div class="col">
                     <input type="submit" value="Sign In" class="btn btn-primary form-control text-center"/>
@@ -75,34 +81,34 @@
             </div>
     </div>
 
-    <div class="create-account-container animate__animated" id="create-account-container">
+    <div class="create-account-container animate__animated animate__fast" id="create-account-container">
         <!-- TODO: CREATE USER ROUTE -->
-        <form th:action="@{/create-user}" method="post" class="inline-form d-flex flex-column justify-content-around">
+        <form th:action="@{/create-user}" th:object="${userCreationForm}" method="post" class="inline-form d-flex flex-column justify-content-around" id="user-creation-form">
             <h3 class="text-center text-primary">
                 Create an Account
             </h3>
             <div class="form-row">
                 <div class="col">
                     <label for="create-username"></label>
-                    <input required="required" placeholder="Username" type="text" name="username" id="create-username" class="form-control"/>
+                    <input required="required" th:field="*{username}" placeholder="Username" type="text" name="username" id="create-username" class="form-control"/>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col">
                     <label for="create-email"></label>
-                    <input required="required" placeholder="Email" type="text" name="email" id="create-email" class="form-control"/>
+                    <input required="required" placeholder="Email" th:field="*{email}" type="text" name="email" id="create-email" class="form-control"/>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col">
                     <label for="password"></label>
-                    <input required="required" placeholder="Password" type="password" name="password" id="create-password" class="form-control"/>
+                    <input required="required" placeholder="Password" type="password" th:field="*{password}" name="password" id="create-password" class="form-control"/>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col">
                     <label for="password"></label>
-                    <input required="required" placeholder="Confirm Password" type="password" name="confirm-password" id="create-confirm-password" class="form-control"/>
+                    <input required="required" placeholder="Confirm Password" type="password" th:field="*{confirmPassword}" name="confirmPassword" id="create-confirm-password" class="form-control"/>
                 </div>
             </div>
             <div class="form-row mt-4">
