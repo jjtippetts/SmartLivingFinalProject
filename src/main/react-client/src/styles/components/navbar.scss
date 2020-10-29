@@ -1,0 +1,11 @@
+@import '../base/reset';
+
+.navbar-items__container {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+}
+
+.nav-item {
+    list-style: none;
+}
