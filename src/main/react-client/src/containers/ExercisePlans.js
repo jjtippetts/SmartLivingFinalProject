@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { exercisePlanAdded } from '../reducers/ExerciseSlice';
 import ExercisePlanDisplay from '../components/ExercisePlanDisplay';
+import ExercisePlanListItem from '../components/ExercisePlanListItem';
 
 
 class ExercisePlans extends React.Component {
@@ -21,16 +22,13 @@ class ExercisePlans extends React.Component {
     generateExercisePlansList() {
         // TODO: Make a separate exercise list group item component
         return this.props.exercisePlans.map((plan) => {
-            return (<ListGroup.Item id={plan.id} active={this.state.selectedPlanId === plan.id} onClick={this.onPlanSelect} key={plan.id} className="list-group-item__pointer">
-                <h5 className="text-primary">
-                    {plan.name}
-                </h5>
-                </ListGroup.Item>);
+            return (
+                <ExercisePlanListItem key={plan.id} handleClick={this.onPlanSelect} plan={plan} active={this.state.selectedPlanId == plan.id}/>
+            );
         });
     }
 
-    onPlanSelect(el) {
-        const selectedPlanId = el.target.id;
+    onPlanSelect(selectedPlanId) {
         const selectedPlan = this.props.exercisePlans[selectedPlanId];
         this.setState({
             selectedPlanId, 
