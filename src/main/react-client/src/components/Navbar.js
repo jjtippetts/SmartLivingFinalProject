@@ -6,9 +6,9 @@ export const NavBar = () => {
     return (
         <BootstrapNavbar collapseOnSelect expand="md" className="navbar navbar-light bg-light" defaultExpanded={false}>
             <BootstrapNavbar.Toggle />
+            <BootstrapNavbar.Brand className="ml-md-3" href="../">Smart Living</BootstrapNavbar.Brand>
             <BootstrapNavbar.Collapse>
                 <Nav>
-                    <BootstrapNavbar.Brand className="ml-md-3" href="../">Smart Living</BootstrapNavbar.Brand>
                     <Nav.Item className="nav-item">
                         <Nav.Link href="../">Home</Nav.Link>
                     </Nav.Item>

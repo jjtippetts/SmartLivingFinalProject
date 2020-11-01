@@ -5,13 +5,8 @@ import './index.css';
 import './styles/styles.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { configureStore } from '@reduxjs/toolkit';
 import { Provider} from 'react-redux';
-import { RootReducer } from './reducers/RootReducer';
-
-const store = configureStore({
-  reducer: RootReducer
-})
+import store from './store';
 
 ReactDOM.render(
   <React.StrictMode>

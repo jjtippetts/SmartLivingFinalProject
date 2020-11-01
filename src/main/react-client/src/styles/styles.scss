@@ -1,0 +1,9 @@
+@import "./abstracts/_variables";
+
+.list-group-item__pointer {
+    cursor: pointer;
+}
+
+.list-group-item.active {
+    background-color: $light-gray;
+}
