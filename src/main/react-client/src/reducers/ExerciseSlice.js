@@ -3,7 +3,27 @@ import { createSlice } from '@reduxjs/toolkit';
 const exampleExercisePlan = {
     id: 0,
     name: "Example Exercise Plan",
-    exercises: [0] // A list of the exercise ids
+    exercises: [{
+        exerciseId: 0,
+        sets: 1,
+        reps: 1
+    },
+    {
+        exerciseId: 0,
+        sets: 5,
+        reps: 5
+    },
+    {
+        exerciseId: 0,
+        sets: 5,
+        reps: 5
+    },
+    {
+        exerciseId: 0,
+        sets: 5,
+        reps: 5
+    },
+    ]  // Each exercise will have exerciseId, sets, and reps
 };
 
 const exampleExercises = [
@@ -11,7 +31,7 @@ const exampleExercises = [
         id: 0,
         name: "bicep curls",
         equipment: "dumbbells",
-        muscles: ["bicep", "tricep"],
+        muscles: ["bicep"],
     }
 ];
 

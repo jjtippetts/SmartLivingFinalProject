@@ -12,6 +12,7 @@ class ExercisePlans extends React.Component {
         this.generateExercisePlansList = this.generateExercisePlansList.bind(this);
         this.onCreatePlanClick = this.onCreatePlanClick.bind(this);
         this.onPlanSelect = this.onPlanSelect.bind(this);
+        this.mapExercisesToPlan = this.mapExercisesToPlan.bind(this);
 
         this.state = {
             selectedPlanId: null,
@@ -20,10 +21,9 @@ class ExercisePlans extends React.Component {
     }
 
     generateExercisePlansList() {
-        // TODO: Make a separate exercise list group item component
         return this.props.exercisePlans.map((plan) => {
             return (
-                <ExercisePlanListItem key={plan.id} handleClick={this.onPlanSelect} plan={plan} active={this.state.selectedPlanId == plan.id}/>
+                <ExercisePlanListItem key={plan.id} handleClick={this.onPlanSelect} plan={plan} active={this.state.selectedPlanId === plan.id}/>
             );
         });
     }
@@ -32,13 +32,30 @@ class ExercisePlans extends React.Component {
         const selectedPlan = this.props.exercisePlans[selectedPlanId];
         this.setState({
             selectedPlanId, 
-            currentPlan: selectedPlan 
+            currentPlan: this.mapExercisesToPlan(selectedPlan) 
         });
-        // TODO: Should exercise unpacking logic be here or in the display itself?
+    }
+
+    mapExercisesToPlan(plan) {
+        let exercises = plan.exercises.map((planExercise) => {
+            const exercise = this.props.exercises.find((propsExercise) => {
+                return propsExercise.id === planExercise.exerciseId;
+            });
+
+            return {
+                exercise,
+                sets: planExercise.sets,
+                reps: planExercise.reps
+            }
+        });
+        return {
+            plan,
+            exercises
+        }
     }
 
     onCreatePlanClick() {
-        this.props.exercisePlanAdded("Test", [0]);
+        this.props.exercisePlanAdded("Test", [{exerciseId: 0, sets: 1, reps: 1}]);
     }
 
     render() {
@@ -57,7 +74,7 @@ class ExercisePlans extends React.Component {
                     <button onClick={this.onCreatePlanClick}>Create plan</button>
                 </Col>
                 <Col xs="9">
-                    <ExercisePlanDisplay toDisplay={this.state.currentPlan}/>
+                    <ExercisePlanDisplay toDisplay={this.state.currentPlan} />
                 </Col>
             </Row>
         </Container>
@@ -66,7 +83,10 @@ class ExercisePlans extends React.Component {
 }
 
 function mapStateToProps(state) {
-    return { exercisePlans: state.exercise.exercisePlans }
+    return { 
+        exercisePlans: state.exercise.exercisePlans,
+        exercises: state.exercise.exercises
+     }
 }
 
 export default connect(mapStateToProps, { exercisePlanAdded })(ExercisePlans);
