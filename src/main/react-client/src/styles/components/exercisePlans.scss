@@ -1,0 +1,10 @@
+@import "../abstracts/variables";
+
+.link-plain {
+    color: $text-color;
+
+    &:hover {
+        text-decoration: none;
+        color: $text-color;
+    }
+}

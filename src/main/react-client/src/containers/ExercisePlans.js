@@ -1,9 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Col, Container, ListGroup, Row } from 'react-bootstrap';
+import { Switch, Route, Link } from 'react-router-dom';
+import '../styles/components/exercisePlans.scss';
 import { exercisePlanAdded } from '../reducers/ExerciseSlice';
 import ExercisePlanDisplay from '../components/ExercisePlanDisplay';
 import ExercisePlanListItem from '../components/ExercisePlanListItem';
+import CreateExercisePlanForm from '../components/CreateExercisePlanForm';
 
 
 class ExercisePlans extends React.Component {
@@ -58,26 +61,38 @@ class ExercisePlans extends React.Component {
         this.props.exercisePlanAdded("Test", [{exerciseId: 0, sets: 1, reps: 1}]);
     }
 
+    // TODO: Have both edit and display plan be the same
+    // TODO: Allow users to edit on the fly when displaying exercises
     render() {
         return (
-        <Container fluid>
-            <Row>
-                <Col>
-                    <h1>Exercise Plans</h1>
-                </Col>
-            </Row>
-            <Row>
-                <Col xs="3">
-                    <ListGroup variant="flush" className="shadow p-3 my-3">
-                        {this.generateExercisePlansList()}
-                    </ListGroup>
-                    <button onClick={this.onCreatePlanClick}>Create plan</button>
-                </Col>
-                <Col xs="9">
-                    <ExercisePlanDisplay toDisplay={this.state.currentPlan} />
-                </Col>
-            </Row>
-        </Container>
+            <Switch>
+                <Container fluid>
+                    <Row>
+                        <Col>
+                            <h1><Link to="/" className="link-plain">Exercise Plans</Link></h1>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs="3">
+                            <ListGroup variant="flush" className="shadow p-3 my-3">
+                                {this.generateExercisePlansList()}
+                            </ListGroup>
+                            <Link to="/plan/new">Create a new plan</Link>
+                        </Col>
+                        <Col xs="1"/>
+                        <Col xs="8">
+                            <Switch>
+                                <Route path="/plan/new">
+                                    <CreateExercisePlanForm />
+                                </Route>
+                                <Route path={['/', '/exercises']}>
+                                    <ExercisePlanDisplay selectedPlanId={this.state.selectedPlanId} toDisplay={this.state.currentPlan} />
+                                </Route>
+                            </Switch>
+                        </Col>
+                    </Row>
+                </Container>
+            </Switch>
         );
     }
 }

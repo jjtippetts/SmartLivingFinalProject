@@ -1,6 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { ListGroup } from 'react-bootstrap';
 
+// TODO: Add "add exercise" button
+// TODO: Connect w/store since the display will now allow users to edit exercise plan
 class ExercisePlanDisplay extends React.Component {
     constructor() {
         super();
@@ -10,6 +13,7 @@ class ExercisePlanDisplay extends React.Component {
 
     displayExercises() {
         const exercises = this.props.toDisplay?.exercises;
+        // TODO: this.props.toDisplay will be changed to selectedPlanId, then fetch & load from store
         if(exercises === null || exercises === undefined || exercises.length === 0) {
             return (
                 <div>No exercises to display.</div>
