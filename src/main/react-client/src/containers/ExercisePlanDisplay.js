@@ -1,19 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ListGroup } from 'react-bootstrap';
+import { Button, ListGroup } from 'react-bootstrap';
+import { exercisePlanUpdated } from '../reducers/ExerciseSlice';
+import ExerciseListItem from '../components/ExerciseListItem';
 
-// TODO: Add "add exercise" button
-// TODO: Connect w/store since the display will now allow users to edit exercise plan
 class ExercisePlanDisplay extends React.Component {
     constructor() {
         super();
         this.displayPlan = this.displayPlan.bind(this);
         this.displayExercises = this.displayExercises.bind(this);
+        this.onSaveExercise = this.onSaveExercise.bind(this);
+        this.onAddExercise = this.onAddExercise.bind(this);
+
+        this.state = {
+            exercises: [],
+        }
+
     }
 
     displayExercises() {
         const exercises = this.props.toDisplay?.exercises;
-        // TODO: this.props.toDisplay will be changed to selectedPlanId, then fetch & load from store
         if(exercises === null || exercises === undefined || exercises.length === 0) {
             return (
                 <div>No exercises to display.</div>
@@ -21,17 +27,17 @@ class ExercisePlanDisplay extends React.Component {
         }
         return exercises.map((exercise, i) => {
             return (
-                <ListGroup.Item key={i}>
-                    <h4>{exercise.exercise.name}</h4>
-                    <div>
-                        Sets: {exercise.sets}
-                    </div>
-                    <div>
-                        Reps: {exercise.reps}
-                    </div>
-                </ListGroup.Item>
+                <ExerciseListItem key={i} index={i} exercise={exercise} onSave={this.onSaveExercise}/>
             );
         });
+    }
+
+    onSaveExercise(exerciseIndex, updatedSets, updatedReps) {
+        this.props.exercisePlanUpdated(this.props.toDisplay.plan.id, {exerciseIndex, updatedSets, updatedReps});
+    }
+
+    onAddExercise() {
+        // Bring up search on add exercise click
     }
 
     displayPlan() {
@@ -51,6 +57,7 @@ class ExercisePlanDisplay extends React.Component {
                 <ListGroup variant="flush" className="exercise-display__container">
                     {this.displayExercises()}
                 </ListGroup>
+                <Button onClick={this.onAddExercise}>Add Exercise</Button>
             </div>
         )
     }
@@ -64,4 +71,11 @@ class ExercisePlanDisplay extends React.Component {
     }
 }
 
-export default ExercisePlanDisplay;
+function mapStateToProps(state) {
+    return { 
+        exercisePlans: state.exercise.exercisePlans,
+        exercises: state.exercise.exercises
+     }
+}
+
+export default connect(mapStateToProps, { exercisePlanUpdated })(ExercisePlanDisplay);

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const exampleExercisePlan = {
     id: 0,
@@ -30,7 +31,6 @@ const exampleExercises = [
     {
         id: 0,
         name: "bicep curls",
-        equipment: "dumbbells",
         muscles: ["bicep"],
     }
 ];
@@ -62,10 +62,59 @@ const exerciseSlice = createSlice({
                     }
                 }
             }
+        },
+        exercisePlanUpdated: {
+            reducer (state, action) {
+                return {
+                    ...state,
+                    exercisePlans:
+                        state.exercisePlans.map((plan) => {
+                        if(plan.id !== action.payload.planId) {
+                            return plan;
+                        }
+
+                        const updatedExercises = plan.exercises.map((exercise, i) => {
+                            if(i !== action.payload.updatedExercise.exerciseIndex) {
+                                return exercise;
+                            }
+
+                            return {
+                                ...exercise,
+                                sets: action.payload.updatedExercise.updatedSets,
+                                reps: action.payload.updatedExercise.updatedReps
+                            }
+                        });
+
+                        return {
+                            ...plan,
+                            exercises: updatedExercises
+                        };
+                    })
+                }
+            },
+            prepare(planId, updatedExercise) {
+                return {
+                    payload: {
+                        planId,
+                        updatedExercise
+                    }
+                }
+            }
+        },
+        exerciseSearch: {
+            reducer (state, action) {
+            },
+            prepare(exerciseName) {
+                return getExercises(exerciseName);
+            }
         }
     }
 });
 
+function getExercises(exerciseName) {
+    const url = `/api/exercise?=${exerciseName}`
+}
+
 
 export default exerciseSlice.reducer;
-export const { exercisePlanAdded } = exerciseSlice.actions;
+export const { exercisePlanAdded, exercisePlanUpdated } = exerciseSlice.actions;

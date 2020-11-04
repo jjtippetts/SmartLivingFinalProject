@@ -4,7 +4,7 @@ import { Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { Switch, Route, Link } from 'react-router-dom';
 import '../styles/components/exercisePlans.scss';
 import { exercisePlanAdded } from '../reducers/ExerciseSlice';
-import ExercisePlanDisplay from '../components/ExercisePlanDisplay';
+import ExercisePlanDisplay from './ExercisePlanDisplay';
 import ExercisePlanListItem from '../components/ExercisePlanListItem';
 import CreateExercisePlanForm from '../components/CreateExercisePlanForm';
 
@@ -16,6 +16,7 @@ class ExercisePlans extends React.Component {
         this.onCreatePlanClick = this.onCreatePlanClick.bind(this);
         this.onPlanSelect = this.onPlanSelect.bind(this);
         this.mapExercisesToPlan = this.mapExercisesToPlan.bind(this);
+        this.savePlan = this.savePlan.bind(this);
 
         this.state = {
             selectedPlanId: null,
@@ -61,6 +62,10 @@ class ExercisePlans extends React.Component {
         this.props.exercisePlanAdded("Test", [{exerciseId: 0, sets: 1, reps: 1}]);
     }
 
+    savePlan(planId, exercises) {
+
+    }
+
     // TODO: Have both edit and display plan be the same
     // TODO: Allow users to edit on the fly when displaying exercises
     render() {
@@ -86,7 +91,7 @@ class ExercisePlans extends React.Component {
                                     <CreateExercisePlanForm />
                                 </Route>
                                 <Route path={['/', '/exercises']}>
-                                    <ExercisePlanDisplay selectedPlanId={this.state.selectedPlanId} toDisplay={this.state.currentPlan} />
+                                    <ExercisePlanDisplay savePlan={this.savePlan} selectedPlanId={this.state.selectedPlanId} toDisplay={this.state.currentPlan} />
                                 </Route>
                             </Switch>
                         </Col>
