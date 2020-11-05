@@ -17,6 +17,7 @@ class CreateExercisePlanForm extends React.Component {
         this.onSaveExercise = this.onSaveExercise.bind(this);
         this.planIsValid = this.planIsValid.bind(this);
         this.displayFormErrors = this.displayFormErrors.bind(this);
+        this.deleteFromPlan = this.deleteFromPlan.bind(this);
 
         this.state = {
             selectedExercises: [], // { exercise: { id, name, . . . }, sets: number, reps: number }
@@ -35,7 +36,7 @@ class CreateExercisePlanForm extends React.Component {
         }
         return this.state.selectedExercises.map((exercise, i) => {
             return (
-                <ExerciseListItem key={"createFormSelectedExercise" + i} index={i} exercise={exercise} onSave={this.onSaveExercise}/>
+                <ExerciseListItem key={"createFormSelectedExercise" + i} index={i} exercise={exercise} onDelete={this.deleteFromPlan} onSave={this.onSaveExercise}/>
             )
         });
     }
@@ -56,6 +57,14 @@ class CreateExercisePlanForm extends React.Component {
             })
         }
         })
+    }
+
+    deleteFromPlan(exerciseIndex) {
+        this.setState((previousState) => {
+            return {
+                selectedExercises: previousState.selectedExercises.filter((item, index) => index !== exerciseIndex)
+            }
+        });
     }
 
     addToPlan(exerciseId) {

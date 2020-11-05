@@ -79,7 +79,7 @@ const exerciseSlice = createSlice({
                         }
 
                         let newExercises = plan.exercises.slice();
-                        newExercises.push({exerciseId: action.payload.exerciseId, sets: 0, reps: 0});
+                        newExercises.push({exerciseId: action.payload.exerciseId, sets: 1, reps: 1});
 
                         return {
                             ...plan,
@@ -98,7 +98,7 @@ const exerciseSlice = createSlice({
             }
 
         },
-        exercisePlanUpdated: {
+        exercisePlanSetsRepsUpdated: {
             reducer (state, action) {
                 return {
                     ...state,
@@ -136,6 +136,32 @@ const exerciseSlice = createSlice({
                 }
             }
         },
+        exercisePlanExerciseDeleted: {
+            reducer (state, action) {
+                return {
+                    ...state,
+                    exercisePlans:
+                        state.exercisePlans.map((plan) => {
+                        if(plan.id !== action.payload.planId) {
+                            return plan;
+                        }
+
+                        return {
+                            ...plan,
+                            exercises: plan.exercises.filter((exercise, index) => index !== action.payload.toRemoveIndex)
+                        };
+                    })
+                }
+            },
+            prepare(planId, toRemoveIndex) {
+                return {
+                    payload: {
+                        planId,
+                        toRemoveIndex
+                    }
+                }
+            }
+        },
         exerciseSearch: {
             reducer (state, action) {
             },
@@ -152,4 +178,4 @@ function getExercises(exerciseName) {
 
 
 export default exerciseSlice.reducer;
-export const { exercisePlanAdded, exerciseAddedToPlan, exercisePlanUpdated } = exerciseSlice.actions;
+export const { exercisePlanAdded, exerciseAddedToPlan, exercisePlanExerciseDeleted, exercisePlanSetsRepsUpdated, exerciseSearch } = exerciseSlice.actions;

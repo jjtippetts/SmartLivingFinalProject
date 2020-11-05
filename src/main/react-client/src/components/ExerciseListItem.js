@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button, ButtonGroup, ListGroup } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 class ExerciseListItem extends React.Component {
     constructor(props) {
         super();
         this.handleSave = this.handleSave.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
         this.incrementSets = this.incrementSets.bind(this);
         this.decrementSets = this.decrementSets.bind(this);
         this.incrementReps = this.incrementReps.bind(this);
@@ -19,6 +19,10 @@ class ExerciseListItem extends React.Component {
 
     handleSave() {
         this.props.onSave(this.props.index, this.state.sets, this.state.reps);
+    }
+
+    handleDelete() {
+        this.props.onDelete(this.props.index);
     }
 
     incrementSets() {
@@ -72,6 +76,7 @@ class ExerciseListItem extends React.Component {
                     </ButtonGroup>
                 </div>
                 <Button onClick={this.handleSave}>Save</Button>
+                <Button variant="danger" onClick={this.handleDelete}>Delete</Button>
             </ListGroup.Item>
         );
     }
