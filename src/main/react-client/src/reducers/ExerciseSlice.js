@@ -30,8 +30,13 @@ const exampleExercisePlan = {
 const exampleExercises = [
     {
         id: 0,
-        name: "bicep curls",
+        name: "bicep curl",
         muscles: ["bicep"],
+    },
+    {
+        id: 1,
+        name: "back squat",
+        muscles: ["legs"]
     }
 ];
 
@@ -62,6 +67,35 @@ const exerciseSlice = createSlice({
                     }
                 }
             }
+        },
+        exerciseAddedToPlan: {
+            reducer (state, action) {
+                return {
+                    ...state,
+                    exercisePlans: state.exercisePlans.map((plan) => {
+                        if (plan.id !== action.payload.planId) {
+                            return plan;
+                        }
+
+                        let newExercises = plan.exercises.slice();
+                        newExercises.push({exerciseId: action.payload.exerciseId, sets: 0, reps: 0});
+
+                        return {
+                            ...plan,
+                            exercises: newExercises
+                        };
+                    })
+                }
+            },
+            prepare(planId, exerciseId) {
+                return {
+                    payload: {
+                        planId,
+                        exerciseId
+                    }
+                }
+            }
+
         },
         exercisePlanUpdated: {
             reducer (state, action) {
@@ -117,4 +151,4 @@ function getExercises(exerciseName) {
 
 
 export default exerciseSlice.reducer;
-export const { exercisePlanAdded, exercisePlanUpdated } = exerciseSlice.actions;
+export const { exercisePlanAdded, exerciseAddedToPlan, exercisePlanUpdated } = exerciseSlice.actions;

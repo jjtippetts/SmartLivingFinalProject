@@ -7,6 +7,7 @@ import { exercisePlanAdded } from '../reducers/ExerciseSlice';
 import ExercisePlanDisplay from './ExercisePlanDisplay';
 import ExercisePlanListItem from '../components/ExercisePlanListItem';
 import CreateExercisePlanForm from '../components/CreateExercisePlanForm';
+import ExerciseSearch from './ExerciseSearch';
 
 
 class ExercisePlans extends React.Component {
@@ -15,8 +16,9 @@ class ExercisePlans extends React.Component {
         this.generateExercisePlansList = this.generateExercisePlansList.bind(this);
         this.onCreatePlanClick = this.onCreatePlanClick.bind(this);
         this.onPlanSelect = this.onPlanSelect.bind(this);
-        this.mapExercisesToPlan = this.mapExercisesToPlan.bind(this);
         this.savePlan = this.savePlan.bind(this);
+        this.setNewPlan = this.setNewPlan.bind(this);
+        this.resetCurrentPlanState = this.resetCurrentPlanState.bind(this);
 
         this.state = {
             selectedPlanId: null,
@@ -33,29 +35,9 @@ class ExercisePlans extends React.Component {
     }
 
     onPlanSelect(selectedPlanId) {
-        const selectedPlan = this.props.exercisePlans[selectedPlanId];
         this.setState({
             selectedPlanId, 
-            currentPlan: this.mapExercisesToPlan(selectedPlan) 
         });
-    }
-
-    mapExercisesToPlan(plan) {
-        let exercises = plan.exercises.map((planExercise) => {
-            const exercise = this.props.exercises.find((propsExercise) => {
-                return propsExercise.id === planExercise.exerciseId;
-            });
-
-            return {
-                exercise,
-                sets: planExercise.sets,
-                reps: planExercise.reps
-            }
-        });
-        return {
-            plan,
-            exercises
-        }
     }
 
     onCreatePlanClick() {
@@ -66,15 +48,28 @@ class ExercisePlans extends React.Component {
 
     }
 
-    // TODO: Have both edit and display plan be the same
-    // TODO: Allow users to edit on the fly when displaying exercises
+    setNewPlan() {
+        this.setState((previousState) => {
+            return {
+                selectedPlanId: previousState.selectedPlanId + 1
+            }
+        })
+    }
+
+    resetCurrentPlanState() {
+        this.setState({
+            selectedPlanId: null,
+            currentPlan: null
+        })
+    }
+
     render() {
         return (
             <Switch>
                 <Container fluid>
                     <Row>
                         <Col>
-                            <h1><Link to="/" className="link-plain">Exercise Plans</Link></h1>
+                            <h1><Link to="/" className="link-plain" onClick={this.resetCurrentPlanState}>Exercise Plans</Link></h1>
                         </Col>
                     </Row>
                     <Row>
@@ -82,16 +77,17 @@ class ExercisePlans extends React.Component {
                             <ListGroup variant="flush" className="shadow p-3 my-3">
                                 {this.generateExercisePlansList()}
                             </ListGroup>
-                            <Link to="/plan/new">Create a new plan</Link>
+                            <Link to="/plan/new" onClick={this.setNewPlan}>Create a new plan</Link>
                         </Col>
                         <Col xs="1"/>
                         <Col xs="8">
+                            <ExerciseSearch currentPlanId={this.state.selectedPlanId} />
                             <Switch>
                                 <Route path="/plan/new">
                                     <CreateExercisePlanForm />
                                 </Route>
                                 <Route path={['/', '/exercises']}>
-                                    <ExercisePlanDisplay savePlan={this.savePlan} selectedPlanId={this.state.selectedPlanId} toDisplay={this.state.currentPlan} />
+                                    <ExercisePlanDisplay savePlan={this.savePlan} selectedPlanId={this.state.selectedPlanId} />
                                 </Route>
                             </Switch>
                         </Col>

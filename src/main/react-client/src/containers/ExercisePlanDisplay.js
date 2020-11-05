@@ -5,43 +5,60 @@ import { exercisePlanUpdated } from '../reducers/ExerciseSlice';
 import ExerciseListItem from '../components/ExerciseListItem';
 
 class ExercisePlanDisplay extends React.Component {
-    constructor() {
+    constructor(props) {
         super();
         this.displayPlan = this.displayPlan.bind(this);
         this.displayExercises = this.displayExercises.bind(this);
         this.onSaveExercise = this.onSaveExercise.bind(this);
-        this.onAddExercise = this.onAddExercise.bind(this);
+        this.mapExercisesToPlan = this.mapExercisesToPlan.bind(this);
 
         this.state = {
             exercises: [],
         }
-
     }
 
     displayExercises() {
-        const exercises = this.props.toDisplay?.exercises;
+        const exercises = this.props.exercisePlans[this.props.selectedPlanId]?.exercises;
         if(exercises === null || exercises === undefined || exercises.length === 0) {
             return (
                 <div>No exercises to display.</div>
             )
         }
-        return exercises.map((exercise, i) => {
+
+        const mappedExercises = this.mapExercisesToPlan();
+
+        return mappedExercises.map((exercise, i) => {
             return (
                 <ExerciseListItem key={i} index={i} exercise={exercise} onSave={this.onSaveExercise}/>
             );
         });
     }
 
-    onSaveExercise(exerciseIndex, updatedSets, updatedReps) {
-        this.props.exercisePlanUpdated(this.props.toDisplay.plan.id, {exerciseIndex, updatedSets, updatedReps});
+    mapExercisesToPlan() {
+        const plan = this.props.exercisePlans[this.props.selectedPlanId];
+        if (plan === null || plan === undefined) {
+            return;
+        }
+        return plan.exercises.map((planExercise) => {
+            const exercise = this.props.exercises.find((propsExercise) => {
+                return propsExercise.id === planExercise.exerciseId;
+            });
+
+            return {
+                exercise,
+                sets: planExercise.sets,
+                reps: planExercise.reps
+            }
+        });
     }
 
-    onAddExercise() {
-        // Bring up search on add exercise click
+
+    onSaveExercise(exerciseIndex, updatedSets, updatedReps) {
+        this.props.exercisePlanUpdated(this.props.selectedPlanId, {exerciseIndex, updatedSets, updatedReps});
     }
 
     displayPlan() {
-        const plan = this.props.toDisplay?.plan;
+        const plan = this.props.exercisePlans[this.props.selectedPlanId];
         if (plan === null || plan === undefined) {
             return (
                 <div>
@@ -57,7 +74,6 @@ class ExercisePlanDisplay extends React.Component {
                 <ListGroup variant="flush" className="exercise-display__container">
                     {this.displayExercises()}
                 </ListGroup>
-                <Button onClick={this.onAddExercise}>Add Exercise</Button>
             </div>
         )
     }
