@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { ListGroup } from 'react-bootstrap';
 import { exercisePlanSetsRepsUpdated, exerciseAddedToPlan, exercisePlanExerciseDeleted } from '../reducers/ExerciseSlice';
 import ExerciseListItem from '../components/ExerciseListItem';
-import ExerciseSearch from '../components/ExerciseSearch';
+import ExerciseSearch from './ExerciseSearch';
 
 class ExercisePlanDisplay extends React.Component {
     constructor() {

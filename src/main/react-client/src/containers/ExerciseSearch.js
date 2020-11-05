@@ -1,6 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button, Form, FormControl, ListGroup } from 'react-bootstrap';
-import ExerciseSearchResultItem from './ExerciseSearchResultItem';
+import ExerciseSearchResultItem from '../components/ExerciseSearchResultItem';
 
 class ExerciseSearch extends React.Component {
     constructor() {
@@ -8,10 +9,11 @@ class ExerciseSearch extends React.Component {
         this.onSearchInputChange = this.onSearchInputChange.bind(this);
         this.displaySearchResults = this.displaySearchResults.bind(this);
         this.onSearchSubmit = this.onSearchSubmit.bind(this);
+        this.searchLocal = this.searchLocal.bind(this);
 
         this.state = {
             searchInput: "",
-            searchResults: [{name: "back squat", id: 1}]
+            searchResults: []
         }
     }
 
@@ -34,6 +36,20 @@ class ExerciseSearch extends React.Component {
 
     onSearchSubmit(e) {
         e.preventDefault();
+        let searchResults = this.searchLocal();
+        if(searchResults.length === 0) {
+            // Do global search on server here.
+            // OR have user choose to do global search
+        }
+        this.setState({
+            searchResults
+        });
+    }
+
+    searchLocal() {
+        const searchInput = this.state.searchInput;
+        // TODO: possibly enhance search with fusejs?
+        return this.props.exercises.filter((exercise) => exercise.name.includes(searchInput));
     }
 
     render() {
@@ -51,4 +67,11 @@ class ExerciseSearch extends React.Component {
     }
 }
 
-export default ExerciseSearch;
+function mapStateToProps(state) {
+    return { 
+        exercisePlans: state.exercise.exercisePlans,
+        exercises: state.exercise.exercises
+     }
+}
+
+export default connect(mapStateToProps)(ExerciseSearch);

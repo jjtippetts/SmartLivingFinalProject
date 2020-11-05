@@ -4,7 +4,7 @@ import { exercisePlanAdded } from '../reducers/ExerciseSlice';
 import { Button, ButtonGroup, Form, ListGroup } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import ExerciseListItem from '../components/ExerciseListItem';
-import ExerciseSearch from '../components/ExerciseSearch';
+import ExerciseSearch from './ExerciseSearch';
 
 class CreateExercisePlanForm extends React.Component {
     constructor(props) {

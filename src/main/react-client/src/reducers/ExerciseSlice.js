@@ -162,7 +162,7 @@ const exerciseSlice = createSlice({
                 }
             }
         },
-        exerciseSearch: {
+        retrieveExercises: {
             reducer (state, action) {
             },
             prepare(exerciseName) {
@@ -178,4 +178,4 @@ function getExercises(exerciseName) {
 
 
 export default exerciseSlice.reducer;
-export const { exercisePlanAdded, exerciseAddedToPlan, exercisePlanExerciseDeleted, exercisePlanSetsRepsUpdated, exerciseSearch } = exerciseSlice.actions;
+export const { exercisePlanAdded, exerciseAddedToPlan, exercisePlanExerciseDeleted, exercisePlanSetsRepsUpdated, retrieveExercises } = exerciseSlice.actions;
