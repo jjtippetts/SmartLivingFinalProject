@@ -1,16 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, ListGroup } from 'react-bootstrap';
-import { exercisePlanUpdated } from '../reducers/ExerciseSlice';
+import { ListGroup } from 'react-bootstrap';
+import { exercisePlanUpdated, exerciseAddedToPlan } from '../reducers/ExerciseSlice';
 import ExerciseListItem from '../components/ExerciseListItem';
+import ExerciseSearch from '../components/ExerciseSearch';
 
 class ExercisePlanDisplay extends React.Component {
-    constructor(props) {
+    constructor() {
         super();
         this.displayPlan = this.displayPlan.bind(this);
         this.displayExercises = this.displayExercises.bind(this);
         this.onSaveExercise = this.onSaveExercise.bind(this);
         this.mapExercisesToPlan = this.mapExercisesToPlan.bind(this);
+        this.addToPlan = this.addToPlan.bind(this);
 
         this.state = {
             exercises: [],
@@ -29,7 +31,7 @@ class ExercisePlanDisplay extends React.Component {
 
         return mappedExercises.map((exercise, i) => {
             return (
-                <ExerciseListItem key={i} index={i} exercise={exercise} onSave={this.onSaveExercise}/>
+                <ExerciseListItem key={this.props.selectedPlanId + "exercisePlanDisplay" + i} index={i} exercise={exercise} onSave={this.onSaveExercise}/>
             );
         });
     }
@@ -52,6 +54,10 @@ class ExercisePlanDisplay extends React.Component {
         });
     }
 
+
+    addToPlan(exerciseId) {
+        this.props.exerciseAddedToPlan(this.props.selectedPlanId, exerciseId);
+    }
 
     onSaveExercise(exerciseIndex, updatedSets, updatedReps) {
         this.props.exercisePlanUpdated(this.props.selectedPlanId, {exerciseIndex, updatedSets, updatedReps});
@@ -81,6 +87,7 @@ class ExercisePlanDisplay extends React.Component {
     render() {
         return (
             <div>
+                <ExerciseSearch currentPlanId={this.props.selectedPlanId} addToPlan={this.addToPlan}/>
                 {this.displayPlan()}
             </div>
         )
@@ -94,4 +101,4 @@ function mapStateToProps(state) {
      }
 }
 
-export default connect(mapStateToProps, { exercisePlanUpdated })(ExercisePlanDisplay);
+export default connect(mapStateToProps, { exercisePlanUpdated, exerciseAddedToPlan })(ExercisePlanDisplay);

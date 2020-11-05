@@ -1,8 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Button, Form, FormControl, ListGroup } from 'react-bootstrap';
-import { exerciseAddedToPlan } from '../reducers/ExerciseSlice';
-import ExerciseSearchResultItem from '../components/ExerciseSearchResultItem';
+import ExerciseSearchResultItem from './ExerciseSearchResultItem';
 
 class ExerciseSearch extends React.Component {
     constructor() {
@@ -10,7 +8,6 @@ class ExerciseSearch extends React.Component {
         this.onSearchInputChange = this.onSearchInputChange.bind(this);
         this.displaySearchResults = this.displaySearchResults.bind(this);
         this.onSearchSubmit = this.onSearchSubmit.bind(this);
-        this.addToPlan = this.addToPlan.bind(this);
 
         this.state = {
             searchInput: "",
@@ -24,14 +21,9 @@ class ExerciseSearch extends React.Component {
         }
         return this.state.searchResults.map((exercise, i) => {
             return (
-                <ExerciseSearchResultItem key={i} addToPlan={this.addToPlan} exercise={exercise} currentPlanId={this.props.currentPlanId} />
+                <ExerciseSearchResultItem key={i} addToPlan={this.props.addToPlan} exercise={exercise} currentPlanId={this.props.currentPlanId} />
             );
         });
-    }
-
-
-    addToPlan(exerciseId) {
-        this.props.exerciseAddedToPlan(this.props.currentPlanId, exerciseId);
     }
 
     onSearchInputChange(e) {
@@ -59,4 +51,4 @@ class ExerciseSearch extends React.Component {
     }
 }
 
-export default connect(null, {exerciseAddedToPlan})(ExerciseSearch);
+export default ExerciseSearch;

@@ -6,8 +6,7 @@ import '../styles/components/exercisePlans.scss';
 import { exercisePlanAdded } from '../reducers/ExerciseSlice';
 import ExercisePlanDisplay from './ExercisePlanDisplay';
 import ExercisePlanListItem from '../components/ExercisePlanListItem';
-import CreateExercisePlanForm from '../components/CreateExercisePlanForm';
-import ExerciseSearch from './ExerciseSearch';
+import CreateExercisePlanForm from './CreateExercisePlanForm';
 
 
 class ExercisePlans extends React.Component {
@@ -16,7 +15,6 @@ class ExercisePlans extends React.Component {
         this.generateExercisePlansList = this.generateExercisePlansList.bind(this);
         this.onCreatePlanClick = this.onCreatePlanClick.bind(this);
         this.onPlanSelect = this.onPlanSelect.bind(this);
-        this.savePlan = this.savePlan.bind(this);
         this.setNewPlan = this.setNewPlan.bind(this);
         this.resetCurrentPlanState = this.resetCurrentPlanState.bind(this);
 
@@ -42,10 +40,6 @@ class ExercisePlans extends React.Component {
 
     onCreatePlanClick() {
         this.props.exercisePlanAdded("Test", [{exerciseId: 0, sets: 1, reps: 1}]);
-    }
-
-    savePlan(planId, exercises) {
-
     }
 
     setNewPlan() {
@@ -81,7 +75,6 @@ class ExercisePlans extends React.Component {
                         </Col>
                         <Col xs="1"/>
                         <Col xs="8">
-                            <ExerciseSearch currentPlanId={this.state.selectedPlanId} />
                             <Switch>
                                 <Route path="/plan/new">
                                     <CreateExercisePlanForm />

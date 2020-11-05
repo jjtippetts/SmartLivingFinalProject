@@ -60,6 +60,7 @@ const exerciseSlice = createSlice({
                 })
             },
             prepare(name, exercises) {
+                // Exercises: { exerciseId, sets, reps }
                 return {
                     payload: {
                         name,
