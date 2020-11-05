@@ -32,7 +32,7 @@ class ExerciseListItem extends React.Component {
     decrementSets() {
         this.setState((prevState) => {
             return {
-                sets: prevState.sets - 1
+                sets: prevState.sets > 1 ? prevState.sets - 1 : prevState.sets
             }
         });
     }
@@ -48,7 +48,7 @@ class ExerciseListItem extends React.Component {
     decrementReps() {
         this.setState((prevState) => {
             return {
-                reps: prevState.reps - 1
+                reps: prevState.reps > 1 ? prevState.reps - 1 : prevState.reps
             }
         });
     }

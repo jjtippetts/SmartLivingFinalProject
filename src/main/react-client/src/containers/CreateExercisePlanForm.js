@@ -64,8 +64,8 @@ class CreateExercisePlanForm extends React.Component {
             const exerciseData = this.props.exercises.filter((exercise) => exercise.id === exerciseId)[0];
             updatedExercises.push({
                 exercise: exerciseData,
-                sets: 0,
-                reps: 0
+                sets: 1,
+                reps: 1
             })
             return {
                 selectedExercises: updatedExercises
