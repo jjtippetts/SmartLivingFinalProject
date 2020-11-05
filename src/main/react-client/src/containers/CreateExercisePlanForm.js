@@ -42,7 +42,8 @@ class CreateExercisePlanForm extends React.Component {
 
     onSaveExercise(exerciseIndex, sets, reps) {
         this.setState((previousState) => {
-            return previousState.selectedExercises.map((exercise, i) => {
+            return {
+                selectedExercises: previousState.selectedExercises.map((exercise, i) => {
                 if (i !== exerciseIndex) {
                     return exercise;
                 }
@@ -53,6 +54,7 @@ class CreateExercisePlanForm extends React.Component {
                     reps
                 }
             })
+        }
         })
     }
 
