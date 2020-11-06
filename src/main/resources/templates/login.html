@@ -106,6 +106,7 @@
             <a href="#" id="sign-in-link">
                 Sign in
             </a>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
         </div>
     </div>
 </div>
@@ -113,5 +114,6 @@
 <div th:replace="~{footer :: footer}"></div>
 <div th:replace="~{scripts :: bootstrap}"></div>
 <script src="js/login.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 </body>
 </html>
