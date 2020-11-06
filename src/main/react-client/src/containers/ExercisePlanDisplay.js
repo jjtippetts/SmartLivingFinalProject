@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ListGroup } from 'react-bootstrap';
+import { Button, Container, Col, Row, ListGroup } from 'react-bootstrap';
 import { exercisePlanSetsRepsUpdated, exerciseAddedToPlan, exercisePlanExerciseDeleted } from '../reducers/ExerciseSlice';
 import ExerciseListItem from '../components/ExerciseListItem';
 import ExerciseSearch from './ExerciseSearch';
@@ -14,6 +14,7 @@ class ExercisePlanDisplay extends React.Component {
         this.mapExercisesToPlan = this.mapExercisesToPlan.bind(this);
         this.addToPlan = this.addToPlan.bind(this);
         this.deleteFromPlan = this.deleteFromPlan.bind(this);
+        this.deletePlan = this.deletePlan.bind(this);
 
         this.state = {
             exercises: [],
@@ -68,6 +69,21 @@ class ExercisePlanDisplay extends React.Component {
         this.props.exercisePlanSetsRepsUpdated(this.props.selectedPlanId, {exerciseIndex, updatedSets, updatedReps});
     }
 
+    deletePlan() {
+        this.props.deleteExercisePlan(this.props.selectedPlanId);
+    }
+
+    displayDeleteButton() {
+        if (this.props.selectedPlanId === null || this.props.selectedPlanId === undefined) {
+            return;
+        }
+        return (
+            <Button variant="danger" onClick={this.deletePlan}>Delete Plan</Button>
+        );
+    }
+
+    // TODO: Increase spacing between items
+    // TODO: Bulk or auto save
     displayPlan() {
         const plan = this.props.exercisePlans[this.props.selectedPlanId];
         if (plan === null || plan === undefined) {
@@ -91,10 +107,18 @@ class ExercisePlanDisplay extends React.Component {
     
     render() {
         return (
-            <div>
-                <ExerciseSearch currentPlanId={this.props.selectedPlanId} addToPlan={this.addToPlan}/>
-                {this.displayPlan()}
-            </div>
+            <Container fluid>
+                <Row>
+                    <Col xs="8">
+                        {this.displayPlan()}
+                        {this.displayDeleteButton()}
+                    </Col>
+                    <Col>
+                        <h3 className="text-left">Add an exercise</h3>
+                        <ExerciseSearch currentPlanId={this.props.selectedPlanId} addToPlan={this.addToPlan}/>
+                    </Col>
+                </Row>
+            </Container>
         )
     }
 }

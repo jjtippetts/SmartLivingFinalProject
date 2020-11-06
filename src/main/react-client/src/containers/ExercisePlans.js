@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { Switch, Route, Link } from 'react-router-dom';
 import '../styles/components/exercisePlans.scss';
-import { exercisePlanAdded } from '../reducers/ExerciseSlice';
+import { exercisePlanAdded, exercisePlanDeleted } from '../reducers/ExerciseSlice';
 import ExercisePlanDisplay from './ExercisePlanDisplay';
 import ExercisePlanListItem from '../components/ExercisePlanListItem';
 import CreateExercisePlanForm from './CreateExercisePlanForm';
@@ -17,6 +17,7 @@ class ExercisePlans extends React.Component {
         this.onPlanSelect = this.onPlanSelect.bind(this);
         this.setNewPlan = this.setNewPlan.bind(this);
         this.resetCurrentPlanState = this.resetCurrentPlanState.bind(this);
+        this.deleteExercisePlan = this.deleteExercisePlan.bind(this);
 
         this.state = {
             selectedPlanId: null,
@@ -25,6 +26,14 @@ class ExercisePlans extends React.Component {
     }
 
     generateExercisePlansList() {
+        if (this.props.exercisePlans.length === 0) {
+            return (
+                <div>
+                    Create a plan!
+                </div>
+            );
+        }
+
         return this.props.exercisePlans.map((plan) => {
             return (
                 <ExercisePlanListItem key={plan.id} handleClick={this.onPlanSelect} plan={plan} active={this.state.selectedPlanId === plan.id}/>
@@ -57,6 +66,13 @@ class ExercisePlans extends React.Component {
         })
     }
 
+    deleteExercisePlan() {
+        const toDeletePlanId = this.state.selectedPlanId;
+        this.resetCurrentPlanState();
+        this.props.exercisePlanDeleted(toDeletePlanId);
+    }
+
+    // TODO: align left "EXERCISE PLANS" header
     render() {
         return (
             <Switch>
@@ -73,14 +89,13 @@ class ExercisePlans extends React.Component {
                             </ListGroup>
                             <Link to="/plan/new" onClick={this.setNewPlan}>Create a new plan</Link>
                         </Col>
-                        <Col xs="1"/>
-                        <Col xs="8">
+                        <Col xs="9">
                             <Switch>
                                 <Route path="/plan/new">
                                     <CreateExercisePlanForm />
                                 </Route>
                                 <Route path={['/', '/exercises']}>
-                                    <ExercisePlanDisplay savePlan={this.savePlan} selectedPlanId={this.state.selectedPlanId} />
+                                    <ExercisePlanDisplay savePlan={this.savePlan} deleteExercisePlan={this.deleteExercisePlan} selectedPlanId={this.state.selectedPlanId} />
                                 </Route>
                             </Switch>
                         </Col>
@@ -98,4 +113,4 @@ function mapStateToProps(state) {
      }
 }
 
-export default connect(mapStateToProps, { exercisePlanAdded })(ExercisePlans);
+export default connect(mapStateToProps, { exercisePlanAdded, exercisePlanDeleted })(ExercisePlans);

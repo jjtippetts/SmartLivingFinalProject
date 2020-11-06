@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Form, FormControl, ListGroup } from 'react-bootstrap';
+import { Button, Form, FormControl, FormGroup, ListGroup, InputGroup } from 'react-bootstrap';
 import ExerciseSearchResultItem from '../components/ExerciseSearchResultItem';
 
 class ExerciseSearch extends React.Component {
@@ -17,6 +17,7 @@ class ExerciseSearch extends React.Component {
         }
     }
 
+    // TODO: Make button a part of the search input
     displaySearchResults() {
         if (this.state.searchResults.length === 0) {
             return;
@@ -37,7 +38,7 @@ class ExerciseSearch extends React.Component {
     onSearchSubmit(e) {
         e.preventDefault();
         let searchResults = this.searchLocal();
-        if(searchResults.length === 0) {
+        if (searchResults.length === 0) {
             // Do global search on server here.
             // OR have user choose to do global search
         }
@@ -49,6 +50,9 @@ class ExerciseSearch extends React.Component {
     searchLocal() {
         const searchInput = this.state.searchInput;
         // TODO: possibly enhance search with fusejs?
+        if (searchInput.length === 0) {
+            return [];
+        }
         return this.props.exercises.filter((exercise) => exercise.name.includes(searchInput));
     }
 
@@ -56,10 +60,14 @@ class ExerciseSearch extends React.Component {
         return (
             <div>
                 <Form onSubmit={this.onSearchSubmit}>
-                    <FormControl value={this.state.searchInput} onChange={this.onSearchInputChange} placeholder="Search exercises"/>
-                    <Button variant="primary" type="submit">Search</Button>
+                    <InputGroup>
+                        <FormControl value={this.state.searchInput} onChange={this.onSearchInputChange} placeholder="Search exercises"/>
+                        <InputGroup.Append>
+                            <Button variant="primary" type="submit">Search</Button>
+                        </InputGroup.Append>
+                    </InputGroup>
                 </Form>
-                <ListGroup>
+                <ListGroup className="">
                     {this.displaySearchResults()}
                 </ListGroup>
             </div>

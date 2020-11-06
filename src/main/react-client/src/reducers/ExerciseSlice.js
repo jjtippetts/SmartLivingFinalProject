@@ -162,13 +162,29 @@ const exerciseSlice = createSlice({
                 }
             }
         },
+        exercisePlanDeleted: {
+             reducer (state, action) {
+                return {
+                    ...state,
+                    exercisePlans:
+                        state.exercisePlans.filter(plan => plan.id !== action.payload.planId)
+                }
+            },
+            prepare(planId) {
+                return {
+                    payload: {
+                        planId
+                    }
+                }
+            }           
+        },
         retrieveExercises: {
             reducer (state, action) {
             },
             prepare(exerciseName) {
                 return getExercises(exerciseName);
             }
-        }
+        },
     }
 });
 
@@ -178,4 +194,4 @@ function getExercises(exerciseName) {
 
 
 export default exerciseSlice.reducer;
-export const { exercisePlanAdded, exerciseAddedToPlan, exercisePlanExerciseDeleted, exercisePlanSetsRepsUpdated, retrieveExercises } = exerciseSlice.actions;
+export const { exercisePlanAdded, exercisePlanDeleted, exerciseAddedToPlan, exercisePlanExerciseDeleted, exercisePlanSetsRepsUpdated, retrieveExercises } = exerciseSlice.actions;

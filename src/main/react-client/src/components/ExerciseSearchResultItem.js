@@ -22,12 +22,15 @@ class ExerciseSearchResultItem extends React.Component {
         this.props.addToPlan(this.props.exercise.id);
     }
 
+    // TODO: Align left, bold names. Add muscles used
     render() {
         return (
-            <ListGroup.Item>
-                {this.props.exercise.name}
+            <ListGroup.Item className="d-flex justify-content-between">
+                <span className="font-weight-bold text-left">{this.props.exercise.name}</span>
 
-                {this.displayAddToPlan()}
+                <div>
+                    {this.displayAddToPlan()}
+                </div>
             </ListGroup.Item>
         );
     }
