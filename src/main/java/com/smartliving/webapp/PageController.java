@@ -1,5 +1,9 @@
 package com.smartliving.webapp;
 
+import com.smartliving.webapp.user.UserCreationFormViewModel;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +31,13 @@ public class PageController {
 
     @GetMapping("/login")
     public String toLogin(Model model) {
-        return "login";
+        model.addAttribute("userCreationForm", new UserCreationFormViewModel());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(!(auth instanceof AnonymousAuthenticationToken)){
+            model.addAttribute("homeActive", "active");
+            return "landing";
+        } else {
+            return "login";
+        }
     }
 }

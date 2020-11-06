@@ -1,3 +1,22 @@
+.btn-orange {
+  color: white;
+  background-color: #f4a261;
+}
+
+.btn-orange:hover {
+  color: white;
+  background-color: #cf6348;
+}
+
+.nav-item {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+body {
+  margin-top: 56px;
+}
+
 .bg-main-color {
   background-color: #90E0EF;
 }
@@ -8,29 +27,12 @@
   padding-top: 80px;
 }
 
-td label {
-  display: none;
-}
-
 .light-gray {
   background-color: #e9ecef;
 }
 
 main {
-  min-height: calc(100vh - 128px - 88px);
-}
-
-.nav-item {
-  margin-right: 10px;
-  margin-left: 10px;
-}
-
-.card-deck .card .btn {
-  background-color: #f4a261;
-}
-
-.card-deck .card .btn:hover {
-  background-color: #cf6348;
+  min-height: calc(100vh - 128px - 56px);
 }
 
 .img-hover-zoom {
@@ -44,12 +46,4 @@ main {
   filter: grayscale(80%);
 }
 
-.fixed-top {
-  width: 100%;
-}
-
-.footer {
-  height: 20vh;
-}
-
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=home.css.map */

@@ -1,5 +1,26 @@
+@import "abstracts/abstracts-index";
+@import "base/base-index";
+@import "components/components-index";
+@import "layout/header";
+
+body {
+  margin-top: 88px;
+}
+
 html {
   overflow-y: scroll;
+}
+
+main#diet-main {
+  padding-top: 32px;
+}
+
+td label {
+  display: none;
+}
+
+main {
+  min-height: calc(100vh - 88px);
 }
 
 header .nav-pills {
@@ -19,7 +40,6 @@ header .nav-pills {
 }
 
 #foods-found {
-  //min-height: 20vh;
   max-height: 60vh;
   overflow: auto;
 }
@@ -60,10 +80,6 @@ label[for="search-food-name"] {
 .popover {
   white-space: pre-wrap;
 }
-
-//.rm-food {
-//  border-radius: 15px;
-//}
 
 .popover-header{
   background: var(--info);

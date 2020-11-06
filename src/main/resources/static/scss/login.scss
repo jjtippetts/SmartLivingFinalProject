@@ -1,4 +1,7 @@
-@import "variables";
+@import "abstracts/abstracts-index";
+@import "base/base-index";
+@import "components/components-index";
+@import "layout/layout-index";
 
 .main-container {
   height: 80vh;
@@ -35,10 +38,20 @@
   }
 }
 
+.toast-position {
+  position: absolute;
+  top: 100px;
+  right: 10px;
+}
+
 .invisible {
   visibility: hidden;
 }
 
 .transparent {
   opacity: 0;
+}
+
+.footer {
+  height: 20vh;
 }
