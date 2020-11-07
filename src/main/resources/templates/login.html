@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <meta name="google-signin-client_id" content="1057072397563-607inro2rlv9il6aepk4olqbhmbhs4d6.apps.googleusercontent.com">
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Smart Living | Login</title>
@@ -78,6 +79,7 @@
                 <a href="#" id="create-account-link">
                     Create an Account
                 </a>
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
             </div>
     </div>
 
@@ -131,5 +133,14 @@
 <div th:replace="~{scripts :: bootstrap}"></div>
 <script src="js/login.js"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    }
+</script>
 </body>
 </html>
