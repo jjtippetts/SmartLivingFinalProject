@@ -23,12 +23,6 @@ public class PageController {
         return "diet";
     }
 
-    @GetMapping("/exercise")
-    public String toExercise(Model model) {
-        model.addAttribute("exerciseActive", "active");
-        return "exercise";
-    }
-
     @GetMapping("/login")
     public String toLogin(Model model) {
         model.addAttribute("userCreationForm", new UserCreationFormViewModel());

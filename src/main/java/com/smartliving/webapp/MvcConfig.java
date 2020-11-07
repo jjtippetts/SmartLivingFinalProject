@@ -13,7 +13,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry){
-        registry.addViewController("/test/**").setViewName("forward:/index.html");
+        registry.addViewController("/exercise/**").setViewName("forward:/index.html");
         registry.addViewController("/home").setViewName("landing");
         registry.addViewController("/").setViewName("landing");
         registry.addViewController("/login").setViewName("login");
@@ -26,6 +26,6 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/test/**").addResourceLocations("classpath:/public/");
+        registry.addResourceHandler("/exercise/**").addResourceLocations("classpath:/public/");
     }
 }
