@@ -17,6 +17,15 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public User getUser(long userId) throws UserNotFoundException {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
+            throw new UserNotFoundException(userId);
+        }
+
+        return user;
+    }
+
     public User saveUser(UserCreationFormViewModel form) throws EmailExistsException, UserExistsException {
         if(emailExists(form.getEmail())) {
             throw new EmailExistsException("There is already an account with this email address");

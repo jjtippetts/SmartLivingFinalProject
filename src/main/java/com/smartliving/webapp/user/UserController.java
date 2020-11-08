@@ -46,7 +46,7 @@ public class UserController {
         return errorResult;
     }
 
-    @ExceptionHandler({EmailExistsException.class, UserExistsException.class})
+    @ExceptionHandler({EmailExistsException.class, UserExistsException.class, UserNotFoundException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, List<String>> handleDuplicateUserException(Exception ex) {
         HashMap<String, List<String>> errorResult = new HashMap<>() {};

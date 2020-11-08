@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.smartliving.webapp.client.Client;
 import com.smartliving.webapp.dietplan.DietPlan;
+import com.smartliving.webapp.exercise.ExercisePlan;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -39,6 +40,10 @@ public class User {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<DietPlan> dietPlans;
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<ExercisePlan> exercisePlans;
 
     public User(String username, String email, String password) {
         this.username = username;
