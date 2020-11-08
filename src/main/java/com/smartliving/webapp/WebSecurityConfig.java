@@ -33,7 +33,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/img/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/static/**").permitAll()
-                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -18,6 +18,10 @@ public class ExerciseService {
     return exerciseRepository.findAllByNameIgnoreCase(exerciseName);
   }
 
+  public Exercise getExerciseById(long id) {
+    return exerciseRepository.findById(id).orElse(null);
+  }
+
   public Exercise saveExercise(Exercise exercise) {
     exerciseRepository.save(exercise);
     return exercise;

@@ -1,26 +1,61 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+
+export const fetchUserExercisePlans = createAsyncThunk(
+    'exercise/fetchUserExercisePlans',
+    async () => {
+        const url = '/api/exercisePlans/';
+        const res = await axios.get(url);
+        return res.data;
+    }
+);
+
+export const saveUserExercisePlan = createAsyncThunk(
+    'exercise/saveUserExercisePlan',
+    async (exercisePlan) => {
+        const url = '/api/exercisePlans/new';
+        const res = await axios.post(url, exercisePlan);
+        return res.data;
+    }
+)
+
 
 const exampleExercisePlan = {
     id: 0,
     name: "Example Exercise Plan",
     exercises: [{
-        exerciseId: 0,
+        exercise: {
+            id: 1,
+            name: "bicep curl",
+            muscles: ["bicep"],
+        },
         sets: 1,
         reps: 1
     },
     {
-        exerciseId: 0,
+        exercise: {
+            id: 1,
+            name: "bicep curl",
+            muscles: ["bicep"],
+        },
         sets: 5,
         reps: 5
     },
     {
-        exerciseId: 0,
+        exercise: {
+            id: 1,
+            name: "bicep curl",
+            muscles: ["bicep"],
+        },
         sets: 5,
         reps: 5
     },
     {
-        exerciseId: 0,
+        exercise: {
+            id: 1,
+            name: "bicep curl",
+            muscles: ["bicep"],
+        },
         sets: 5,
         reps: 5
     },
@@ -29,12 +64,12 @@ const exampleExercisePlan = {
 
 const exampleExercises = [
     {
-        id: 0,
+        id: 1,
         name: "bicep curl",
         muscles: ["bicep"],
     },
     {
-        id: 1,
+        id: 2,
         name: "back squat",
         muscles: ["legs"]
     }
@@ -49,26 +84,6 @@ const exerciseSlice = createSlice({
     name: 'exercise',
     initialState,
     reducers: {
-        exercisePlanAdded: {
-            reducer (state, action) {
-                const exercisePlans = state.exercisePlans;
-                const id = exercisePlans[exercisePlans.length - 1].id + 1;
-                state.exercisePlans.push({
-                    id,
-                    name: action.payload.name,
-                    exercises: action.payload.exercises
-                })
-            },
-            prepare(name, exercises) {
-                // Exercises: { exerciseId, sets, reps }
-                return {
-                    payload: {
-                        name,
-                        exercises
-                    }
-                }
-            }
-        },
         exerciseAddedToPlan: {
             reducer (state, action) {
                 return {
@@ -178,12 +193,28 @@ const exerciseSlice = createSlice({
                 }
             }           
         },
-        retrieveExercises: {
-            reducer (state, action) {
-            },
-            prepare(exerciseName) {
-                return getExercises(exerciseName);
+        
+    },
+    extraReducers: {
+        [saveUserExercisePlan.fulfilled]: (state, action) => {
+            state.exercisePlans.push(action.payload);
+        },
+        [fetchUserExercisePlans.rejected]: (state, action) => {
+            return {
+                ...state,
+                errors: action.payload
             }
+        },
+        [fetchUserExercisePlans.fulfilled]: (state, action) => {
+            for (let i = 0; i < action.payload.length; i++) {
+                const exercisePlan = action.payload[i];
+                state.exercisePlans.push({
+                    id: exercisePlan.id,
+                    name: exercisePlan.name,
+                    exercises: exercisePlan.exercisesSetsReps,
+                });
+            }
+
         },
     }
 });
@@ -194,4 +225,4 @@ function getExercises(exerciseName) {
 
 
 export default exerciseSlice.reducer;
-export const { exercisePlanAdded, exercisePlanDeleted, exerciseAddedToPlan, exercisePlanExerciseDeleted, exercisePlanSetsRepsUpdated, retrieveExercises } = exerciseSlice.actions;
+export const { exercisePlanAdded, exercisePlanDeleted, exerciseAddedToPlan, exercisePlanExerciseDeleted, exercisePlanSetsRepsUpdated } = exerciseSlice.actions;

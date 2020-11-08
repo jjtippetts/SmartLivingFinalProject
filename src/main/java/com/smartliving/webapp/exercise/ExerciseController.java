@@ -1,8 +1,11 @@
 package com.smartliving.webapp.exercise;
 
+import com.smartliving.webapp.user.User;
 import com.smartliving.webapp.user.UserNotFoundException;
+import com.smartliving.webapp.userdetails.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -30,14 +33,21 @@ public class ExerciseController {
   }
 
   @PostMapping(path="/api/exercisePlans/new")
-  public ExercisePlan SaveExercisePlan(ExercisePlan exercisePlan) {
-    return exercisePlanService.savePlan(exercisePlan);
+  @ResponseBody
+  public ExercisePlan SaveExercisePlan(@RequestBody ExercisePlan exercisePlan, @AuthenticationPrincipal MyUserDetails userDetails) throws UserNotFoundException, ExercisePlanException {
+    return exercisePlanService.savePlan(exercisePlan, userDetails);
   }
 
   @GetMapping(path="/api/exercisePlans/{userId}")
   @ResponseBody
   public List<ExercisePlan> GetUserExercisePlans(@PathVariable long userId) throws UserNotFoundException {
     return exercisePlanService.getUserPlans(userId);
+  }
+
+  @GetMapping(path="/api/exercisePlans/")
+  @ResponseBody
+  public List<ExercisePlan> GetUserExercisePlans(@AuthenticationPrincipal MyUserDetails userDetails) throws UserNotFoundException {
+    return exercisePlanService.getUserPlans(userDetails.getUsername());
   }
 
   @DeleteMapping(path="/api/exercisePlans/delete")

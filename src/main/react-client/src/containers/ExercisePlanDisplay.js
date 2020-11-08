@@ -29,9 +29,7 @@ class ExercisePlanDisplay extends React.Component {
             )
         }
 
-        const mappedExercises = this.mapExercisesToPlan();
-
-        return mappedExercises.map((exercise, i) => {
+        return exercises.map((exercise, i) => {
             return (
                 <ExerciseListItem key={this.props.selectedPlanId + "exercisePlanDisplay" + i} index={i} exercise={exercise} onDelete={this.deleteFromPlan} onSave={this.onSaveExercise}/>
             );

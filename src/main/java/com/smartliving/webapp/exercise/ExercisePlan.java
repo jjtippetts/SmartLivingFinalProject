@@ -29,7 +29,6 @@ public class ExercisePlan {
   private String name;
 
   @ManyToMany(cascade = CascadeType.ALL)
-  @JsonManagedReference
   private List<ExerciseSetsReps> exercisesSetsReps;
 
   @NotNull

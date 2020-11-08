@@ -93,6 +93,7 @@ public class LoadDatabase {
             log.info("Preloading " + apple);
             log.info("Preloading " + breakfast);
             log.info("Preloading " + user);
+            log.info("Preloading " + bicepCurl);
             log.info("Preloading " + exercisePlan);
             log.info("Preloading " + userRepository.save(new User("doe","doe@gmail.com","doepassword")));
         };

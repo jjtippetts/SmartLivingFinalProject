@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { exercisePlanAdded } from '../reducers/ExerciseSlice';
+import { saveUserExercisePlan } from '../reducers/ExerciseSlice';
 import { Button, Container, Col, Row, Form, ListGroup, InputGroup } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import ExerciseListItem from '../components/ExerciseListItem';
@@ -87,13 +87,13 @@ class CreateExercisePlanForm extends React.Component {
         if(this.planIsValid()) {
             const exercises = this.state.selectedExercises.map((exercise) => {
                 return {
-                    exerciseId: exercise.exercise.id,
+                    exercise: exercise.exercise,
                     sets: exercise.sets,
                     reps: exercise.reps
                 }
             });
-            this.props.exercisePlanAdded(this.state.planName, exercises);
-            this.props.history.push('/');
+            this.props.dispatch(saveUserExercisePlan({name: this.state.planName, exercisesSetsReps: exercises}));
+            this.props.history.push('/exercise');
         }
     }
 
@@ -179,4 +179,4 @@ function mapStateToProps(state) {
      }
 }
 
-export default withRouter(connect(mapStateToProps, { exercisePlanAdded })(CreateExercisePlanForm));
+export default withRouter(connect(mapStateToProps)(CreateExercisePlanForm));
