@@ -1,8 +1,6 @@
 package com.smartliving.webapp.exercise;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.smartliving.webapp.meal.Meal;
 import com.smartliving.webapp.user.User;
 import lombok.Data;
 
@@ -16,20 +14,20 @@ import java.util.List;
 public class ExercisePlan {
   public ExercisePlan() {}
 
-  public ExercisePlan(String name, List<ExerciseSetsReps> exercisesSetsReps, User user) {
+  public ExercisePlan(String name, List<ExercisePlanExercise> exercises, User user) {
     this.name = name;
-    this.exercisesSetsReps = exercisesSetsReps;
+    this.exercises = exercises;
     this.user = user;
   }
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
   @NotEmpty
   private String name;
 
   @ManyToMany(cascade = CascadeType.ALL)
-  private List<ExerciseSetsReps> exercisesSetsReps;
+  private List<ExercisePlanExercise> exercises;
 
   @NotNull
   @ManyToOne(fetch = FetchType.LAZY)

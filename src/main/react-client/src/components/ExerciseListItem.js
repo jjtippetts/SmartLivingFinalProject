@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Row, Col, ListGroup } from 'react-bootstrap';
+import { Button, Container, Row, Col, ListGroup, InputGroup } from 'react-bootstrap';
 
 class ExerciseListItem extends React.Component {
     constructor(props) {
@@ -12,10 +12,19 @@ class ExerciseListItem extends React.Component {
         this.decrementReps = this.decrementReps.bind(this);
         this.onSetsInputChange = this.onSetsInputChange.bind(this);
         this.onRepsInputChange = this.onRepsInputChange.bind(this);
+        this.displayReps = this.displayReps.bind(this);
+        this.displaySets = this.displaySets.bind(this);
+        this.displayDelete = this.displayDelete.bind(this);
 
         this.state = {
             sets: props.exercise.sets,
             reps: props.exercise.reps
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.sets !== this.state.sets || prevState.reps !== this.state.reps) {
+            this.props.onSave(this.props.index, this.state.sets, this.state.reps);
         }
     }
 
@@ -83,17 +92,63 @@ class ExerciseListItem extends React.Component {
         });
     }
 
-    // Only show buttons when this.props.canEdit
+    displaySets() {
+        if (this.props.editable) {
+            return (
+                <InputGroup>
+                    <InputGroup.Prepend>
+                        <Button variant="primary" onClick={this.decrementSets} className="exercise-list-item__square-button">-</Button>
+                    </InputGroup.Prepend>
+                    <input value={this.state.sets} onChange={this.onSetsInputChange} className="exercise-list-item__input"/>
+                    <InputGroup.Append>
+                        <Button variant="primary" onClick={this.incrementSets} className="exercise-list-item__square-button">+</Button>
+                    </InputGroup.Append>
+                </InputGroup>
+            );
+        }
+
+        return (
+            <div>{this.state.sets}</div>
+        )
+    }
+
+    displayReps() {
+        if (this.props.editable) {
+            return (
+                <InputGroup>
+                    <InputGroup.Prepend>
+                        <Button onClick={this.decrementReps} className="exercise-list-item__square-button">-</Button>
+                    </InputGroup.Prepend>
+                    <input value={this.state.reps} onChange={this.onRepsInputChange} className="exercise-list-item__input"/>
+                    <InputGroup.Append>
+                        <Button onClick={this.incrementReps} className="exercise-list-item__square-button">+</Button>
+                    </InputGroup.Append>
+                </InputGroup>
+            )
+        }
+        return (
+            <div>{this.state.reps}</div>
+        )
+    }
+
+    displayDelete() {
+        if (this.props.editable) {
+            return (
+                <div className="mx-2 text-danger cursor-pointer" onClick={this.handleDelete}>X</div>
+            );
+        }
+    }
+
     render() {
         return (
             <ListGroup.Item>
-                <Container>
+                <Container className="py-5">
                     <Row>
                         <Col xs="11">
                             <h4 className="text-left">{this.props.exercise.exercise.name}</h4>
                         </Col>
                         <Col xs="1">
-                            <div className="text-danger cursor-pointer" onClick={this.handleDelete}>X</div>
+                            {this.displayDelete()}
                         </Col>
                     </Row>
                     <Row>
@@ -103,9 +158,8 @@ class ExerciseListItem extends React.Component {
                                     Sets: 
                                 </span>
                                 <span>
-                                    <Button variant="primary" onClick={this.decrementSets} className="mx-1 exercise-list-item__square-button">-</Button>
-                                    <input value={this.state.sets} onChange={this.onSetsInputChange} className="exercise-list-item__input"/>
-                                    <Button variant="primary" onClick={this.incrementSets} className="mx-1 exercise-list-item__square-button">+</Button>
+                                    {this.displaySets()}
+
                                 </span>
                             </div>
                         </Col>
@@ -115,15 +169,12 @@ class ExerciseListItem extends React.Component {
                                     Reps:
                                 </span>
                                 <span>
-                                    <Button onClick={this.decrementReps} className="mx-1 exercise-list-item__square-button">-</Button>
-                                    <input value={this.state.reps} onChange={this.onRepsInputChange} className="exercise-list-item__input"/>
-                                    <Button onClick={this.incrementReps} className="mx-1 exercise-list-item__square-button">+</Button>
+                                    {this.displayReps()}
                                 </span>
                             </div>
                         </Col>
                     </Row>
                 </Container>
-                <Button onClick={this.handleSave} className="mt-2">Save</Button>
             </ListGroup.Item>
         );
     }

@@ -36,7 +36,7 @@ class CreateExercisePlanForm extends React.Component {
         }
         return this.state.selectedExercises.map((exercise, i) => {
             return (
-                <ExerciseListItem key={"createFormSelectedExercise" + i} index={i} exercise={exercise} onDelete={this.deleteFromPlan} onSave={this.onSaveExercise}/>
+                <ExerciseListItem key={"createFormSelectedExercise" + i} index={i} exercise={exercise} onDelete={this.deleteFromPlan} onSave={this.onSaveExercise} editable={true}/>
             )
         });
     }
@@ -92,7 +92,7 @@ class CreateExercisePlanForm extends React.Component {
                     reps: exercise.reps
                 }
             });
-            this.props.dispatch(saveUserExercisePlan({name: this.state.planName, exercisesSetsReps: exercises}));
+            this.props.dispatch(saveUserExercisePlan({name: this.state.planName, exercises: exercises}));
             this.props.history.push('/exercise');
         }
     }

@@ -26,4 +26,8 @@ public class ExerciseService {
     exerciseRepository.save(exercise);
     return exercise;
   }
+
+  public List<Exercise> getDefaultExerciseSet() {
+    return exerciseRepository.findTop10ByIdGreaterThan(0);
+  }
 }

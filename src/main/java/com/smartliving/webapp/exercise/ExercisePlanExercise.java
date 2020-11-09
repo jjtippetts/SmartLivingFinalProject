@@ -9,19 +9,24 @@ import java.io.Serializable;
 
 @Data
 @Entity
-public class ExerciseSetsReps implements Serializable {
-  public ExerciseSetsReps() {}
+public class ExercisePlanExercise implements Serializable {
+  public ExercisePlanExercise() {}
 
-  public ExerciseSetsReps(int sets, int reps, Exercise exercise) {
+  public ExercisePlanExercise(int sets, int reps, int weight, boolean isMetric, Exercise exercise) {
     this.sets = sets;
     this.reps = reps;
+    this.weight = weight;
+    this.isMetric = isMetric;
     this.exercise = exercise;
   }
 
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private long Id;
   private int sets;
-  @Id
   private int reps;
+  private int weight;
+  private boolean isMetric;
 
   @ManyToOne(cascade = CascadeType.MERGE)
   private Exercise exercise;

@@ -10,11 +10,30 @@ export const fetchUserExercisePlans = createAsyncThunk(
     }
 );
 
+export const fetchDefaultExercises = createAsyncThunk(
+    'exercise/fetchDefaultExercises',
+    async () => {
+        const url = '/api/exercises/default';
+        const res = await axios.get(url);
+        return res.data;
+    }
+);
+
+
 export const saveUserExercisePlan = createAsyncThunk(
     'exercise/saveUserExercisePlan',
     async (exercisePlan) => {
-        const url = '/api/exercisePlans/new';
+        const url = '/api/exercisePlans/save';
         const res = await axios.post(url, exercisePlan);
+        return res.data;
+    }
+)
+
+export const deleteUserExercisePlan = createAsyncThunk(
+    'exercise/deleteUserExercisePlan',
+    async (exercisePlanId) => {
+        const url = `/api/exercisePlans/delete/${exercisePlanId}`;
+        const res = await axios.delete(url);
         return res.data;
     }
 )
@@ -30,7 +49,9 @@ const exampleExercisePlan = {
             muscles: ["bicep"],
         },
         sets: 1,
-        reps: 1
+        reps: 1,
+        weight: 25,
+        isMetric: false
     },
     {
         exercise: {
@@ -39,7 +60,9 @@ const exampleExercisePlan = {
             muscles: ["bicep"],
         },
         sets: 5,
-        reps: 5
+        reps: 5,
+        weight: 25,
+        isMetric: false
     },
     {
         exercise: {
@@ -48,7 +71,9 @@ const exampleExercisePlan = {
             muscles: ["bicep"],
         },
         sets: 5,
-        reps: 5
+        reps: 5,
+        weight: 25,
+        isMetric: false
     },
     {
         exercise: {
@@ -57,7 +82,9 @@ const exampleExercisePlan = {
             muscles: ["bicep"],
         },
         sets: 5,
-        reps: 5
+        reps: 5,
+        weight: 25,
+        isMetric: false
     },
     ]  // Each exercise will have exerciseId, sets, and reps
 };
@@ -93,8 +120,13 @@ const exerciseSlice = createSlice({
                             return plan;
                         }
 
+                        let exercise = state.exercises.find((exercise) => exercise.id === action.payload.exerciseId);
+                        if (exercise === null || exercise === undefined) {
+                            return plan;
+                        }
+
                         let newExercises = plan.exercises.slice();
-                        newExercises.push({exerciseId: action.payload.exerciseId, sets: 1, reps: 1});
+                        newExercises.push({exercise, sets: 1, reps: 1});
 
                         return {
                             ...plan,
@@ -199,6 +231,12 @@ const exerciseSlice = createSlice({
         [saveUserExercisePlan.fulfilled]: (state, action) => {
             state.exercisePlans.push(action.payload);
         },
+        [saveUserExercisePlan.rejected]: (state, action) => {
+            return {
+                ...state,
+                errors: action.payload
+            }
+        },
         [fetchUserExercisePlans.rejected]: (state, action) => {
             return {
                 ...state,
@@ -211,17 +249,29 @@ const exerciseSlice = createSlice({
                 state.exercisePlans.push({
                     id: exercisePlan.id,
                     name: exercisePlan.name,
-                    exercises: exercisePlan.exercisesSetsReps,
+                    exercises: exercisePlan.exercises,
                 });
             }
 
         },
+        [fetchDefaultExercises.fulfilled]: (state, action) => {
+            state.exercises = action.payload;
+        },
+        [deleteUserExercisePlan.fulfilled]: (state, action) => {
+                return {
+                    ...state,
+                    exercisePlans:
+                        state.exercisePlans.filter(plan => plan.id !== action.payload)
+                }
+        },
+        [deleteUserExercisePlan.rejected]: (state, action) => {
+            return {
+                ...state,
+                errors: action.payload
+            }
+        }
     }
 });
-
-function getExercises(exerciseName) {
-    const url = `/api/exercise?=${exerciseName}`
-}
 
 
 export default exerciseSlice.reducer;

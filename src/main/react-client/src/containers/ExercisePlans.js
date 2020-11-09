@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { Switch, Route, Link } from 'react-router-dom';
 import '../styles/components/exercisePlans.scss';
-import { exercisePlanAdded, exercisePlanDeleted } from '../reducers/ExerciseSlice';
+import { exercisePlanAdded, exercisePlanDeleted, deleteUserExercisePlan } from '../reducers/ExerciseSlice';
 import ExercisePlanDisplay from './ExercisePlanDisplay';
 import ExercisePlanListItem from '../components/ExercisePlanListItem';
 import CreateExercisePlanForm from './CreateExercisePlanForm';
@@ -21,7 +21,6 @@ class ExercisePlans extends React.Component {
 
         this.state = {
             selectedPlanId: null,
-            currentPlan: null
         }
     }
 
@@ -54,7 +53,7 @@ class ExercisePlans extends React.Component {
     setNewPlan() {
         this.setState((previousState) => {
             return {
-                selectedPlanId: previousState.selectedPlanId + 1
+                selectedPlanId: null
             }
         })
     }
@@ -62,14 +61,13 @@ class ExercisePlans extends React.Component {
     resetCurrentPlanState() {
         this.setState({
             selectedPlanId: null,
-            currentPlan: null
         })
     }
 
     deleteExercisePlan() {
         const toDeletePlanId = this.state.selectedPlanId;
         this.resetCurrentPlanState();
-        this.props.exercisePlanDeleted(toDeletePlanId);
+        this.props.deleteUserExercisePlan(toDeletePlanId);
     }
 
     // TODO: align left "EXERCISE PLANS" header
@@ -113,4 +111,4 @@ function mapStateToProps(state) {
      }
 }
 
-export default connect(mapStateToProps, { exercisePlanAdded, exercisePlanDeleted })(ExercisePlans);
+export default connect(mapStateToProps, { deleteUserExercisePlan, exercisePlanAdded, exercisePlanDeleted })(ExercisePlans);

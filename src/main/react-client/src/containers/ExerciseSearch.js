@@ -53,7 +53,7 @@ class ExerciseSearch extends React.Component {
         if (searchInput.length === 0) {
             return [];
         }
-        return this.props.exercises.filter((exercise) => exercise.name.includes(searchInput));
+        return this.props.exercises.filter((exercise) => exercise.name.toLowerCase().includes(searchInput.toLowerCase()));
     }
 
     render() {

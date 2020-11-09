@@ -43,26 +43,26 @@ public class ExercisePlanService {
 
   public ExercisePlan savePlan(ExercisePlan toSave, MyUserDetails userDetails) throws UserNotFoundException, ExercisePlanException {
     toSave.setUser(userService.getUser(userDetails.getUsername()));
-    if (!areValidExercises(toSave.getExercisesSetsReps())) {
+    if (!areValidExercises(toSave.getExercises())) {
       throw new ExercisePlanException("Unable to save plan; invalid exercises");
     }
-    toSave.setExercisesSetsReps(mapExercises(toSave.getExercisesSetsReps()));
+    toSave.setExercises(mapExercises(toSave.getExercises()));
     return this.exercisePlanRepository.save(toSave);
   }
 
-  private List<ExerciseSetsReps> mapExercises(List<ExerciseSetsReps> exercisesSetsReps) {
-    ArrayList<ExerciseSetsReps> mappedExerciseSetsReps = new ArrayList<>() ;
+  private List<ExercisePlanExercise> mapExercises(List<ExercisePlanExercise> exercisesSetsReps) {
+    ArrayList<ExercisePlanExercise> mappedExercisePlanExercises = new ArrayList<>() ;
     for (int i = 0; i < exercisesSetsReps.size(); i++) {
-      ExerciseSetsReps exerciseSetsReps = exercisesSetsReps.get(i);
-      Exercise mappedExercise = exerciseService.getExerciseById(exerciseSetsReps.getExercise().getId());
-      mappedExerciseSetsReps.add(new ExerciseSetsReps(exerciseSetsReps.getSets(), exerciseSetsReps.getReps(), mappedExercise));
+      ExercisePlanExercise exercisePlanExercise = exercisesSetsReps.get(i);
+      Exercise mappedExercise = exerciseService.getExerciseById(exercisePlanExercise.getExercise().getId());
+      mappedExercisePlanExercises.add(new ExercisePlanExercise(exercisePlanExercise.getSets(), exercisePlanExercise.getReps(), exercisePlanExercise.getWeight(), exercisePlanExercise.isMetric(), mappedExercise));
     }
-    return mappedExerciseSetsReps;
+    return mappedExercisePlanExercises;
   }
 
-  private boolean areValidExercises(List<ExerciseSetsReps> exercisesSetsReps) {
-    for (ExerciseSetsReps exerciseSetsReps: exercisesSetsReps) {
-      Exercise exercise = exerciseSetsReps.getExercise();
+  private boolean areValidExercises(List<ExercisePlanExercise> exercisesSetsReps) {
+    for (ExercisePlanExercise exercisePlanExercise : exercisesSetsReps) {
+      Exercise exercise = exercisePlanExercise.getExercise();
       if (!exerciseService.getExerciseById(exercise.getId()).getName().equals(exercise.getName())) {
         return false;
       }
@@ -70,17 +70,18 @@ public class ExercisePlanService {
     return true;
   }
 
-  public void deletePlan(long userId, long planId) throws ExercisePlanException, UserNotFoundException {
+  public long deletePlan(long planId, String userName) throws ExercisePlanException, UserNotFoundException {
     ExercisePlan toDelete = getPlan(planId);
     if (toDelete == null) {
       throw new ExercisePlanException("Unable to delete this plan, exercise plan not found.");
     }
 
-    User user = userService.getUser(userId);
+    User user = userService.getUser(userName);
     if (toDelete.getUser() != user) {
       throw new ExercisePlanException("Unable to delete this plan, the user does not own this exercise plan.");
     }
 
     this.exercisePlanRepository.deleteById(planId);
+    return planId;
   }
 }

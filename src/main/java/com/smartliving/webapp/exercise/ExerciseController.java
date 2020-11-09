@@ -27,12 +27,18 @@ public class ExerciseController {
     return exerciseService.getExercises(exerciseName);
   }
 
+  @GetMapping("/api/exercises/default")
+  @ResponseBody
+  public List<Exercise> GetExercise() {
+    return exerciseService.getDefaultExerciseSet();
+  }
+
   @PostMapping(path="/api/exercise")
   public Exercise CreateExercise(Exercise exercise) {
     return exerciseService.saveExercise(exercise);
   }
 
-  @PostMapping(path="/api/exercisePlans/new")
+  @PostMapping(path="/api/exercisePlans/save")
   @ResponseBody
   public ExercisePlan SaveExercisePlan(@RequestBody ExercisePlan exercisePlan, @AuthenticationPrincipal MyUserDetails userDetails) throws UserNotFoundException, ExercisePlanException {
     return exercisePlanService.savePlan(exercisePlan, userDetails);
@@ -50,9 +56,10 @@ public class ExerciseController {
     return exercisePlanService.getUserPlans(userDetails.getUsername());
   }
 
-  @DeleteMapping(path="/api/exercisePlans/delete")
-  public void DeleteExercisePlan(long planId, long userId) throws ExercisePlanException, UserNotFoundException {
-    exercisePlanService.deletePlan(planId, userId);
+  @DeleteMapping(path="/api/exercisePlans/delete/{exercisePlanId}")
+  @ResponseBody
+  public long DeleteExercisePlan(@PathVariable long exercisePlanId, @AuthenticationPrincipal MyUserDetails userDetails) throws ExercisePlanException, UserNotFoundException {
+    return exercisePlanService.deletePlan(exercisePlanId, userDetails.getUsername());
   }
 
   @ExceptionHandler({UserNotFoundException.class, ExercisePlanException.class})

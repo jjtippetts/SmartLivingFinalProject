@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Container, Col, Row, ListGroup } from 'react-bootstrap';
-import { exercisePlanSetsRepsUpdated, exerciseAddedToPlan, exercisePlanExerciseDeleted } from '../reducers/ExerciseSlice';
+import { exercisePlanSetsRepsUpdated, exerciseAddedToPlan, saveUserExercisePlan, exercisePlanExerciseDeleted } from '../reducers/ExerciseSlice';
 import ExerciseListItem from '../components/ExerciseListItem';
 import ExerciseSearch from './ExerciseSearch';
 
 class ExercisePlanDisplay extends React.Component {
-    constructor() {
+    constructor(props) {
         super();
         this.displayPlan = this.displayPlan.bind(this);
         this.displayExercises = this.displayExercises.bind(this);
@@ -15,14 +15,30 @@ class ExercisePlanDisplay extends React.Component {
         this.addToPlan = this.addToPlan.bind(this);
         this.deleteFromPlan = this.deleteFromPlan.bind(this);
         this.deletePlan = this.deletePlan.bind(this);
+        this.editPlan = this.editPlan.bind(this);
+        this.doneEditPlan = this.doneEditPlan.bind(this);
+        this.displayEditButton = this.displayEditButton.bind(this);
+        this.displaySearch = this.displaySearch.bind(this);
 
         this.state = {
             exercises: [],
+            editable: false
         }
     }
 
+    arraysEqual(a, b) {
+        if (a === b) return true;
+        if (a == null || b == null) return false;
+        if (a.length !== b.length) return false;
+      
+        for (var i = 0; i < a.length; ++i) {
+          if (a[i] !== b[i]) return false;
+        }
+        return true;
+    }
+
     displayExercises() {
-        const exercises = this.props.exercisePlans[this.props.selectedPlanId]?.exercises;
+        const exercises = this.props.exercisePlans.find(plan => plan.id === this.props.selectedPlanId)?.exercises;
         if(exercises === null || exercises === undefined || exercises.length === 0) {
             return (
                 <div>No exercises to display.</div>
@@ -31,13 +47,24 @@ class ExercisePlanDisplay extends React.Component {
 
         return exercises.map((exercise, i) => {
             return (
-                <ExerciseListItem key={this.props.selectedPlanId + "exercisePlanDisplay" + i} index={i} exercise={exercise} onDelete={this.deleteFromPlan} onSave={this.onSaveExercise}/>
+                <ExerciseListItem editable={this.state.editable} key={this.props.selectedPlanId + "exercisePlanDisplay" + i} index={i} exercise={exercise} onDelete={this.deleteFromPlan} onSave={this.onSaveExercise}/>
             );
         });
     }
 
+    displaySearch() {
+        if (this.state.editable) {
+            return(
+                <div>
+                    <h3 className="text-left">Add an exercise</h3>
+                    <ExerciseSearch currentPlanId={this.props.selectedPlanId} addToPlan={this.addToPlan}/>
+                </div>
+            );
+        }
+    }
+
     mapExercisesToPlan() {
-        const plan = this.props.exercisePlans[this.props.selectedPlanId];
+        const plan = this.props.exercisePlans.find(plan => plan.id === this.props.selectedPlanId);
         if (plan === null || plan === undefined) {
             return;
         }
@@ -71,19 +98,40 @@ class ExercisePlanDisplay extends React.Component {
         this.props.deleteExercisePlan(this.props.selectedPlanId);
     }
 
-    displayDeleteButton() {
-        if (this.props.selectedPlanId === null || this.props.selectedPlanId === undefined) {
-            return;
+    editPlan() {
+        this.setState({
+            editable: true
+        });
+    }
+
+    doneEditPlan() {
+        let toSave = this.props.exercisePlans.find(plan => plan.id === this.props.selectedPlanId)
+        if (this.state.exercises.length > 0) {
+            for (let i = 0; i < this.state.exercises.length; i++) {
+                toSave.exercises.push(this.state.exercises[i]);
+            }
         }
+        this.props.saveUserExercisePlan(toSave);
+        this.setState({
+            editable: false
+        });
+    }
+
+    displayEditButton() {
+        if (this.state.editable) {
+            return (
+                <Button variant="success" className="mx-1" onClick={this.doneEditPlan}>Done</Button>
+            )
+        }
+
         return (
-            <Button variant="danger" onClick={this.deletePlan}>Delete Plan</Button>
+            <Button variant="primary" className="mx-1" onClick={this.editPlan}>Edit</Button>
         );
     }
 
     // TODO: Increase spacing between items
-    // TODO: Bulk or auto save
     displayPlan() {
-        const plan = this.props.exercisePlans[this.props.selectedPlanId];
+        const plan = this.props.exercisePlans.find(plan => plan.id === this.props.selectedPlanId)
         if (plan === null || plan === undefined) {
             return (
                 <div>
@@ -95,6 +143,10 @@ class ExercisePlanDisplay extends React.Component {
         return (
             <div>
                 <h2>{plan.name}</h2>
+                <div className="d-flex justify-content-end">
+                    {this.displayEditButton()}
+                    <Button variant="danger" className="mx-1" onClick={this.deletePlan}>Delete</Button>
+                </div>
                 <h3>Exercises: </h3>
                 <ListGroup variant="flush" className="exercise-display__container">
                     {this.displayExercises()}
@@ -109,11 +161,9 @@ class ExercisePlanDisplay extends React.Component {
                 <Row>
                     <Col xs="8">
                         {this.displayPlan()}
-                        {this.displayDeleteButton()}
                     </Col>
                     <Col>
-                        <h3 className="text-left">Add an exercise</h3>
-                        <ExerciseSearch currentPlanId={this.props.selectedPlanId} addToPlan={this.addToPlan}/>
+                        {this.displaySearch()}
                     </Col>
                 </Row>
             </Container>
@@ -128,4 +178,4 @@ function mapStateToProps(state) {
      }
 }
 
-export default connect(mapStateToProps, { exercisePlanSetsRepsUpdated, exercisePlanExerciseDeleted, exerciseAddedToPlan })(ExercisePlanDisplay);
+export default connect(mapStateToProps, { saveUserExercisePlan, exercisePlanSetsRepsUpdated, exercisePlanExerciseDeleted, exerciseAddedToPlan })(ExercisePlanDisplay);

@@ -81,10 +81,18 @@ public class LoadDatabase {
         userRepository.save(user1);
 
         Exercise bicepCurl = new Exercise("Bicep Curl", "Bicep", "Dumbbells");
+        Exercise backSquat = new Exercise("Back Squat", "Lower Body", "Barbell");
+        Exercise deadlift = new Exercise("Conventional Deadlift", "Lower Body", "Barbell");
+        Exercise benchPress = new Exercise("Bench Press", "Chest", "Barbell");
+        Exercise reverseChestFly = new Exercise("Reverse Chest Fly", "Back", "Dumbbells");
         exerciseRepository.save(bicepCurl);
+        exerciseRepository.save(backSquat);
+        exerciseRepository.save(deadlift);
+        exerciseRepository.save(benchPress);
+        exerciseRepository.save(reverseChestFly);
 
-        ArrayList<ExerciseSetsReps> exercisesSetsReps = new ArrayList<>();
-        exercisesSetsReps.add(new ExerciseSetsReps(5, 25, bicepCurl));
+        ArrayList<ExercisePlanExercise> exercisesSetsReps = new ArrayList<>();
+        exercisesSetsReps.add(new ExercisePlanExercise(5, 25, 25, false, bicepCurl));
         ExercisePlan exercisePlan = new ExercisePlan("Big body", exercisesSetsReps, user);
         exercisePlanRepository.save(exercisePlan);
 

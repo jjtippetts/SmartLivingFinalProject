@@ -16,6 +16,15 @@ public class Exercise {
     this.name = name;
     this.muscleGroup = muscleGroup;
     this.equipment = equipment;
+    this.metricWeight = false;
+  }
+
+  public Exercise(String name, String muscleGroup, String equipment, int weight, boolean isMetric) {
+    this.name = name;
+    this.muscleGroup = muscleGroup;
+    this.equipment = equipment;
+    this.weight = weight;
+    this.metricWeight = isMetric;
   }
 
   @Id
@@ -30,4 +39,8 @@ public class Exercise {
 
   @NotEmpty
   private String equipment;
+
+  private int weight;
+
+  private boolean metricWeight;
 }
