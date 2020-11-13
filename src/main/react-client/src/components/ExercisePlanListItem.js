@@ -1,5 +1,6 @@
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 
 class ExercisePlanListItem extends React.Component {
     constructor() {
@@ -9,11 +10,12 @@ class ExercisePlanListItem extends React.Component {
 
     handleClick() {
         this.props.handleClick(this.props.plan.id);
+        this.props.history.push("/");
     }
 
     render() {
         return (
-            <ListGroup.Item active={this.props.active} onClick={this.handleClick} className="list-group-item__pointer">
+            <ListGroup.Item action active={this.props.active} onClick={this.handleClick} className="list-group-item__pointer">
                 <h5 className="text-primary">
                     {this.props.plan.name}
                 </h5>
@@ -22,4 +24,4 @@ class ExercisePlanListItem extends React.Component {
     }
 }
 
-export default ExercisePlanListItem;
+export default withRouter(ExercisePlanListItem);

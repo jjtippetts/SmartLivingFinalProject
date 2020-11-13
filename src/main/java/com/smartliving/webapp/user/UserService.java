@@ -1,6 +1,9 @@
 package com.smartliving.webapp.user;
 
+import com.smartliving.webapp.userdetails.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,6 +18,24 @@ public class UserService {
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public User getUser(long userId) throws UserNotFoundException {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
+            throw new UserNotFoundException(userId);
+        }
+
+        return user;
+    }
+
+    public User getUser(String username) throws UserNotFoundException {
+        User user = userRepository.getUserByUsername(username);
+        if (user == null) {
+            throw new UserNotFoundException(username);
+        }
+
+        return user;
     }
 
     public User saveUser(UserCreationFormViewModel form) throws EmailExistsException, UserExistsException {

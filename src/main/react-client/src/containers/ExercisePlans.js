@@ -1,9 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Col, Container, ListGroup, Row } from 'react-bootstrap';
-import { exercisePlanAdded } from '../reducers/ExerciseSlice';
-import ExercisePlanDisplay from '../components/ExercisePlanDisplay';
+import { Switch, Route, Link } from 'react-router-dom';
+import '../styles/components/exercisePlans.scss';
+import { exercisePlanAdded, exercisePlanDeleted, deleteUserExercisePlan } from '../reducers/ExerciseSlice';
+import ExercisePlanDisplay from './ExercisePlanDisplay';
 import ExercisePlanListItem from '../components/ExercisePlanListItem';
+import CreateExercisePlanForm from './CreateExercisePlanForm';
 
 
 class ExercisePlans extends React.Component {
@@ -12,15 +15,24 @@ class ExercisePlans extends React.Component {
         this.generateExercisePlansList = this.generateExercisePlansList.bind(this);
         this.onCreatePlanClick = this.onCreatePlanClick.bind(this);
         this.onPlanSelect = this.onPlanSelect.bind(this);
-        this.mapExercisesToPlan = this.mapExercisesToPlan.bind(this);
+        this.setNewPlan = this.setNewPlan.bind(this);
+        this.resetCurrentPlanState = this.resetCurrentPlanState.bind(this);
+        this.deleteExercisePlan = this.deleteExercisePlan.bind(this);
 
         this.state = {
             selectedPlanId: null,
-            currentPlan: null
         }
     }
 
     generateExercisePlansList() {
+        if (this.props.exercisePlans.length === 0) {
+            return (
+                <div>
+                    Create a plan!
+                </div>
+            );
+        }
+
         return this.props.exercisePlans.map((plan) => {
             return (
                 <ExercisePlanListItem key={plan.id} handleClick={this.onPlanSelect} plan={plan} active={this.state.selectedPlanId === plan.id}/>
@@ -29,55 +41,65 @@ class ExercisePlans extends React.Component {
     }
 
     onPlanSelect(selectedPlanId) {
-        const selectedPlan = this.props.exercisePlans[selectedPlanId];
         this.setState({
             selectedPlanId, 
-            currentPlan: this.mapExercisesToPlan(selectedPlan) 
         });
-    }
-
-    mapExercisesToPlan(plan) {
-        let exercises = plan.exercises.map((planExercise) => {
-            const exercise = this.props.exercises.find((propsExercise) => {
-                return propsExercise.id === planExercise.exerciseId;
-            });
-
-            return {
-                exercise,
-                sets: planExercise.sets,
-                reps: planExercise.reps
-            }
-        });
-        return {
-            plan,
-            exercises
-        }
     }
 
     onCreatePlanClick() {
         this.props.exercisePlanAdded("Test", [{exerciseId: 0, sets: 1, reps: 1}]);
     }
 
+    setNewPlan() {
+        this.setState((previousState) => {
+            return {
+                selectedPlanId: null
+            }
+        })
+    }
+
+    resetCurrentPlanState() {
+        this.setState({
+            selectedPlanId: null,
+        })
+    }
+
+    deleteExercisePlan() {
+        const toDeletePlanId = this.state.selectedPlanId;
+        this.resetCurrentPlanState();
+        this.props.deleteUserExercisePlan(toDeletePlanId);
+    }
+
+    // TODO: align left "EXERCISE PLANS" header
     render() {
         return (
-        <Container fluid>
-            <Row>
-                <Col>
-                    <h1>Exercise Plans</h1>
-                </Col>
-            </Row>
-            <Row>
-                <Col xs="3">
-                    <ListGroup variant="flush" className="shadow p-3 my-3">
-                        {this.generateExercisePlansList()}
-                    </ListGroup>
-                    <button onClick={this.onCreatePlanClick}>Create plan</button>
-                </Col>
-                <Col xs="9">
-                    <ExercisePlanDisplay toDisplay={this.state.currentPlan} />
-                </Col>
-            </Row>
-        </Container>
+            <Switch>
+                <Container fluid>
+                    <Row>
+                        <Col>
+                            <h1><Link to="/" className="link-plain" onClick={this.resetCurrentPlanState}>Exercise Plans</Link></h1>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs="3">
+                            <ListGroup variant="flush" className="shadow p-3 my-3">
+                                {this.generateExercisePlansList()}
+                            </ListGroup>
+                            <Link to="/plan/new" onClick={this.setNewPlan}>Create a new plan</Link>
+                        </Col>
+                        <Col xs="9">
+                            <Switch>
+                                <Route path="/plan/new">
+                                    <CreateExercisePlanForm />
+                                </Route>
+                                <Route path={['/', '/exercises']}>
+                                    <ExercisePlanDisplay savePlan={this.savePlan} deleteExercisePlan={this.deleteExercisePlan} selectedPlanId={this.state.selectedPlanId} />
+                                </Route>
+                            </Switch>
+                        </Col>
+                    </Row>
+                </Container>
+            </Switch>
         );
     }
 }
@@ -89,4 +111,4 @@ function mapStateToProps(state) {
      }
 }
 
-export default connect(mapStateToProps, { exercisePlanAdded })(ExercisePlans);
+export default connect(mapStateToProps, { deleteUserExercisePlan, exercisePlanAdded, exercisePlanDeleted })(ExercisePlans);

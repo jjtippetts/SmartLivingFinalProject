@@ -3,6 +3,7 @@ package com.smartliving.webapp;
 
 import com.smartliving.webapp.dietplan.DietPlan;
 import com.smartliving.webapp.dietplan.DietRepository;
+import com.smartliving.webapp.exercise.*;
 import com.smartliving.webapp.food.Food;
 import com.smartliving.webapp.food.FoodGroup;
 import com.smartliving.webapp.food.FoodRepository;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,7 +37,9 @@ public class LoadDatabase {
      * @return
      */
     @Bean
-    CommandLineRunner initDatabase(FoodRepository foodRepository, MealRepository mealRepository, DietRepository dietRepository, UserRepository userRepository){
+    CommandLineRunner initDatabase(FoodRepository foodRepository, MealRepository mealRepository,
+                                   DietRepository dietRepository, UserRepository userRepository,
+                                   ExerciseRepository exerciseRepository, ExercisePlanRepository exercisePlanRepository){
         // Sample Diet
 
         // Breakfast Foods
@@ -76,11 +80,29 @@ public class LoadDatabase {
         User user1 = new User("j","jordan12@gmail.com",passwordEncoder.encode("j"));
         userRepository.save(user1);
 
+        Exercise bicepCurl = new Exercise("Bicep Curl", "Bicep", "Dumbbells");
+        Exercise backSquat = new Exercise("Back Squat", "Lower Body", "Barbell");
+        Exercise deadlift = new Exercise("Conventional Deadlift", "Lower Body", "Barbell");
+        Exercise benchPress = new Exercise("Bench Press", "Chest", "Barbell");
+        Exercise reverseChestFly = new Exercise("Reverse Chest Fly", "Back", "Dumbbells");
+        exerciseRepository.save(bicepCurl);
+        exerciseRepository.save(backSquat);
+        exerciseRepository.save(deadlift);
+        exerciseRepository.save(benchPress);
+        exerciseRepository.save(reverseChestFly);
+
+        ArrayList<ExercisePlanExercise> exercisesSetsReps = new ArrayList<>();
+        exercisesSetsReps.add(new ExercisePlanExercise(5, 25, 25, false, bicepCurl));
+        ExercisePlan exercisePlan = new ExercisePlan("Big body", exercisesSetsReps, user);
+        exercisePlanRepository.save(exercisePlan);
+
         return args -> {
             log.info("Preloading " + foods);
             log.info("Preloading " + apple);
             log.info("Preloading " + breakfast);
             log.info("Preloading " + user);
+            log.info("Preloading " + bicepCurl);
+            log.info("Preloading " + exercisePlan);
             log.info("Preloading " + userRepository.save(new User("doe","doe@gmail.com","doepassword")));
         };
     }

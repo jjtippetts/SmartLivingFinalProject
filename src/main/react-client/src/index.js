@@ -6,7 +6,11 @@ import './styles/styles.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
+import { fetchUserExercisePlans, fetchDefaultExercises } from './reducers/ExerciseSlice';
 import store from './store';
+
+store.dispatch(fetchUserExercisePlans());
+store.dispatch(fetchDefaultExercises());
 
 ReactDOM.render(
   <React.StrictMode>

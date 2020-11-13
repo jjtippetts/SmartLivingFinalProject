@@ -7,3 +7,18 @@
 .list-group-item.active {
     background-color: $light-gray;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.exercise-list-item__square-button {
+    height: 38px;
+    width: 38px;
+}
+
+.exercise-list-item__input {
+    text-align: center;
+    width: 38px;
+    height: 38px;
+}
