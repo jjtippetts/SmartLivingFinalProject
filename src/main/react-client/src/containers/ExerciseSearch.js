@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Form, FormControl, FormGroup, ListGroup, InputGroup } from 'react-bootstrap';
+import { Button, Form, FormControl, ListGroup, InputGroup } from 'react-bootstrap';
 import ExerciseSearchResultItem from '../components/ExerciseSearchResultItem';
 
 class ExerciseSearch extends React.Component {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { saveUserExercisePlan } from '../reducers/ExerciseSlice';
-import { Button, Container, Col, Row, Form, ListGroup, InputGroup } from 'react-bootstrap';
+import { Button, Container, Col, Row, Form, ListGroup } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import ExerciseListItem from '../components/ExerciseListItem';
 import ExerciseSearch from './ExerciseSearch';
