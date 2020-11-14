@@ -23,7 +23,7 @@ public class FoodController {
     }
 
     @GetMapping(value = "/food", params = "page")
-    Page<Food> findAllFood(@RequestParam(value = "page") int page,
+    public Page<Food> findAllFood(@RequestParam(value = "page") int page,
                            @PageableDefault(size = DEFAULT_PAGE_SIZE)
                                    @SortDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
 
@@ -31,26 +31,40 @@ public class FoodController {
     }
 
     @GetMapping(value = "/food", params = "foodGroup")
-    List<Food> findFoodByFoodGroup(@RequestParam("foodGroup") FoodGroup foodGroup){
-        return foodRepository.findByFoodGroup(foodGroup);
+    public Page<Food> findFoodByFoodGroup(@RequestParam("foodGroup") FoodGroup foodGroup,
+                                          @RequestParam("page") int page,
+                                          @PageableDefault(size = DEFAULT_PAGE_SIZE)
+                                              @SortDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable){
+        Page<Food> foodsFound = foodRepository.findByFoodGroup(foodGroup,pageable);
+        return foodsFound;
     }
 
     @GetMapping("/food/{name}")
-    Page<Food> findFoodByName(@PathVariable String name,
+    public Page<Food> findFoodByName(@PathVariable String name,
                               @RequestParam("page") int page,
                               @PageableDefault(size = DEFAULT_PAGE_SIZE)
-                              @SortDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+                              @SortDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable) throws FoodNotFoundException{
 
-        return foodRepository.findAllByNameContainingIgnoreCase(name,pageable);
+        Page<Food> foodsFound = foodRepository.findAllByNameContainingIgnoreCase(name,pageable);
+        if(foodsFound.getContent().isEmpty()){
+            throw new FoodNotFoundException();
+        }else{
+            return foodsFound;
+        }
     }
 
     @PostMapping(path = "/food", consumes = MediaType.ALL_VALUE)
-    Food newFood(@RequestBody Food newFood) {
+    public Food newFood(@RequestBody Food newFood) {
         return foodRepository.save(newFood);
     }
 
     @DeleteMapping("/food/{id}")
-    void deleteFood(@PathVariable Long id) {
+    public void deleteFood(@PathVariable Long id) {
         foodRepository.deleteById(id);
+    }
+
+    @GetMapping("/test")
+    public String getTest(){
+        return "Hello World";
     }
 }

@@ -1,14 +1,21 @@
 package com.smartliving.webapp;
 
+import com.smartliving.webapp.user.UserCreationFormViewModel;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PageController {
+
+    @GetMapping("/")
+    public String toIndex(Model model) {
+        model.addAttribute("homeActive", "active");
+        return "landing";
+    }
 
     @GetMapping("/diet")
     public String toDiet(Model model) {
@@ -16,15 +23,15 @@ public class PageController {
         return "diet";
     }
 
-    @GetMapping("/exercise")
-    public String toExercise(Model model) {
-        model.addAttribute("exerciseActive", "active");
-        return "exercise";
-    }
-
     @GetMapping("/login")
     public String toLogin(Model model) {
-        return "login";
+        model.addAttribute("userCreationForm", new UserCreationFormViewModel());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(!(auth instanceof AnonymousAuthenticationToken)){
+            model.addAttribute("homeActive", "active");
+            return "landing";
+        } else {
+            return "login";
+        }
     }
-
 }

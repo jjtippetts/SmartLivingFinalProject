@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Living | Error</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+          rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous"
+  />
+
+  <!-- File css -->
+  <link rel="stylesheet" href="css/home.css"/>
+
+  <!--Font Awesome-->
+  <script
+          src="https://kit.fontawesome.com/fc7f1cbe69.js"
+          crossorigin="anonymous"
+          SameSite="none"
+  ></script>
+</head>
+<body>
+<header class="fixed-top" th:insert="~{nav :: main-nav}"></header>
+<main class="d-flex justify-content-center align-items-center">
+  <div>
+    <h4 class="display-4 text-center">Sorry, this page could not be found.</h4>
+    <i class="fas fa-frown fa-3x d-inline-block w-100"></i>
+  </div>
+</main>
+
+<div th:replace="~{footer :: footer}"></div>
+<div th:replace="~{scripts :: bootstrap}"></div>
+</body>
+</html>

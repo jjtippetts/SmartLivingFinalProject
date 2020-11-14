@@ -72,5 +72,4 @@ public class Food {
     public String toString() {
         return "Food(id=" + this.getId() + ", name=" + this.getName() + ", calories=" + this.getCalories() + ", carbohydrates=" + this.getCarbohydrates() + ", fat=" + this.getFat() + ", protein=" + this.getProtein() + ", foodGroup=" + this.foodGroup + ")";
     }
-
 }
