@@ -230,7 +230,15 @@ const exerciseSlice = createSlice({
     },
     extraReducers: {
         [saveUserExercisePlan.fulfilled]: (state, action) => {
-            state.exercisePlans.push(action.payload);
+            const foundExercisePlanIndex = state.exercisePlans.findIndex((plan => {
+                return plan.id === action.payload.id
+            }));
+            if (foundExercisePlanIndex === -1) {
+                state.exercisePlans.push(action.payload);
+            }
+            else {
+                state.exercisePlans[foundExercisePlanIndex] = action.payload;
+            }
         },
         [saveUserExercisePlan.rejected]: (state, action) => {
             return {
