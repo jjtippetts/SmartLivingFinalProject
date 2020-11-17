@@ -40,63 +40,39 @@
                         <h5 class="card-header">Create an account</h5>
                         <div class="card-body">
                             <!--                            <h5 class="card-title">Special title treatment</h5>-->
-                            <form id="createAccount">
+                            <form th:action="@{/create-user}" th:object="${userCreationForm}" id="createAccount">
                                 <div class="form-row form-group">
-                                    <label class="col-2">Email</label>
+                                    <label for="create-username" class="col-2">Username</label>
                                     <div class="col-10">
-                                        <input class="form-control">
+                                        <input required th:field="*{username}" type="text" name="username" id="create-username" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-row form-group">
-                                    <label class="col-2">Password</label>
+                                    <label for="create-email" class="col-2">Email</label>
                                     <div class="col-10">
-                                        <input class="form-control">
+                                        <input required th:field="*{email}" type="email" name="email" id="create-email" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-row form-group">
-                                    <label class="col-2">Confirm password</label>
+                                    <label for="create-password" class="col-2">Password</label>
                                     <div class="col-10">
-                                        <input class="form-control">
+                                        <input required type="password" th:field="*{password}" name="password" id="create-password" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-row form-group">
+                                    <label for="create-confirm-password" class="col-2">Confirm password</label>
+                                    <div class="col-10">
+                                        <input required type="password" th:field="*{password}" name="confirmPassword" id="create-confirm-password" class="form-control">
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <a href="#" class="btn btn-success">Create Account</a>
                                     <div class="d-flex">
                                         <p class="mr-2  mt-1 mb-0">Already have an account?</p>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#logInModal">Log In</button>
+                                        <a href="/login" type="button" class="btn btn-primary">Sign in</a>
                                     </div>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal -->
-            <div class="modal fade" id="logInModal" tabindex="-1" role="dialog" aria-labelledby="logInModal" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Log In</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="logIn" action="/login" method="post">
-                                <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input id="username" class="form-control" type="text" name="username" placeholder="joe" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input id="password" class="form-control" type="password" name="password" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">Log In</button>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary btn-lg btn-block">Log In</button>
                         </div>
                     </div>
                 </div>
