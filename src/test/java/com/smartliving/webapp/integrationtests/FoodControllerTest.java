@@ -23,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -35,6 +36,7 @@ import java.util.List;
 @SpringBootTest
 @AutoConfigureMockMvc()
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("default")
 public class FoodControllerTest {
 
     @Autowired
