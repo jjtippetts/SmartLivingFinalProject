@@ -40,29 +40,29 @@
                         <h5 class="card-header">Create an account</h5>
                         <div class="card-body">
                             <!--                            <h5 class="card-title">Special title treatment</h5>-->
-                            <form th:action="@{/create-user}" th:object="${userCreationForm}" id="createAccount">
+                            <form id="createAccount">
                                 <div class="form-row form-group">
                                     <label for="create-username" class="col-2">Username</label>
                                     <div class="col-10">
-                                        <input required th:field="*{username}" type="text" name="username" id="create-username" class="form-control">
+                                        <input required type="text" name="username" id="create-username" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-row form-group">
                                     <label for="create-email" class="col-2">Email</label>
                                     <div class="col-10">
-                                        <input required th:field="*{email}" type="email" name="email" id="create-email" class="form-control">
+                                        <input required type="email" name="email" id="create-email" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-row form-group">
                                     <label for="create-password" class="col-2">Password</label>
                                     <div class="col-10">
-                                        <input required type="password" th:field="*{password}" name="password" id="create-password" class="form-control">
+                                        <input required type="password" name="password" id="create-password" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-row form-group">
                                     <label for="create-confirm-password" class="col-2">Confirm password</label>
                                     <div class="col-10">
-                                        <input required type="password" th:field="*{password}" name="confirmPassword" id="create-confirm-password" class="form-control">
+                                        <input required type="password" name="confirmPassword" id="create-confirm-password" class="form-control">
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between">
