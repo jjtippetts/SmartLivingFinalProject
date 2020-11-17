@@ -474,3 +474,7 @@ function getMealNames(dietPlan){
     })
     return meals
 }
+
+function convertDietPlanJsonToCSV(dietPlan){
+
+}
