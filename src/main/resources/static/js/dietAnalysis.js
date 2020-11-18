@@ -160,7 +160,7 @@ function removeCaloriesToCaloriesPerMeal(chart, mealName, food){
     chart.update()
 }
 
-// Calculates the sum of nutrients by traversing the DOM
+// Calculates the sum of nutrients
 function calculateSumOfNutrients(listOfFoods) {
 
     var mealTotals = {
