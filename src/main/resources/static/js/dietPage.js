@@ -12,7 +12,7 @@ var dietSaved = true
 function createDietPlanHTML(dietPlanName){
     $("#name-of-diet").remove()
     $("#diet-container").prepend("<div id='name-of-diet' class='d-flex justify-content-between pb-2'> " + "<h3>Diet Name: " + dietPlanName + "</h3>" +
-        "<div><button type='button' class='btn btn-secondary d-inline-block mr-3'>Download</button><form class='d-inline-block' id=\"submit-entire-diet\">" + "<button type=\"submit\" class=\"btn btn-primary\">Save Diet</button></form>" + "</div></div>" + "<div id='submit-diet-alert'></div>")
+        "<div><button type='button' id='download-diet' class='btn btn-secondary d-inline-block mr-3'>Download</button><form class='d-inline-block' id=\"submit-entire-diet\">" + "<button type=\"submit\" class=\"btn btn-primary\">Save Diet</button></form>" + "</div></div>" + "<div id='submit-diet-alert'></div>")
     // Add a form to enter in a meal name
     $("#diet-info").html(addMealTable)
     // Add a section for the total nutrients for all meals
