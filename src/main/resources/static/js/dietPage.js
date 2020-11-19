@@ -45,6 +45,7 @@ function makeFoodSortable(){
                 displayMealNutrients(mealAddedTo)
                 displayMealNutrients(mealRemovedFrom)
                 calculateTotalSum()
+                console.log(selectedDietPlan)
             },
             onRemove : function (evt) {
             }
@@ -56,8 +57,12 @@ function makeFoodSortable(){
 function moveFood(foodName, newPosition,mealAddedTo, mealRemovedFrom){
     var addedFood = {}
     selectedDietPlan.meals.forEach(function(meal) {
+        console.log(meal.name)
+        console.log(mealRemovedFrom)
         if (meal.name === mealRemovedFrom) {
             meal.foods.forEach(function(food, index){
+                console.log(food.name)
+                console.log(foodName)
                 if(food.name === foodName){
                     addedFood = food
                     console.log("Food To be removed: ")
@@ -403,10 +408,13 @@ $(document).on('submit','#add-food-to-meal',function(event){
     console.log(selectedDietPlan)
      var row = createFoodRow(selectedFood)
     $("table[data-meal-name='" + mealName +"'] tbody tr:nth-last-child(2)").before(row)
+
+    displayMealNutrients(mealName)
+    calculateTotalSum()
 })
 
 function createFoodRow(food){
-    var row = $("<tr data-food-name = " + food.name + ">")
+    var row = $("<tr data-food-name = '" + food.name + "'>")
     var infoButton =
         "<td>" +
         "  <button " +
