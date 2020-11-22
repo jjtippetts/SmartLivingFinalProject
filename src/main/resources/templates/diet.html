@@ -33,10 +33,10 @@
         <a class="nav-link active my-0 py-1" id="pills-diet-tab" data-toggle="pill" href="#pills-diet" role="tab" aria-controls="pills-diet" aria-selected="true">Diet</a>
       </li>
       <li class="nav-item" role="presentation">
-        <a class="nav-link my-0 py-1" id="pills-fitness-tab" data-toggle="pill" href="#pills-fitness" role="tab" aria-controls="pills-fitness" aria-selected="false">Fitness</a>
+        <a class="nav-link my-0 py-1" id="pills-fitness-tab" data-toggle="pill" href="#pills-fitness" role="tab" aria-controls="pills-fitness" aria-selected="false">Health Calculators</a>
       </li>
       <li class="nav-item" role="presentation">
-        <a class="nav-link my-0 py-1" id="pills-client-tab" data-toggle="pill" href="#pills-client" role="tab" aria-controls="pills-client" aria-selected="false">Clients</a>
+        <a class="nav-link my-0 py-1" id="pills-client-tab" data-toggle="pill" href="#pills-client" role="tab" aria-controls="pills-client" aria-selected="false">Weight</a>
       </li>
     </ul>
   </div>
@@ -136,7 +136,7 @@
               </ul>
             </nav>
             <div class="d-none" id="diet-slide-options">
-              <ul class="nav nav-pills mb-3" id="pills-diet-tab" role="tablist">
+              <ul class="nav nav-pills mb-3" role="tablist">
                 <li class="nav-item">
                   <a class="nav-link active" id="pills-diet-create-tab" data-toggle="pill" href="#pills-diet-create" role="tab" aria-controls="pills-diet-create" aria-selected="true">Home</a>
                 </li>
@@ -150,7 +150,7 @@
             </div>
 
             <div class="tab-content" id="pills-diet-tabContent">
-              <div class="tab-pane fade show active" id="pills-diet-create" role="tabpanel" aria-labelledby="pills-diet-create-tab">
+              <div class="tab-pane fade show active" id="pills-diet-create" role="tabpanel" aria-labelledby="pills-diet-create">
                 <section class="bg-white">
                   <div id="diet-container">
 <!--                    <div id="client-form">-->
@@ -501,6 +501,8 @@
     </form>
   </th>
 </script>
+<!--File Saver-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous"></script>
 
 <!--Chart JS-->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
@@ -547,6 +549,8 @@
      })
   })
 </script>
+
+<script src="./js/downloadDiet.js"></script>
 
 </body>
 </html>
