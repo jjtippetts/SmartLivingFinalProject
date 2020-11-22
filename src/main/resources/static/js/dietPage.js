@@ -68,6 +68,20 @@ function moveFood(foodName, newPosition,mealAddedTo, mealRemovedFrom){
                     console.log("Food To be removed: ")
                     console.log(addedFood)
                     meal.foods.splice(index, 1)
+
+                    // Remove food from chart
+                    removeCaloriesToCaloriesPerMeal(caloriesPerMeal, mealRemovedFrom,food)
+                    removeNutrientsDietMacroPieChart(dietMacros,food)
+                    if (food.foodGroup !== 'UNDEFINED') {
+                        removeFoodToBarChartFoodGroup(barChartFoodGroups, food.foodGroup.replace("_", "/"))
+                    }
+
+                    // Add food to chart
+                    addNutrientDietMacroPieChart(dietMacros, food)
+                    addCaloriesToCaloriesPerMeal(caloriesPerMeal,mealAddedTo,food)
+                    if (food.foodGroup !== 'UNDEFINED') {
+                        addFoodToBarChartFoodGroup(barChartFoodGroups, food.foodGroup.replace("_", "/"))
+                    }
                 }
             })
         }
@@ -333,6 +347,7 @@ $(document).on('submit', '#submit-entire-diet', function (event) {
                     $(this).remove();
                 });
             }, 3000);
+
         },
         error: function (results) {
             $("#submit-diet-alert").html(failAlert)

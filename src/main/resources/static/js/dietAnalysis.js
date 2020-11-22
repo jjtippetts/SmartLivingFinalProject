@@ -87,6 +87,14 @@ var barChartFoodGroups = new Chart(document.getElementById("bar-chart-food-group
         title: {
             display: true,
             text: '# Foods Per Food Group'
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                    stepSize: 1
+                }
+            }]
         }
     }
 
