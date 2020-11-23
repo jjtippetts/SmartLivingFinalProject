@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, Container, Row, Col, ListGroup, InputGroup } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 class ExerciseListItem extends React.Component {
     constructor(props) {
@@ -134,7 +136,7 @@ class ExerciseListItem extends React.Component {
     displayDelete() {
         if (this.props.editable) {
             return (
-                <div className="mx-2 text-danger cursor-pointer" onClick={this.handleDelete}>X</div>
+                <FontAwesomeIcon icon={faTrash} className="mx-2 text-danger cursor-pointer" onClick={this.handleDelete} />
             );
         }
     }
@@ -144,7 +146,7 @@ class ExerciseListItem extends React.Component {
             <ListGroup.Item>
                 <Container className="py-5">
                     <Row>
-                        <Col xs="11">
+                        <Col xs>
                             <h4 className="text-left">{this.props.exercise.exercise.name}</h4>
                         </Col>
                         <Col xs="1">
@@ -152,18 +154,17 @@ class ExerciseListItem extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col>
+                        <Col lg className="my-2">
                             <div className="d-flex justify-content-around">
                                 <span>
                                     Sets: 
                                 </span>
                                 <span>
                                     {this.displaySets()}
-
                                 </span>
                             </div>
                         </Col>
-                        <Col>
+                        <Col lg className="my-2">
                             <div className="d-flex justify-content-around">
                                 <span>
                                     Reps:

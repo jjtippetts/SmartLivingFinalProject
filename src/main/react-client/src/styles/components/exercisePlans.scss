@@ -8,3 +8,20 @@
         color: $text-color;
     }
 }
+
+.exercise-display__container {
+    max-height: 715px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.exercise-search-results__container {
+    max-height: 715px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

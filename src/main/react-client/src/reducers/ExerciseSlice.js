@@ -38,7 +38,6 @@ export const deleteUserExercisePlan = createAsyncThunk(
     }
 )
 
-/*
 const exampleExercisePlan = {
     id: 0,
     name: "Example Exercise Plan",
@@ -88,7 +87,6 @@ const exampleExercisePlan = {
     },
     ]  // Each exercise will have exerciseId, sets, and reps
 };
-*/
 
 const exampleExercises = [
     {
@@ -104,7 +102,7 @@ const exampleExercises = [
 ];
 
 const initialState = {
-    exercisePlans: [],
+    exercisePlans: [exampleExercisePlan],
     exercises: exampleExercises
 };
 

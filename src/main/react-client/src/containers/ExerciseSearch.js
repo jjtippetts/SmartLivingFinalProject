@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Form, FormControl, ListGroup, InputGroup } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Fuse from 'fuse.js';
 import ExerciseSearchResultItem from '../components/ExerciseSearchResultItem';
+import AnimatedList from '../components/AnimatedList';
 
 class ExerciseSearch extends React.Component {
     constructor() {
@@ -37,11 +40,22 @@ class ExerciseSearch extends React.Component {
         if (this.state.searchResults.length === 0) {
             return;
         }
-        return this.state.searchResults.map((exercise, i) => {
+
+        const animationConfig = {
+            from: { opacity: 0 },
+            enter: { opacity: 1 },
+            leave: { opacity: 0 },
+        }
+
+        const searchResultItems = this.state.searchResults.map((exercise, i) => {
             return (
-                <ExerciseSearchResultItem key={i} addToPlan={this.props.addToPlan} exercise={exercise.item} currentPlanId={this.props.currentPlanId} />
+                <ExerciseSearchResultItem key={i} editable={this.props.editable} addToPlan={this.props.addToPlan} exercise={exercise.item} currentPlanId={this.props.currentPlanId} />
             );
         });
+
+        return (
+            <AnimatedList items={searchResultItems} config={animationConfig}/>
+        )
     }
 
     onSearchInputChange(e) {
@@ -77,11 +91,13 @@ class ExerciseSearch extends React.Component {
                     <InputGroup>
                         <FormControl value={this.state.searchInput} onChange={this.onSearchInputChange} placeholder="Search exercises"/>
                         <InputGroup.Append>
-                            <Button variant="primary" type="submit">Search</Button>
+                            <Button variant="primary" type="submit">
+                                <FontAwesomeIcon icon={faSearch} />
+                            </Button>
                         </InputGroup.Append>
                     </InputGroup>
                 </Form>
-                <ListGroup className="">
+                <ListGroup className="exercise-search-results__container">
                     {this.displaySearchResults()}
                 </ListGroup>
             </div>
