@@ -45,6 +45,12 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<ExercisePlan> exercisePlans;
 
+    private float weightInKgs;
+
+    private float heightInMeters;
+
+    private int activityLevel;
+
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
@@ -84,6 +90,14 @@ public class User {
     public void removeClient(Client client){
         this.clients.remove(client);
         client.setUser(null);
+    }
+
+    public void changeWeight(float weightInKgs){
+        this.weightInKgs = weightInKgs;
+    }
+
+    public void changeHeight(float heightInMeters){
+        this.heightInMeters = heightInMeters;
     }
 
     public String toString() {
