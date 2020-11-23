@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Smart Living | Settings</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+          rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous"
+  />
+
+  <!--Font Awesome-->
+  <script
+          src="https://kit.fontawesome.com/fc7f1cbe69.js"
+          crossorigin="anonymous"
+          SameSite="none"
+  ></script>
+
+  <!-- File css -->
+  <link rel="stylesheet" href="css/home.css"/>
+  <link rel="stylesheet" href="css/settings.css"/>
+
+</head>
+<body>
+  <header class="fixed-top" th:insert="~{nav :: main-nav}"></header>
+
+  <main>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-3" id="settings-nav-col">
+          <div class="d-flex align-items-start justify-content-center p-2 my-3 shadow">
+            <div class="nav flex-column nav-pills mr-3 w-100" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+              <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">General</a>
+              <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Security and Login</a>
+              <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Your Information</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-9" id="settings-data-col">
+          <div class="tab-content my-3" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+              <h4 class="font-weight-bold">General Account Settings</h4>
+
+              <hr>
+
+              <div class="row">
+                <div class="col-3">
+                  <p class="font-weight-bold">Username</p>
+                </div>
+                <div class="col-9">
+                  <p th:text="${currentUserName}"></p>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="row">
+                <div class="col-3">
+                  <p class="font-weight-bold">Email</p>
+                </div>
+                <div class="col-9">
+                  <p th:text="${currentUserEmail}"></p>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="row">
+                <div class="col-3">
+                  <p class="font-weight-bold">Password</p>
+                </div>
+                <div class="col-9">
+                  <p th:text="${currentUserPassword}"></p>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="row">
+                <div class="col-3">
+                  <p class="font-weight-bold">Height</p>
+                </div>
+                <div class="col-9">
+                  <p th:text="${currentUserHeight}"></p>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="row">
+                <div class="col-3">
+                  <p class="font-weight-bold">Weight</p>
+                </div>
+                <div class="col-9">
+                  <p th:text="${currentUserWeight}"></p>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="row">
+                <div class="col-3">
+                  <p class="font-weight-bold">Activity Level</p>
+                </div>
+                <div class="col-9">
+<!--                  <p th:text="${currentUserWeight}"></p>-->
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+
+            </div>
+            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="~{footer :: footer}"></div>
+  <div th:replace="~{scripts :: bootstrap}"></div>
+</body>
+</html>
