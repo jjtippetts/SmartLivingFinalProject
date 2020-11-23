@@ -27,13 +27,25 @@ public class PageController {
     }
 
     @GetMapping("/")
-    public String toIndex(Model model) {
+    public String toIndex(Model model, Authentication authentication) {
+
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            model.addAttribute("currentUserName",currentUserName);
+        }
+
         model.addAttribute("homeActive", "active");
         return "landing";
     }
 
     @GetMapping("/diet")
-    public String toDiet(Model model) {
+    public String toDiet(Model model, Authentication authentication) {
+
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            model.addAttribute("currentUserName",currentUserName);
+        }
+
         model.addAttribute("dietActive", "active");
         return "diet";
     }
@@ -59,14 +71,6 @@ public class PageController {
         model.addAttribute("currentUserPassword", currentUser.getPassword());
         model.addAttribute("currentUserWeight", currentUser.getWeightInKgs());
         model.addAttribute("currentUserHeight", currentUser.getHeightInMeters());
-
-//        String currentUserName = principal.getName();
-//        User user = userRepository.getUserByUsername(username);
-//
-//        if (!(auth instanceof AnonymousAuthenticationToken)) {
-//            currentUserName = auth.getName();
-//            model.addAttribute("currentUserName", currentUserName);
-//        }
 
         model.addAttribute("dietActive", "active");
         return "settings";

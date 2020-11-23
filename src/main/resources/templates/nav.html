@@ -17,19 +17,26 @@
         <a href="/login" sec:authorize="isAnonymous()" class="btn btn-sm btn-orange rounded-pill ml-auto order-lg-3 mr-3 d-flex">Sign in</a>
         <div sec:authorize="isAuthenticated()" class="ml-auto order-lg-3 mr-3 d-flex align-items-center">
             <div class="dropdown">
-                <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="fa-stack fa-md">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class=" fas fa-x fa-user fa-stack-1x fa-inverse"></i>
-                    </span>
+                <a class="btn btn-sm btn-orange rounded-pill" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<!--                        <i class="fas fa-circle fa-stack-2x"></i>-->
+                    <i class="fas fa-user" style="color:white"></i>
+                    <span th:text="${currentUserName}" style="color:white"></span>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="/settings">Settings</a>
-                    <a href="/logout"  class="dropdown-item">Log out</a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+
+                    <a class="dropdown-item" href="/settings">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </a>
+
+                    <a href="/logout" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Log out
+                    </a>
                 </div>
             </div>
 
-            <a href="/logout"  class="btn btn-sm btn-orange rounded-pill">Log out</a>
+<!--            <a href="/logout"  class="btn btn-sm btn-orange rounded-pill">Log out</a>-->
         </div>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
