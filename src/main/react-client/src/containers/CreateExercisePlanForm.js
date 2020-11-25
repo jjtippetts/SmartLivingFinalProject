@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { saveUserExercisePlan } from '../reducers/ExerciseSlice';
 import { Button, Container, Col, Row, Form, ListGroup } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
 import ExerciseListItem from '../components/ExerciseListItem';
 import ExerciseSearch from './ExerciseSearch';
 
@@ -144,33 +142,29 @@ class CreateExercisePlanForm extends React.Component {
         })
     }
 
+    // CurrentPlanId is set to -1 to allow for the "add" button to appear in the ExerciseSearchResultItem
     render() {
         return(
-            <Container className="position-absolute w-100" fluid>
+            <Container fluid>
                 <Row>
-                    <Col lg="8">
-                        <h2 className="mt-2 mb-3 text-left">New Exercise Plan</h2>
+                    <Col xs="8">
                         <Form onSubmit={this.handleSave}>
                             <Form.Row>
-                                <Col sm='5'>
+                                <Form.Group controlId="createPlanName" className="m-auto">
+                                    <Form.Label>Exercise Plan Name</Form.Label>
                                     <Form.Control type="text" value={this.state.planName} onChange={this.handleNameChange} placeholder="Exercise Plan Name"/>
-                                </Col>
-                                <Col/>
-                                <Col sm='1'>
-                                    <Button variant="primary" type="submit">
-                                        <FontAwesomeIcon icon={faSave}/>
-                                    </Button>
-                                </Col>
+                                </Form.Group>
                             </Form.Row>
                             <ListGroup className="mt-2 mb-2">
                                 {this.displaySelectedExercises()}
                             </ListGroup>
+                            <Button variant="primary" type="submit">Save</Button>
                             {this.displayFormErrors()}
                         </Form>
                     </Col>
                     <Col>
                         <h3 className="text-left">Add an exercise</h3>
-                        <ExerciseSearch editable={true} currentPlanId={-1} addToPlan={this.addToPlan} />
+                        <ExerciseSearch currentPlanId={-1} addToPlan={this.addToPlan} />
                     </Col>
                 </Row>
             </Container>

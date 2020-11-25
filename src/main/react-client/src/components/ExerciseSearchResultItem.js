@@ -10,7 +10,7 @@ class ExerciseSearchResultItem extends React.Component {
     }
 
     displayAddToPlan() {
-        if (this.props.currentPlanId === null || this.props.currentPlanId === undefined || !this.props.editable) {
+        if (this.props.currentPlanId === null || this.props.currentPlanId === undefined) {
             return;
         }
         return (

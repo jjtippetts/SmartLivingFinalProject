@@ -10,13 +10,13 @@ class ExercisePlanListItem extends React.Component {
 
     handleClick() {
         this.props.handleClick(this.props.plan.id);
-        this.props.history.push("/exercise");
+        this.props.history.push("/");
     }
 
     render() {
         return (
-            <ListGroup.Item variant="dark" action active={this.props.active} onClick={this.handleClick} className="my-2 list-group-item__pointer">
-                <h5>
+            <ListGroup.Item action active={this.props.active} onClick={this.handleClick} className="list-group-item__pointer">
+                <h5 className="text-primary">
                     {this.props.plan.name}
                 </h5>
             </ListGroup.Item>
