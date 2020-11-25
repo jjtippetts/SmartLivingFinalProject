@@ -380,6 +380,56 @@
           </form>
         </section>
       </div>
+      <!-- END BMI -->
+
+      <!-- Body Fat Calculator Female -->
+      <div class="col-4 light-gray mt-2 mb-2 rounded">
+        <section class="p-2">
+          <form id="BFCalculatorFemale">
+            <legend><h3>Female Body Fat Calculator</h3></legend>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="BFFWeight">Weight</label>
+                <input class="form-control" id="BFFWeight" type="number" min="0" name="BFFWeight" required>
+              </div>
+              <div class="form-group col-6">
+                <label for="BFWrist">Wrist (cm)</label>
+                <input class="form-control" id="BFWrist" type="number" min="0" name="BFWrist" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="BFFWaist">Waist (cm)</label>
+                <input class="form-control" id="BFFWaist" type="number" min="0" name="BFFWaist" required>
+              </div>
+              <div class="form-group col-6">
+                <label for="BFHip">Hip (cm)</label>
+                <input class="form-control" id="BFHip" type="number" min="0" name="BFHip" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="BFFForearm">Forearm (cm)</label>
+                <input class="form-control" id="BFFForearm" type="number" min="0" name="BFFForearm" required>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-6">
+                <button class="btn btn-primary" type="submit">Calculate</button>
+              </div>
+              <div class="col-6">
+                <p class="font-weight-bold mb-0">Lean Body Mass: <span id="LBMResultFemale"></span></p>
+                <p class="font-weight-bold mb-0">Body Fat Percentage: <span id="BFResultFemale"></span></p>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+
 
     </div>
 
@@ -583,6 +633,7 @@
 <!--Calculators-->
 <script src="./js/bmr.js"></script>
 <script src="./js/bmi.js"></script>
+<script src="./js/bf.js"></script>
 
 <!--Sortable Library-->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
