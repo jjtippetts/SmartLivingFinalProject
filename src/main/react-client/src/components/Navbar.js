@@ -19,12 +19,10 @@ export const NavBar = () => {
                         <Nav.Link href="../exercise">Exercise</Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="nav-item">
+                        <Nav.Link href="#">Management</Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="nav-item">
-                        <Nav.Link href="../">Support</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item className='nav-item'>
-                        <Nav.Link href="../logout">Log out</Nav.Link>
+                        <Nav.Link href="#">Support</Nav.Link>
                     </Nav.Item>
                 </Nav>
             </BootstrapNavbar.Collapse>

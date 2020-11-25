@@ -88,56 +88,6 @@ const exampleExercisePlan = {
     },
     ]  // Each exercise will have exerciseId, sets, and reps
 };
-
-const exampleExercisePlan2 = {
-    id: 1,
-    name: "Example Exercise Plan",
-    exercises: [{
-        exercise: {
-            id: 1,
-            name: "bicep curl",
-            muscles: ["bicep"],
-        },
-        sets: 1,
-        reps: 1,
-        weight: 25,
-        isMetric: false
-    },
-    {
-        exercise: {
-            id: 1,
-            name: "bicep curl",
-            muscles: ["bicep"],
-        },
-        sets: 5,
-        reps: 5,
-        weight: 25,
-        isMetric: false
-    },
-    {
-        exercise: {
-            id: 1,
-            name: "bicep curl",
-            muscles: ["bicep"],
-        },
-        sets: 5,
-        reps: 5,
-        weight: 25,
-        isMetric: false
-    },
-    {
-        exercise: {
-            id: 1,
-            name: "bicep curl",
-            muscles: ["bicep"],
-        },
-        sets: 5,
-        reps: 5,
-        weight: 25,
-        isMetric: false
-    },
-    ]  // Each exercise will have exerciseId, sets, and reps
-}
 */
 
 const exampleExercises = [

@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Col, Container, ListGroup, Row } from 'react-bootstrap';
-import { Switch, Route, Link, withRouter } from 'react-router-dom';
-import { useTransition, animated } from 'react-spring';
+import { Switch, Route, Link } from 'react-router-dom';
 import '../styles/components/exercisePlans.scss';
 import { exercisePlanAdded, exercisePlanDeleted, deleteUserExercisePlan } from '../reducers/ExerciseSlice';
 import ExercisePlanDisplay from './ExercisePlanDisplay';
 import ExercisePlanListItem from '../components/ExercisePlanListItem';
 import CreateExercisePlanForm from './CreateExercisePlanForm';
+
 
 class ExercisePlans extends React.Component {
     constructor() {
@@ -18,8 +18,6 @@ class ExercisePlans extends React.Component {
         this.setNewPlan = this.setNewPlan.bind(this);
         this.resetCurrentPlanState = this.resetCurrentPlanState.bind(this);
         this.deleteExercisePlan = this.deleteExercisePlan.bind(this);
-        this.addExerciseToPlan = this.addExerciseToPlan.bind(this);
-        this.handleNewPlanClick = this.handleNewPlanClick.bind(this);
 
         this.state = {
             selectedPlanId: null,
@@ -28,7 +26,11 @@ class ExercisePlans extends React.Component {
 
     generateExercisePlansList() {
         if (this.props.exercisePlans.length === 0) {
-            return;
+            return (
+                <div>
+                    Create a plan!
+                </div>
+            );
         }
 
         return this.props.exercisePlans.map((plan) => {
@@ -56,10 +58,6 @@ class ExercisePlans extends React.Component {
         })
     }
 
-    addExerciseToPlan(exerciseId) {
-        this.props.exerciseAddedToPlan(this.props.selectedPlanId, exerciseId);
-    }
-
     resetCurrentPlanState() {
         this.setState({
             selectedPlanId: null,
@@ -72,65 +70,38 @@ class ExercisePlans extends React.Component {
         this.props.deleteUserExercisePlan(toDeletePlanId);
     }
 
-    handleNewPlanClick() {
-        this.setNewPlan();
-        this.props.history.push("/exercise/plan/new");
-    }
-
+    // TODO: align left "EXERCISE PLANS" header
     render() {
         return (
-            <Container className="my-3" fluid>
-                <Row>
-                    <Col lg="3">
-                        <ListGroup variant="flush" className="shadow p-3 my-3">
-                            <h4 className="py-2 pb-3 border-bottom">
-                                <Link to="/exercise" className="exercise-plans-header">
-                                    All Exercise Plans
-                                </Link>
-                            </h4>
-                            <div className="py-2">
+            <Switch>
+                <Container fluid>
+                    <Row>
+                        <Col>
+                            <h1><Link to="/" className="link-plain" onClick={this.resetCurrentPlanState}>Exercise Plans</Link></h1>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs="3">
+                            <ListGroup variant="flush" className="shadow p-3 my-3">
                                 {this.generateExercisePlansList()}
-                                <ListGroup.Item className="mt-3 bg-success cursor-pointer text-white" onClick={this.handleNewPlanClick}>
-                                    + New Plan
-                                </ListGroup.Item>
-                            </div>
-                        </ListGroup>
-                    </Col>
-                    <Col lg="9">
-                        <AnimatedExercisePlansTransitions savePlan={this.savePlan} deleteExercisePlan={this.deleteExercisePlan} selectedPlanId={this.state.selectedPlanId} location={this.props.location} />
-                    </Col>
-                </Row>
-            </Container>
+                            </ListGroup>
+                            <Link to="/plan/new" onClick={this.setNewPlan}>Create a new plan</Link>
+                        </Col>
+                        <Col xs="9">
+                            <Switch>
+                                <Route path="/plan/new">
+                                    <CreateExercisePlanForm />
+                                </Route>
+                                <Route path={['/', '/exercises']}>
+                                    <ExercisePlanDisplay savePlan={this.savePlan} deleteExercisePlan={this.deleteExercisePlan} selectedPlanId={this.state.selectedPlanId} />
+                                </Route>
+                            </Switch>
+                        </Col>
+                    </Row>
+                </Container>
+            </Switch>
         );
     }
-}
-
-function AnimatedExercisePlansTransitions(planProps) {
-    const location = planProps.location;
-    const transitions = useTransition(location, location => location.pathname, {
-        from: { opacity: 0, transform: "translateY(120px)"},
-        enter: { opacity: 1, transform: "translateY(0)"},
-        leave: { opacity: 0, transform: "translateY(60px)"},
-        config: {
-            mass: 2,
-            friction: 40,
-            tension: 180,
-            precision: 0.001,
-            clamp: true
-        }
-    });
-    return transitions.map(({item: location, props, key}) => (
-        <animated.div key={key} style={props}>
-            <Switch location={location}>
-                <Route path="/exercise/plan/new">
-                    <CreateExercisePlanForm />
-                </Route>
-                <Route path={['/', '/exercise', '/exercises']}>
-                    <ExercisePlanDisplay savePlan={planProps.savePlan} deleteExercisePlan={planProps.deleteExercisePlan} selectedPlanId={planProps.selectedPlanId} />
-                </Route>
-            </Switch>
-        </animated.div>
-    ));
 }
 
 function mapStateToProps(state) {
@@ -140,4 +111,4 @@ function mapStateToProps(state) {
      }
 }
 
-export default withRouter(connect(mapStateToProps, { deleteUserExercisePlan, exercisePlanAdded, exercisePlanDeleted })(ExercisePlans));
+export default connect(mapStateToProps, { deleteUserExercisePlan, exercisePlanAdded, exercisePlanDeleted })(ExercisePlans);
