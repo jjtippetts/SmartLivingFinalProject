@@ -57,3 +57,17 @@ $(document).on('submit', '#BFCalculatorFemale', function(event) {
     $("#BFResultFemale").text(bodyFat.toFixed(2) + "%")
 
 })
+
+//Male Submit to calculate lean body mass and body fat
+$(document).on('submit', '#BFCalculatorMale', function(event) {
+    event.preventDefault(event)
+    var weight = parseFloat($('#BFMWeight').val())
+    var waist = parseFloat($('#BFMWaist').val())
+
+    var leanBodyMass = calculateMaleLBM(weight, waist)
+    var bodyFat = calculateMaleBF(weight, waist)
+
+    $("#LBMResultMale").text(leanBodyMass.toFixed(1))
+    $("#BFResultMale").text(bodyFat.toFixed(2) + "%")
+
+})
