@@ -14,7 +14,7 @@ function calculateFemaleLBM(weight, wrist, waist, hip, forearm){
     var factor4 = hip * 0.249
     var factor5 = forearm * 0.434
     //console.log('lbm info: ' + weight + wrist + waist + hip + forearm)
-    console.log('lbm: ' + factor1 + ' ' + factor2 +' ' + factor3 +' ' + factor4 +' ' + factor5)
+    //console.log('lbm: ' + factor1 + ' ' + factor2 +' ' + factor3 +' ' + factor4 +' ' + factor5)
     return factor1 + factor2 + factor3 + factor4 + factor5
 }
 
@@ -29,8 +29,8 @@ function calculateMaleLBM(weight, waist){
 function calculateFemaleBF(weight, wrist, waist, hip, forearm){
     var lbm = calculateFemaleLBM(weight, wrist, waist, hip, forearm)
     var bodyFatWeight = weight - lbm
-    console.log('cfb lbm: ' + lbm)
-    console.log('bfw: ' + bodyFatWeight)
+    //console.log('cfb lbm: ' + lbm)
+    //console.log('bfw: ' + bodyFatWeight)
     return (bodyFatWeight * 100) / weight
 }
 

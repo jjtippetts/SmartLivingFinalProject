@@ -416,7 +416,6 @@
               </div>
             </div>
 
-
             <div class="row">
               <div class="col-6">
                 <button class="btn btn-primary" type="submit">Calculate</button>
@@ -429,7 +428,37 @@
           </form>
         </section>
       </div>
+    <!-- END Body Fat Calculator Female-->
 
+      <!-- Body Fat Calculator Male -->
+      <div class="col-4 light-gray mt-2 mb-2 rounded">
+        <section class="p-2">
+          <form id="BFCalculatorMale">
+            <legend><h3>Male Body Fat Calculator</h3></legend>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="BFMWeight">Weight (lbs)</label>
+                <input class="form-control" id="BFMWeight" type="number" min="0" name="BFMWeight" required>
+              </div>
+              <div class="form-group col-6">
+                <label for="BFMWaist">Waist (inches)</label>
+                <input class="form-control" id="BFMWaist" type="number" min="0" name="BFMWaist" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <button class="btn btn-primary" type="submit">Calculate</button>
+              </div>
+              <div class="col-6">
+                <p class="font-weight-bold mb-0">Lean Body Mass: <span id="LBMResultMale"></span></p>
+                <p class="font-weight-bold mb-0">Body Fat Percentage: <span id="BFResultMale"></span></p>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+      <!-- END Body Fat Calculator Male-->
 
     </div>
 
