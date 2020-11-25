@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Form, FormControl, ListGroup, InputGroup } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import Fuse from 'fuse.js';
 import ExerciseSearchResultItem from '../components/ExerciseSearchResultItem';
 
 class ExerciseSearch extends React.Component {
@@ -10,34 +13,59 @@ class ExerciseSearch extends React.Component {
         this.displaySearchResults = this.displaySearchResults.bind(this);
         this.onSearchSubmit = this.onSearchSubmit.bind(this);
         this.searchLocal = this.searchLocal.bind(this);
+        this.createFuse = this.createFuse.bind(this);
 
+        this.fuse = null;
         this.state = {
             searchInput: "",
             searchResults: []
         }
     }
 
-    // TODO: Make button a part of the search input
+    componentDidUpdate(prevProps) {
+        if (prevProps.exercises.length !== this.props.exercises.length) {
+            this.fuse = this.createFuse();
+        }
+    }
+
+    createFuse() {
+        const options = {
+            keys: ['name']
+        };
+        return new Fuse(this.props.exercises, options);
+    }
+
     displaySearchResults() {
         if (this.state.searchResults.length === 0) {
             return;
         }
-        return this.state.searchResults.map((exercise, i) => {
+
+        const searchResultItems = this.state.searchResults.map((exercise, i) => {
             return (
-                <ExerciseSearchResultItem key={i} addToPlan={this.props.addToPlan} exercise={exercise} currentPlanId={this.props.currentPlanId} />
+                <ExerciseSearchResultItem key={i} editable={this.props.editable} addToPlan={this.props.addToPlan} exercise={exercise.item} currentPlanId={this.props.currentPlanId} />
             );
         });
+
+        return searchResultItems;
     }
 
     onSearchInputChange(e) {
+        if (this.fuse === null || this.fuse === undefined) {
+            this.fuse = this.createFuse();
+        }
         this.setState({
-            searchInput: e.target.value
+            searchInput: e.target.value,
         });
+
+        this.searchLocal(e.target.value);
     }
 
     onSearchSubmit(e) {
         e.preventDefault();
-        let searchResults = this.searchLocal();
+    }
+
+    searchLocal(searchValue) {
+        let searchResults = this.fuse.search(searchValue);
         if (searchResults.length === 0) {
             // Do global search on server here.
             // OR have user choose to do global search
@@ -47,15 +75,6 @@ class ExerciseSearch extends React.Component {
         });
     }
 
-    searchLocal() {
-        const searchInput = this.state.searchInput;
-        // TODO: possibly enhance search with fusejs?
-        if (searchInput.length === 0) {
-            return [];
-        }
-        return this.props.exercises.filter((exercise) => exercise.name.toLowerCase().includes(searchInput.toLowerCase()));
-    }
-
     render() {
         return (
             <div>
@@ -63,11 +82,13 @@ class ExerciseSearch extends React.Component {
                     <InputGroup>
                         <FormControl value={this.state.searchInput} onChange={this.onSearchInputChange} placeholder="Search exercises"/>
                         <InputGroup.Append>
-                            <Button variant="primary" type="submit">Search</Button>
+                            <Button variant="primary" type="submit">
+                                <FontAwesomeIcon icon={faSearch} />
+                            </Button>
                         </InputGroup.Append>
                     </InputGroup>
                 </Form>
-                <ListGroup className="">
+                <ListGroup className="exercise-search-results__container">
                     {this.displaySearchResults()}
                 </ListGroup>
             </div>
