@@ -263,26 +263,26 @@
       <div class="col-4 light-gray mt-2 mb-2 rounded">
         <section class="p-2">
           <form id="BMRCalculator">
-            <legend><h3>BMR / BMI Calculator</h3></legend>
+            <legend><h3>BMRCalculator</h3></legend>
             <div class="form-row">
               <div class="form-group col-6">
-                <label for="feet">Feet</label>
-                <input class="form-control" id="feet" type="number" min="0" name="feet" required>
+                <label for="BMRfeet">Feet</label>
+                <input class="form-control" id="BMRfeet" type="number" min="0" name="BMRfeet" required>
               </div>
               <div class="form-group col-6">
-                <label for="inches">Inches</label>
-                <input class="form-control" id="inches" type="number" min="0" name="inches" required>
+                <label for="BMRinches">Inches</label>
+                <input class="form-control" id="BMRinches" type="number" min="0" name="BMRinches" required>
               </div>
             </div>
 
             <div class="form-row">
               <div class="form-group col-6">
-                <label for="weight">Weight</label>
-                <input class="form-control" id="weight" type="number" min="0" name="weight" required>
+                <label for="BMRweight">Weight</label>
+                <input class="form-control" id="BMRweight" type="number" min="0" name="BMRweight" required>
               </div>
               <div class="form-group col-6">
-                <label for="age">Age</label>
-                <input class="form-control" id="age" type="number" min="0" name="age" required>
+                <label for="BMRage">Age</label>
+                <input class="form-control" id="BMRage" type="number" min="0" name="BMRage" required>
               </div>
             </div>
 
@@ -290,17 +290,17 @@
               <div class="form-group col-6">
                 <p class="mb-0">Gender</p>
                 <div class="form-check">
-                  <input class="form-check-input" id="male" type="radio" value="male" name="gender" required>
+                  <input class="form-check-input" id="male" type="radio" value="male" name="BMRgender" required>
                   <label class="form-check-label" for="male">Male</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" id="female" type="radio" value="female" name="gender" required>
+                  <input class="form-check-input" id="female" type="radio" value="female" name="BMRgender" required>
                   <label class="form-check-label" for="female">Female</label>
                 </div>
               </div>
               <div class="form-group col-6">
-                <label for="activityLevel">Activity Level</label>
-                <select id="activityLevel" class="form-control custom-select">
+                <label for="BMRactivityLevel">Activity Level</label>
+                <select id="BMRactivityLevel" class="form-control custom-select">
                   <option value="1" selected="selected">Sedentary</option>
                   <option value="1.11">Low Active</option>
                   <option value="1.25">Active</option>
@@ -314,13 +314,13 @@
               </div>
               <div class="col-6">
                 <p class="font-weight-bold mb-0">BMR: <span id="kcalResult"></span></p>
-                <p class="font-weight-bold">BMI: <span id="bmiResult"></span></p>
               </div>
             </div>
           </form>
         </section>
       </div>
     </div>
+
     <div class="tab-pane fade" id="pills-client" role="tabpanel" aria-labelledby="pills-client-tab">
       <form id="search-diet-form">
         <div class="form-group">
