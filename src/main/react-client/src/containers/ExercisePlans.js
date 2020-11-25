@@ -113,9 +113,9 @@ function AnimatedExercisePlansTransitions(planProps) {
         leave: { opacity: 0, transform: "translateY(60px)"},
         config: {
             mass: 2,
-            friction: 100,
-            tension: 280,
-            precision: 0.0001,
+            friction: 40,
+            tension: 180,
+            precision: 0.001,
             clamp: true
         }
     });

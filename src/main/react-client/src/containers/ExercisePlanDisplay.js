@@ -4,7 +4,6 @@ import { Button, Container, Col, Row, ListGroup } from 'react-bootstrap';
 import { exercisePlanSetsRepsUpdated, exerciseAddedToPlan, saveUserExercisePlan, exercisePlanExerciseDeleted } from '../reducers/ExerciseSlice';
 import ExerciseListItem from '../components/ExerciseListItem';
 import ExerciseSearch from './ExerciseSearch';
-import AnimatedList from '../components/AnimatedList';
 
 class ExercisePlanDisplay extends React.Component {
     constructor() {
@@ -51,14 +50,7 @@ class ExercisePlanDisplay extends React.Component {
             );
         });
 
-        const animationConfig = {
-            from: { opacity: 0, transform: "translate(100%, 0)"},
-            enter: { opacity: 1, transform: "translate(0, 0)"},
-            leave: { opacity: 0, transform: "translate(-50%, 0)"},
-        }
-        return (
-            <AnimatedList items={exerciseItems} config={animationConfig}/>
-        )
+        return exerciseItems;
     }
 
     displaySearch() {

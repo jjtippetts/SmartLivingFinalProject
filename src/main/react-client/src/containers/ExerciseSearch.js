@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Fuse from 'fuse.js';
 import ExerciseSearchResultItem from '../components/ExerciseSearchResultItem';
-import AnimatedList from '../components/AnimatedList';
 
 class ExerciseSearch extends React.Component {
     constructor() {
@@ -41,21 +40,13 @@ class ExerciseSearch extends React.Component {
             return;
         }
 
-        const animationConfig = {
-            from: { opacity: 0 },
-            enter: { opacity: 1 },
-            leave: { opacity: 0 },
-        }
-
         const searchResultItems = this.state.searchResults.map((exercise, i) => {
             return (
                 <ExerciseSearchResultItem key={i} editable={this.props.editable} addToPlan={this.props.addToPlan} exercise={exercise.item} currentPlanId={this.props.currentPlanId} />
             );
         });
 
-        return (
-            <AnimatedList items={searchResultItems} config={animationConfig}/>
-        )
+        return searchResultItems;
     }
 
     onSearchInputChange(e) {

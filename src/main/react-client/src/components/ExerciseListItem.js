@@ -95,8 +95,8 @@ class ExerciseListItem extends React.Component {
     }
 
     displaySets() {
-        if (this.props.editable) {
-            return (
+        const editableItem =
+            <div className="position-absolute w-100 editableItem__center">
                 <InputGroup>
                     <InputGroup.Prepend>
                         <Button variant="primary" onClick={this.decrementSets} className="exercise-list-item__square-button">-</Button>
@@ -106,17 +106,16 @@ class ExerciseListItem extends React.Component {
                         <Button variant="primary" onClick={this.incrementSets} className="exercise-list-item__square-button">+</Button>
                     </InputGroup.Append>
                 </InputGroup>
-            );
-        }
+            </div>;
 
-        return (
-            <div>{this.state.sets}</div>
-        )
+        const notEditableItem = <div className="position-absolute w-100 notEditableItem__center">{this.state.sets}</div>;
+
+        return this.state.editable ? editableItem : notEditableItem;
     }
 
     displayReps() {
-        if (this.props.editable) {
-            return (
+        const editableItem =
+            <div className="position-absolute w-100 editableItem__center">
                 <InputGroup>
                     <InputGroup.Prepend>
                         <Button onClick={this.decrementReps} className="exercise-list-item__square-button">-</Button>
@@ -126,11 +125,11 @@ class ExerciseListItem extends React.Component {
                         <Button onClick={this.incrementReps} className="exercise-list-item__square-button">+</Button>
                     </InputGroup.Append>
                 </InputGroup>
-            )
-        }
-        return (
-            <div>{this.state.reps}</div>
-        )
+            </div>;
+
+        const notEditableItem = <div className="position-absolute w-100 notEditableItem__center">{this.state.reps}</div>;
+
+        return this.state.editable ? editableItem : notEditableItem;
     }
 
     displayDelete() {
