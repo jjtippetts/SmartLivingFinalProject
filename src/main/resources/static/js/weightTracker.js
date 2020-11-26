@@ -29,7 +29,7 @@ let weightChart = new Chart(chart,{
                 pointHoverBorderWidth: 2,
                 pointRadius: 1,
                 pointHitRadius: 10,
-                weight: [],
+                data: weightData,
             }
         ]
     }
@@ -43,11 +43,11 @@ function removeData(chart) {
     chart.update();
 }
 
-function addData(chart, month, data) {
+function addData(chart, month, weight) {
     // chart.data.datasets.forEach((dataset) => {
     //     dataset.data.push(data);
     // });
-    chart.data.datasets.weight[month].push(data)
+    weightData[month-1] = weight
     chart.update();
 }
 
