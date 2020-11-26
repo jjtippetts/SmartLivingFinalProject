@@ -13,6 +13,7 @@ let weightChart = new Chart(chart,{
             {
                 label: "Weight Tracker",
                 fill: false,
+                spanGaps: true,
                 lineTension: 0.1,
                 backgroundColor:"rgba(75,192,192,.04)",
                 borderColor: "rgba(75,192,192,1)",
@@ -44,9 +45,12 @@ function removeData(chart) {
 }
 
 function addData(chart, month, weight) {
+
+    // chart.data.labels.push(label);
     // chart.data.datasets.forEach((dataset) => {
     //     dataset.data.push(data);
     // });
+
     weightData[month-1] = weight
     chart.update();
 }
