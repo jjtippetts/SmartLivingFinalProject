@@ -60,11 +60,13 @@ function addData(chart, month, weight) {
 $(document).on('submit', '#AddWeight', function(event) {
     event.preventDefault(event)
 
-    var month = parseInt($('#AddWeightMonth').val())
+    //var month = parseInt($('#AddWeightMonth').val())
+
     console.log("Month: " + month)
     var weight = parseFloat($('#NewWeight').val())
+    console.log("Selected Date on Submit: " + selectedDate)
 
-    addData(weightChart, month, weight);
+    //addData(weightChart, month, weight);
 
 
 })

@@ -30,10 +30,11 @@ populateDates();
 
 // Event listeners
 date_picker_element.addEventListener('click', toggleDatePicker)
+
 next_mth_element.addEventListener('click', goToNextMonth)
 prev_mth_element.addEventListener('click', goToPrevMonth)
 
-// Functions
+// Function to keep the date picker active when selected
 function toggleDatePicker(e) {
 
     // if not clicking on dates we can toggle the class
@@ -43,6 +44,7 @@ function toggleDatePicker(e) {
     }
 }
 
+//Next month function
 function goToNextMonth(e) {
     month++
     if (month > 11){
@@ -53,6 +55,7 @@ function goToNextMonth(e) {
     populateDates();
 }
 
+//Previous month function
 function goToPrevMonth(e) {
     month--
     if (month < 0){
@@ -63,6 +66,9 @@ function goToPrevMonth(e) {
     populateDates()
 }
 
+//Main functionality
+//Checks what month and fills the day element with the appropriate number of days
+//
 function populateDates(e) {
     days_element.innerHTML = '';
     let amount_days = 31;
@@ -91,9 +97,11 @@ function populateDates(e) {
             selected_date_element.dataset.value = selectedDate;
 
             populateDates()
+
         })
 
         days_element.appendChild(day_element)
+        //console.log("Selected Date: " + selectedDate)
 
     }
 }
