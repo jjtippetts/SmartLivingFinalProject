@@ -98,7 +98,7 @@ function getListOfDiets() {
 
             var dietNutrients = calculateDietNutrients(results[index])
 
-            list.append("<a class='found-diet list-group-item list-group-item-action bg-light'>" +
+            list.append("<a class='found-diet list-group-item list-group-item-action btn'>" +
                 "<h5 class='text-primary'>" +
                 results[index].name +
                 "</h5>" +
@@ -128,6 +128,9 @@ $(document).ready(function () {
 
 // when user clicks on a found diet. It loads the diet to the page.
 $(document).on('click', '.found-diet', function (e) {
+    // Remove active state from all previously selected diet plans
+    $(".found-diet.active").removeClass("active")
+
     $(this).addClass('active')
     var dietName = $(this).find('h5').text()
     console.log($(this).text())
@@ -140,6 +143,13 @@ $(document).on('click', '.found-diet', function (e) {
     //Reset current Diet Plan
     $('#diet-info').html('')
     $('#diet-total-nutrients').html('')
+
+    // Reset charts
+    resetChart(barChartFoodGroups);
+    resetChart(dietMacros);
+    resetChart(caloriesPerMeal);
+
+    // Load Selected Diet Plan
     loadDietPlan(selectedDietPlan)
 })
 
