@@ -10,7 +10,12 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * The controller that is responsible for handling all of the HTTP requests related to foods. Allows users to search
+ * by name and by food group
+ */
 @RestController
+@RequestMapping("/food")
 public class FoodController {
 
     private static final int DEFAULT_PAGE_NUMBER = 0;
@@ -22,7 +27,8 @@ public class FoodController {
         this.foodRepository = foodRepository;
     }
 
-    @GetMapping(value = "/food", params = "page")
+    // Returns a paged list of all the foods in the database
+    @GetMapping(params = "page")
     public Page<Food> findAllFood(@RequestParam(value = "page") int page,
                            @PageableDefault(size = DEFAULT_PAGE_SIZE)
                                    @SortDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
@@ -30,7 +36,8 @@ public class FoodController {
         return foodRepository.findAll(pageable);
     }
 
-    @GetMapping(value = "/food", params = "foodGroup")
+    // Returns a paged list of foods by food group
+    @GetMapping(params = "foodGroup")
     public Page<Food> findFoodByFoodGroup(@RequestParam("foodGroup") FoodGroup foodGroup,
                                           @RequestParam("page") int page,
                                           @PageableDefault(size = DEFAULT_PAGE_SIZE)
@@ -39,7 +46,8 @@ public class FoodController {
         return foodsFound;
     }
 
-    @GetMapping("/food/{name}")
+    // Returns a paged list of foods that match a name
+    @GetMapping("/{name}")
     public Page<Food> findFoodByName(@PathVariable String name,
                               @RequestParam("page") int page,
                               @PageableDefault(size = DEFAULT_PAGE_SIZE)
@@ -53,18 +61,15 @@ public class FoodController {
         }
     }
 
-    @PostMapping(path = "/food", consumes = MediaType.ALL_VALUE)
+    // saves a new food
+    @PostMapping(consumes = MediaType.ALL_VALUE)
     public Food newFood(@RequestBody Food newFood) {
         return foodRepository.save(newFood);
     }
 
-    @DeleteMapping("/food/{id}")
+    // Delete a food item based on id
+    @DeleteMapping("/{id}")
     public void deleteFood(@PathVariable Long id) {
         foodRepository.deleteById(id);
-    }
-
-    @GetMapping("/test")
-    public String getTest(){
-        return "Hello World";
     }
 }

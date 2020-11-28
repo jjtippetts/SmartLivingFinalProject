@@ -12,7 +12,7 @@ var dietSaved = true
 function createDietPlanHTML(dietPlanName){
     $("#name-of-diet").remove()
     $("#diet-container").prepend("<div id='name-of-diet' class='d-flex justify-content-between pb-2'> " + "<h3>Diet Name: " + dietPlanName + "</h3>" +
-        "<form id=\"submit-entire-diet\">" + "<button type=\"submit\" class=\"btn btn-primary\">Save Diet</button></form>" + "</div>" + "<div id='submit-diet-alert'></div>")
+        "<div><button type='button' id='download-diet' class='btn btn-secondary d-inline-block mr-3'>Download</button><form class='d-inline-block' id=\"submit-entire-diet\">" + "<button type=\"submit\" class=\"btn btn-primary\">Save Diet</button></form>" + "</div></div>" + "<div id='submit-diet-alert'></div>")
     // Add a form to enter in a meal name
     $("#diet-info").html(addMealTable)
     // Add a section for the total nutrients for all meals
@@ -45,6 +45,7 @@ function makeFoodSortable(){
                 displayMealNutrients(mealAddedTo)
                 displayMealNutrients(mealRemovedFrom)
                 calculateTotalSum()
+                console.log(selectedDietPlan)
             },
             onRemove : function (evt) {
             }
@@ -56,13 +57,31 @@ function makeFoodSortable(){
 function moveFood(foodName, newPosition,mealAddedTo, mealRemovedFrom){
     var addedFood = {}
     selectedDietPlan.meals.forEach(function(meal) {
+        console.log(meal.name)
+        console.log(mealRemovedFrom)
         if (meal.name === mealRemovedFrom) {
             meal.foods.forEach(function(food, index){
+                console.log(food.name)
+                console.log(foodName)
                 if(food.name === foodName){
                     addedFood = food
                     console.log("Food To be removed: ")
                     console.log(addedFood)
                     meal.foods.splice(index, 1)
+
+                    // Remove food from chart
+                    removeCaloriesToCaloriesPerMeal(caloriesPerMeal, mealRemovedFrom,food)
+                    removeNutrientsDietMacroPieChart(dietMacros,food)
+                    if (food.foodGroup !== 'UNDEFINED') {
+                        removeFoodToBarChartFoodGroup(barChartFoodGroups, food.foodGroup.replace("_", "/"))
+                    }
+
+                    // Add food to chart
+                    addNutrientDietMacroPieChart(dietMacros, food)
+                    addCaloriesToCaloriesPerMeal(caloriesPerMeal,mealAddedTo,food)
+                    if (food.foodGroup !== 'UNDEFINED') {
+                        addFoodToBarChartFoodGroup(barChartFoodGroups, food.foodGroup.replace("_", "/"))
+                    }
                 }
             })
         }
@@ -328,6 +347,7 @@ $(document).on('submit', '#submit-entire-diet', function (event) {
                     $(this).remove();
                 });
             }, 3000);
+
         },
         error: function (results) {
             $("#submit-diet-alert").html(failAlert)
@@ -403,10 +423,13 @@ $(document).on('submit','#add-food-to-meal',function(event){
     console.log(selectedDietPlan)
      var row = createFoodRow(selectedFood)
     $("table[data-meal-name='" + mealName +"'] tbody tr:nth-last-child(2)").before(row)
+
+    displayMealNutrients(mealName)
+    calculateTotalSum()
 })
 
 function createFoodRow(food){
-    var row = $("<tr data-food-name = " + food.name + ">")
+    var row = $("<tr data-food-name = '" + food.name + "'>")
     var infoButton =
         "<td>" +
         "  <button " +
@@ -473,4 +496,8 @@ function getMealNames(dietPlan){
         meals.push(dietPlan.meals[index].name)
     })
     return meals
+}
+
+function convertDietPlanJsonToCSV(dietPlan){
+
 }

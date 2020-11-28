@@ -14,6 +14,10 @@ function calculateBMR(gender, age, activityLevel, weight, height){
     return kcal
 }
 
+function calculateBMI(kgs, meters){
+    return (kgs/(meters * meters))
+}
+
 $(document).on('submit', '#BMRCalculator', function (event) {
     event.preventDefault(event)
     var age = parseInt($('#age').val())
@@ -30,8 +34,12 @@ $(document).on('submit', '#BMRCalculator', function (event) {
     var activityLevel = parseFloat($('#activityLevel').val())
 
     kcal = calculateBMR(gender, age, activityLevel, kg, meters)
+    console.log(kg)
+    console.log(meters)
+    var bmi = calculateBMI(kg,meters)
 
     $("#kcalResult").text(Math.round(kcal) + " Calories")
+    $("#bmiResult").text(bmi.toFixed(1))
 })
 
 $(document).on('submit', '#client-bmr', function(event){
@@ -49,7 +57,6 @@ $(document).on('submit', '#client-bmr', function(event){
     var kcal = 0
 
     var activityLevel = parseFloat($('#client-activityLevel').val())
-
     kcal = calculateBMR(gender, age, activityLevel, kg, meters)
 
     $("#client-kcal").text(Math.round(kcal) + " Calories")
