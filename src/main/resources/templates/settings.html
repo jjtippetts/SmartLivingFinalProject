@@ -76,7 +76,7 @@
                   <p class="font-weight-bold">Password</p>
                 </div>
                 <div class="col-9">
-                  <p th:text="${currentUserPassword}"></p>
+                  <p>&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</p>
                 </div>
               </div>
 
@@ -87,7 +87,7 @@
                   <p class="font-weight-bold">Height</p>
                 </div>
                 <div class="col-9">
-                  <p th:text="${currentUserHeight}"></p>
+                  <p th:text="${currentUserHeightFeet} + 'ft. ' + ${currentUserHeightInches} + 'in.'"></p>
                 </div>
               </div>
 
@@ -98,7 +98,7 @@
                   <p class="font-weight-bold">Weight</p>
                 </div>
                 <div class="col-9">
-                  <p th:text="${currentUserWeight}"></p>
+                  <p th:text="${currentUserWeight} + 'lbs'"></p>
                 </div>
               </div>
 
@@ -109,7 +109,7 @@
                   <p class="font-weight-bold">Activity Level</p>
                 </div>
                 <div class="col-9">
-<!--                  <p th:text="${currentUserWeight}"></p>-->
+                  <p th:text="${currentUserActivityLevel}"></p>
                 </div>
               </div>
             </div>

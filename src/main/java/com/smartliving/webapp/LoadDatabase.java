@@ -86,6 +86,7 @@ public class LoadDatabase {
         User user = new User("jordan","jordan@gmail.com",passwordEncoder.encode("password"));
         user.changeHeight(1.78f);
         user.changeWeight(80);
+        user.changeActivityLevel(2);
         user.addDietPlan(smartDiet);
         userRepository.save(user);
 

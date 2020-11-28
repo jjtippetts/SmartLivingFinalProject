@@ -100,6 +100,20 @@ public class User {
         this.heightInMeters = heightInMeters;
     }
 
+    public void changeActivityLevel(int newActivityLevel) { this.activityLevel = newActivityLevel;}
+
+    public String getActivityLevelString(){
+        if(this.activityLevel == 1){
+            return "Sedentary";
+        } else if (this.activityLevel == 2){
+            return "Slightly Active";
+        } else if (this.activityLevel == 3){
+            return "Active";
+        } else {
+            return "Very Active";
+        }
+    }
+
     public String toString() {
         return "User(id=" + this.getId() + ", username=" + this.getUsername() + ", email=" + this.getEmail() + ", password=" + this.getPassword() + ", role=" + this.getRole() + ", enabled=" + this.isEnabled() + ", clients=" + this.getClients() + ")";
     }

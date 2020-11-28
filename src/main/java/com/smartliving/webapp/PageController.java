@@ -27,8 +27,9 @@ public class PageController {
     }
 
     @GetMapping("/")
-    public String toIndex(Model model, Authentication authentication) {
+    public String toIndex(Model model) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
             model.addAttribute("currentUserName",currentUserName);
@@ -39,8 +40,9 @@ public class PageController {
     }
 
     @GetMapping("/diet")
-    public String toDiet(Model model, Authentication authentication) {
+    public String toDiet(Model model) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
             model.addAttribute("currentUserName",currentUserName);
@@ -69,8 +71,14 @@ public class PageController {
         model.addAttribute("currentUserName", currentUser.getUsername());
         model.addAttribute("currentUserEmail", currentUser.getEmail());
         model.addAttribute("currentUserPassword", currentUser.getPassword());
-        model.addAttribute("currentUserWeight", currentUser.getWeightInKgs());
-        model.addAttribute("currentUserHeight", currentUser.getHeightInMeters());
+        model.addAttribute("currentUserWeight", (currentUser.getWeightInKgs() * 2.205));
+
+        int currentUserInches = (int) Math.round(currentUser.getHeightInMeters() * 39.370);
+        int feet = currentUserInches / 12;
+        int inches = currentUserInches % 12;
+        model.addAttribute("currentUserHeightFeet", feet);
+        model.addAttribute("currentUserHeightInches", inches);
+        model.addAttribute("currentUserActivityLevel", currentUser.getActivityLevelString());
 
         model.addAttribute("dietActive", "active");
         return "settings";
