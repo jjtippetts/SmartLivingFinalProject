@@ -6,7 +6,7 @@ import ExerciseListItem from '../components/ExerciseListItem';
 import ExerciseSearch from './ExerciseSearch';
 
 class ExercisePlanDisplay extends React.Component {
-    constructor(props) {
+    constructor() {
         super();
         this.displayPlan = this.displayPlan.bind(this);
         this.displayExercises = this.displayExercises.bind(this);
@@ -44,23 +44,22 @@ class ExercisePlanDisplay extends React.Component {
                 <div>No exercises to display.</div>
             )
         }
-
-        return exercises.map((exercise, i) => {
+        const exerciseItems = exercises.map((exercise, i) => {
             return (
                 <ExerciseListItem editable={this.state.editable} key={this.props.selectedPlanId + "exercisePlanDisplay" + i} index={i} exercise={exercise} onDelete={this.deleteFromPlan} onSave={this.onSaveExercise}/>
             );
         });
+
+        return exerciseItems;
     }
 
     displaySearch() {
-        if (this.state.editable) {
-            return(
-                <div>
-                    <h3 className="text-left">Add an exercise</h3>
-                    <ExerciseSearch currentPlanId={this.props.selectedPlanId} addToPlan={this.addToPlan}/>
-                </div>
-            );
-        }
+        return(
+            <div>
+                <h3 className="text-left"> {this.state.editable ? 'Add an exercise' : 'Search Exercises'}</h3>
+                <ExerciseSearch editable={this.state.editable} currentPlanId={this.props.selectedPlanId} addToPlan={this.addToPlan}/>
+            </div>
+        );
     }
 
     mapExercisesToPlan() {
@@ -129,37 +128,41 @@ class ExercisePlanDisplay extends React.Component {
         );
     }
 
-    // TODO: Increase spacing between items
     displayPlan() {
         const plan = this.props.exercisePlans.find(plan => plan.id === this.props.selectedPlanId)
         if (plan === null || plan === undefined) {
-            return (
-                <div>
-                    Select a plan!
-                </div>
-            )
+            return;
         }
 
         return (
-            <div>
-                <h2>{plan.name}</h2>
-                <div className="d-flex justify-content-end">
-                    {this.displayEditButton()}
-                    <Button variant="danger" className="mx-1" onClick={this.deletePlan}>Delete</Button>
-                </div>
-                <h3>Exercises: </h3>
-                <ListGroup variant="flush" className="exercise-display__container">
-                    {this.displayExercises()}
-                </ListGroup>
-            </div>
+            <Container fluid>
+                <Row className="mb-3 text-left">
+                    <Col>
+                        <h2>{plan.name}</h2>
+                    </Col>
+                    <Col lg="2">
+                        <div className="d-flex justify-content-center">
+                            {this.displayEditButton()}
+                            <Button variant="danger" className="mx-1" onClick={this.deletePlan}>Delete</Button>
+                        </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <ListGroup className="exercise-display__container">
+                            {this.displayExercises()}
+                        </ListGroup>
+                    </Col>
+                </Row>
+            </Container>
         )
     }
     
     render() {
         return (
-            <Container fluid>
+            <Container className="position-absolute w-100" fluid>
                 <Row>
-                    <Col xs="8">
+                    <Col lg="8">
                         {this.displayPlan()}
                     </Col>
                     <Col>
