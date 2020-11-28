@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, Container, Row, Col, ListGroup, InputGroup } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 class ExerciseListItem extends React.Component {
     constructor(props) {
@@ -93,8 +95,8 @@ class ExerciseListItem extends React.Component {
     }
 
     displaySets() {
-        if (this.props.editable) {
-            return (
+        const editableItem =
+            <div className="position-absolute w-100 editableItem__center">
                 <InputGroup>
                     <InputGroup.Prepend>
                         <Button variant="primary" onClick={this.decrementSets} className="exercise-list-item__square-button">-</Button>
@@ -104,17 +106,16 @@ class ExerciseListItem extends React.Component {
                         <Button variant="primary" onClick={this.incrementSets} className="exercise-list-item__square-button">+</Button>
                     </InputGroup.Append>
                 </InputGroup>
-            );
-        }
+            </div>;
 
-        return (
-            <div>{this.state.sets}</div>
-        )
+        const notEditableItem = <div className="position-absolute w-100 notEditableItem__center">{this.state.sets}</div>;
+
+        return this.state.editable ? editableItem : notEditableItem;
     }
 
     displayReps() {
-        if (this.props.editable) {
-            return (
+        const editableItem =
+            <div className="position-absolute w-100 editableItem__center">
                 <InputGroup>
                     <InputGroup.Prepend>
                         <Button onClick={this.decrementReps} className="exercise-list-item__square-button">-</Button>
@@ -124,17 +125,17 @@ class ExerciseListItem extends React.Component {
                         <Button onClick={this.incrementReps} className="exercise-list-item__square-button">+</Button>
                     </InputGroup.Append>
                 </InputGroup>
-            )
-        }
-        return (
-            <div>{this.state.reps}</div>
-        )
+            </div>;
+
+        const notEditableItem = <div className="position-absolute w-100 notEditableItem__center">{this.state.reps}</div>;
+
+        return this.state.editable ? editableItem : notEditableItem;
     }
 
     displayDelete() {
         if (this.props.editable) {
             return (
-                <div className="mx-2 text-danger cursor-pointer" onClick={this.handleDelete}>X</div>
+                <FontAwesomeIcon icon={faTrash} className="mx-2 text-danger cursor-pointer" onClick={this.handleDelete} />
             );
         }
     }
@@ -144,7 +145,7 @@ class ExerciseListItem extends React.Component {
             <ListGroup.Item>
                 <Container className="py-5">
                     <Row>
-                        <Col xs="11">
+                        <Col xs>
                             <h4 className="text-left">{this.props.exercise.exercise.name}</h4>
                         </Col>
                         <Col xs="1">
@@ -152,18 +153,17 @@ class ExerciseListItem extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col>
+                        <Col lg className="my-2">
                             <div className="d-flex justify-content-around">
                                 <span>
                                     Sets: 
                                 </span>
                                 <span>
                                     {this.displaySets()}
-
                                 </span>
                             </div>
                         </Col>
-                        <Col>
+                        <Col lg className="my-2">
                             <div className="d-flex justify-content-around">
                                 <span>
                                     Reps:
