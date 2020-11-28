@@ -151,6 +151,7 @@ $(document).on('click', '.found-diet', function (e) {
 
     // Load Selected Diet Plan
     loadDietPlan(selectedDietPlan)
+    console.log(selectedDietPlan)
 })
 
 

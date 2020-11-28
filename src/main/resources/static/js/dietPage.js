@@ -56,36 +56,41 @@ function makeFoodSortable(){
 // Moves a food object between meals
 function moveFood(foodName, newPosition,mealAddedTo, mealRemovedFrom){
     var addedFood = {}
-    selectedDietPlan.meals.forEach(function(meal) {
-        console.log(meal.name)
+
+    for (var i = 0; i < selectedDietPlan.meals.length; ++i){
+
+        console.log(selectedDietPlan.meals[i].name)
         console.log(mealRemovedFrom)
-        if (meal.name === mealRemovedFrom) {
-            meal.foods.forEach(function(food, index){
-                console.log(food.name)
+        if (selectedDietPlan.meals[i].name === mealRemovedFrom) {
+            for ( var j = 0; j < selectedDietPlan.meals[i].foods.length; ++j){
+            //meal.foods.forEach(function(food, index){
+                console.log(selectedDietPlan.meals[i].foods[j].name)
                 console.log(foodName)
-                if(food.name === foodName){
-                    addedFood = food
+                if(selectedDietPlan.meals[i].foods[j].name === foodName){
+                    addedFood = selectedDietPlan.meals[i].foods[j]
                     console.log("Food To be removed: ")
                     console.log(addedFood)
-                    meal.foods.splice(index, 1)
+                    selectedDietPlan.meals[i].foods.splice(j, 1)
 
                     // Remove food from chart
-                    removeCaloriesToCaloriesPerMeal(caloriesPerMeal, mealRemovedFrom,food)
-                    removeNutrientsDietMacroPieChart(dietMacros,food)
-                    if (food.foodGroup !== 'UNDEFINED') {
-                        removeFoodToBarChartFoodGroup(barChartFoodGroups, food.foodGroup.replace("_", "/"))
+                    removeCaloriesToCaloriesPerMeal(caloriesPerMeal, mealRemovedFrom,addedFood)
+                    removeNutrientsDietMacroPieChart(dietMacros,addedFood)
+                    if (addedFood.foodGroup !== 'UNDEFINED') {
+                        removeFoodToBarChartFoodGroup(barChartFoodGroups, addedFood.foodGroup.replace("_", "/"))
                     }
 
                     // Add food to chart
-                    addNutrientDietMacroPieChart(dietMacros, food)
-                    addCaloriesToCaloriesPerMeal(caloriesPerMeal,mealAddedTo,food)
-                    if (food.foodGroup !== 'UNDEFINED') {
-                        addFoodToBarChartFoodGroup(barChartFoodGroups, food.foodGroup.replace("_", "/"))
+                    addNutrientDietMacroPieChart(dietMacros, addedFood)
+                    addCaloriesToCaloriesPerMeal(caloriesPerMeal,mealAddedTo,addedFood)
+                    if (addedFood.foodGroup !== 'UNDEFINED') {
+                        addFoodToBarChartFoodGroup(barChartFoodGroups, addedFood.foodGroup.replace("_", "/"))
                     }
+
+                    break;
                 }
-            })
+            }
         }
-    })
+    }
     selectedDietPlan.meals.forEach(function(meal, index) {
         if (meal.name === mealAddedTo) {
             meal.foods.splice(newPosition, 0, addedFood)
@@ -394,7 +399,7 @@ $(document).on('click', ".food-found", function (event) {
         carbohydrates : parseInt($(this).find(".food-carbs-found").text()),
         fat : parseInt($(this).find(".food-fat-found").text()),
         protein : parseInt($(this).find(".food-protein-found").text()),
-        //foodGroup: $(this).find(".food-group-found").text()
+        foodGroup: $(this).find(".food-group-found").text()
     }
 
     // Add meal names to options
@@ -423,6 +428,12 @@ $(document).on('submit','#add-food-to-meal',function(event){
     console.log(selectedDietPlan)
      var row = createFoodRow(selectedFood)
     $("table[data-meal-name='" + mealName +"'] tbody tr:nth-last-child(2)").before(row)
+
+    if (selectedFood.foodGroup !== 'UNDEFINED') {
+        addFoodToBarChartFoodGroup(barChartFoodGroups, selectedFood.foodGroup.replace("_", "/"))
+    }
+    addNutrientDietMacroPieChart(dietMacros, selectedFood)
+    addCaloriesToCaloriesPerMeal(caloriesPerMeal,mealName,selectedFood)
 
     displayMealNutrients(mealName)
     calculateTotalSum()

@@ -35,6 +35,7 @@ $(document).on('submit', '#findFoodByName', function(event){
                     "<span class = 'food-fat-found'>" + this.fat + "</span>" +
                     " &#x25CF Protein: " +
                     "<span class = 'food-protein-found'>" + this.protein + "</span>" +
+                    "<span class = 'food-group-found d-none'>" + this.foodGroup + "</span>" +
                     "</a>")
             })
             $("#search-food-name").val('')
