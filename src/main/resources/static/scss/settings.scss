@@ -1,0 +1,27 @@
+@import "abstracts/abstracts-index";
+@import "base/base-index";
+@import "components/components-index";
+@import "layout/layout-index";
+
+main {
+  min-height: calc(100vh - 128px - 56px);
+  .container-fluid {
+    min-height: calc(100vh - 128px - 56px);
+    .row {
+      #settings-nav-col {
+        min-height: calc(100vh - 128px - 56px);
+
+        .d-flex {
+          min-height: calc(100vh - 128px - 56px);
+          .nav-link {
+            margin: 10px 10px;
+          }
+        }
+      }
+
+      #settings-data-col {
+
+      }
+    }
+  }
+}

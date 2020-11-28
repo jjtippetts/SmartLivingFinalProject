@@ -87,6 +87,14 @@ var barChartFoodGroups = new Chart(document.getElementById("bar-chart-food-group
         title: {
             display: true,
             text: '# Foods Per Food Group'
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                    stepSize: 1
+                }
+            }]
         }
     }
 
@@ -158,6 +166,14 @@ function removeCaloriesToCaloriesPerMeal(chart, mealName, food){
         }
     })
     chart.update()
+}
+
+// Reset Charts
+function resetChart(chart){
+    $(chart.data.labels).each(function(index){
+        chart.data.datasets[0].data[index] = 0;
+    })
+    chart.update();
 }
 
 // Calculates the sum of nutrients
@@ -242,23 +258,4 @@ function calculateTotalSum() {
     }
 }
 
-
-
-// ***Prototypes***
-// function addData(chart, label, data) {
-//     chart.data.labels.push(label);
-//     chart.data.datasets.forEach((dataset) => {
-//         dataset.data.push(data);
-//     });
-//     chart.update();
-// }
-//
-//
-// function removeData(chart) {
-//     chart.data.labels.pop();
-//     chart.data.datasets.forEach((dataset) => {
-//         dataset.data.pop();
-//     });
-//     chart.update();
-// }
 
