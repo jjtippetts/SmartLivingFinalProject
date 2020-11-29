@@ -2,11 +2,12 @@
 
 const chart = document.getElementById("weightChart").getContext("2d")
 var weightData = new Array()
+var dateData = new Array()
 
 let weightChart = new Chart(chart,{
     type: 'line',
     data: {
-        labels: [],
+        labels: dateData,
         datasets: [
             {
                 label: "Weight Tracker",
@@ -42,13 +43,15 @@ function removeData(chart) {
     chart.update();
 }
 
-function addData(chart, label, data) {
+function addData(chart) {
 
-    chart.data.labels.push(label);
-    chart.data.labels.sort((a, b) => b.date - a.date);
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
-    });
+    // chart.data.labels.push(label);
+    // chart.data.labels.sort((a, b) => b.date - a.date);
+    // chart.data.datasets.forEach((dataset) => {
+    //     dataset.data.push(data);
+    // });
+
+    //console.log(labels)
 
     //weightData[month-1] = weight
     chart.update();
@@ -61,13 +64,21 @@ $(document).on('submit', '#AddWeight', function(event) {
 
     //var month = parseInt($('#AddWeightMonth').val())
     //console.log("Month: " + month)
+    //var dateSelected = selectedDate.toLocaleString()
 
-    var dateSelected = selectedDate.toLocaleString()
+    const formattedDate = selectedDate.toLocaleString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    })
+
     var weight = parseFloat($('#NewWeight').val())
     weightData.push(weight)
-    console.log("Selected Date on Submit: " + selectedDate)
-
-    addData(weightChart, dateSelected, weightData);
+    dateData.push(formattedDate)
+    addData(weightChart);
+    //console.log("Selected Date on Submit: " + selectedDate)
+    //console.log("Formatted Date on Submit: " + formattedDate)
+    //console.log("Weight Data after added: " + weightData);
 
 
 })

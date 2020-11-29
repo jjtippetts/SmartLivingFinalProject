@@ -77,11 +77,14 @@ function populateDates(e) {
     if(month == 1){
         amount_days = 28;
     }
+    if (month == 3 || month == 5 || month == 8 || month == 10){
+        amount_days = 30;
+    }
 
     for (let i = 0; i < amount_days; i++){
         const day_element = document.createElement('div')
         day_element.classList.add('day')
-        day_element.textContent = (i + 1);
+        day_element.textContent = i + 1;
 
         if (selectedDay == (i+1) && selectedYear == year && selectedMonth == month){
             day_element.classList.add('selected')
@@ -122,6 +125,7 @@ function formatDate(d){
     if (day < 10) {
         day = '0' + day;
     }
+
     let month = d.getMonth() + 1
     if (month < 10) {
         month = '0' + month;
@@ -131,4 +135,5 @@ function formatDate(d){
     return month + ' / ' + day + ' / ' + year
 
 }
+
 
