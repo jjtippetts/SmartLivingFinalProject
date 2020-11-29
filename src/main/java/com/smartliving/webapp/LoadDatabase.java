@@ -309,8 +309,6 @@ public class LoadDatabase {
         Exercise smithMachineShoulderPressBehindtheNeck = new Exercise("Smith Machine Shoulder Press Behind the Neck", "Shoulder", "Machine");
         Exercise smithMachineShrug = new Exercise("Smith Machine Shrug", "Shoulders", "Machine");
         Exercise smithMachineSingleLegSplitSquat = new Exercise("Smith Machine Single Leg Split Squat", "Upper Legs", "Machine");
-
-
         Exercise smithMachineSquat = new Exercise("Smith Machine Squat", "Upper Legs", "Machine");
         Exercise smithMachineSquattoBench = new Exercise("Smith Machine Squat to Bench", "Upper Legs", "Machine");
         Exercise smithMachineStandingBehindtheBackWristCurl = new Exercise("Smith Machine Standing Behind the Back Wrist Curl", "Forearm", "Machine");
@@ -363,8 +361,6 @@ public class LoadDatabase {
         Exercise wideGripPulldownBehindTheNeck = new Exercise("Wide Grip Pulldown Behind The Neck", "Back", "Machine");
         Exercise wideGripRearPullUp = new Exercise("Wide Grip Rear Pull-Up", "Back", "Pullup Bar");
         Exercise windshieldWipers = new Exercise("Windshield Wipers", "Abs", "Pullup Bar");
-
-
 
         exerciseRepository.save(bicepCurl);
         exerciseRepository.save(backSquat);
