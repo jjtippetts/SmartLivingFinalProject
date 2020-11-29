@@ -28,6 +28,6 @@ public class ExerciseService {
   }
 
   public List<Exercise> getDefaultExerciseSet() {
-    return exerciseRepository.findTop10ByIdGreaterThan(0);
+    return exerciseRepository.findAll();
   }
 }

@@ -14,32 +14,27 @@ function calculateBMR(gender, age, activityLevel, weight, height){
     return kcal
 }
 
-function calculateBMI(kgs, meters){
-    return (kgs/(meters * meters))
-}
 
 $(document).on('submit', '#BMRCalculator', function (event) {
     event.preventDefault(event)
-    var age = parseInt($('#age').val())
+    var age = parseInt($('#BMRage').val())
 
-    var feet = parseInt($('#feet').val())
+    var feet = parseInt($('#BMRfeet').val())
     var inches = feet * 12
-    inches += parseInt($('#inches').val())
+    inches += parseInt($('#BMRinches').val())
     var meters = inches / 39.37
-    var kg = parseInt($('#weight').val()) / 2.2
+    var kg = parseInt($('#BMRweight').val()) / 2.2
 
-    var gender = $('#BMRCalculator input[name="gender"]:checked').val()
+    var gender = $('#BMRCalculator input[name="BMRgender"]:checked').val()
     var kcal = 0
 
-    var activityLevel = parseFloat($('#activityLevel').val())
+    var activityLevel = parseFloat($('#BMRactivityLevel').val())
 
     kcal = calculateBMR(gender, age, activityLevel, kg, meters)
     console.log(kg)
     console.log(meters)
-    var bmi = calculateBMI(kg,meters)
 
     $("#kcalResult").text(Math.round(kcal) + " Calories")
-    $("#bmiResult").text(bmi.toFixed(1))
 })
 
 $(document).on('submit', '#client-bmr', function(event){
