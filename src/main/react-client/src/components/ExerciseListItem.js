@@ -110,7 +110,7 @@ class ExerciseListItem extends React.Component {
 
         const notEditableItem = <div className="position-absolute w-100 notEditableItem__center">{this.state.sets}</div>;
 
-        return this.state.editable ? editableItem : notEditableItem;
+        return this.props.editable ? editableItem : notEditableItem;
     }
 
     displayReps() {
@@ -129,7 +129,7 @@ class ExerciseListItem extends React.Component {
 
         const notEditableItem = <div className="position-absolute w-100 notEditableItem__center">{this.state.reps}</div>;
 
-        return this.state.editable ? editableItem : notEditableItem;
+        return this.props.editable ? editableItem : notEditableItem;
     }
 
     displayDelete() {
